@@ -1,0 +1,9 @@
+$tablero-height: 800px;
+$tablero-width: 600px;
+$main-color: #880;
+
+.tablero{
+  height: $tablero-height;
+  width: $tablero-width;
+  background-color: $main-color;
+}
