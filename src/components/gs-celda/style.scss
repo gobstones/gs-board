@@ -1,0 +1,9 @@
+$tablero-height: 800px;
+$tablero-width: 600px;
+$main-color: #880;
+
+.celda{
+  height: $tablero-height / 8;
+  width: $tablero-width / 8;
+  background-color: $main-color;
+}

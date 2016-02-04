@@ -63,7 +63,7 @@ module.exports = (grunt) ->
       src_tmp:
         options:
           style: 'expanded'
-        files:[
+        files: [
           expand: true
           cwd: '<%= yeoman.src %>'
           src: '**/*.scss'
@@ -73,7 +73,7 @@ module.exports = (grunt) ->
       dist_compress:
         options:
           style: 'compressed'
-        files:[
+        files: [
           expand: true
           cwd: 'repositories'
           src: '**/dist/*.scss'
@@ -85,38 +85,38 @@ module.exports = (grunt) ->
     #                     html                      #
     #################################################
     
-    preprocess: 
+    preprocess:
       options:
         inline: true
-        context :
+        context:
           PRODUCTION: 'PRODUCTION'
           STAGGING:   'STAGGING'
           DEVELOP:    'DEVELOP'
           ENV:        'DEVELOP'
       src_tmp_html:
-        files:[
+        files: [
           expand: true
           cwd: '<%= yeoman.src %>'
           src: '**/*.{htm,html}'
           dest: '<%= yeoman.tmp %>'
-          ext: '.preprocessed.html'
+          ext: '.html'
         ]
-      tmp_prepared_script:
-        files:[
+      tmp_script:
+        files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/*.prepared.coffee'
+          src: '**/*.coffee'
           dest: '<%= yeoman.tmp %>'
           ext: '.preprocessed.coffee'
         ]
-         
+
     #################################################
     #                  copy helper                  #
     #################################################  
-         
+
     copy:
       json_src_tmp:
-        files:[
+        files: [
           expand: true
           cwd: '<%= yeoman.src %>'
           src: '**/*.json'
@@ -143,7 +143,7 @@ module.exports = (grunt) ->
         
     uglify:
       dist:
-        files:[
+        files: [
           expand: true
           cwd: 'repositories'
           src: '**/dist/**/*.js'
@@ -159,7 +159,7 @@ module.exports = (grunt) ->
       src_tmp:
         options:
           script_name: 'script.coffee'
-        files:[
+        files: [
           expand: true
           cwd: '<%= yeoman.src %>'
           src: '**/component.json'
@@ -170,44 +170,105 @@ module.exports = (grunt) ->
     components_build:
       tmp_staging:
         options:
-          key: 'value'
-        files:[
+          html: 'template.html'
+          script: 'script.js'
+          style: 'style.css'
+        files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/*.preprocessed.html'
+          src: '**/component.json'
           dest: '<%= yeoman.staging %>/'
-          ext: '.js'
         ]
         
   grunt.registerMultiTask 'components_prepare', 'process json files', (target)->
+    GRUNT_COMPONENT_NAME = '#GRUNT_COMPONENT_NAME'
     task_options = this.options()
     script_name = task_options.script_name or 'script.js'
     this.files.forEach (file)->
-      json_path = require('path').parse file.src[0]
+      json_src = require('path').parse file.src[0]
+      json_dst = require('path').parse file.dest
       component = grunt.file.readJSON file.src[0]
-      script_path = json_path.dir + '/' + script_name
+      script_path = "#{json_src.dir}/#{script_name}"
       script_content = grunt.file.read script_path
-      grunt.log.writeflags component
-      grunt.log.write script_content
-      
+      fixed_content = script_content.replace GRUNT_COMPONENT_NAME, component.name
+      script_path_dest = "#{json_dst.dir}/#{script_name}"
+      grunt.file.write script_path_dest, fixed_content
+
   grunt.registerMultiTask 'components_build', 'becomes files into polymer components', ()->
     task_options = this.options()
+    new_line= '\n'
+    new_line_re= /\n(?=[^\n$])/g
+    indent= '  '
+    
+    mkindent = (text, amount)->
+      amount = if amount > 0 then amount else 0
+      space = ''
+      while amount--
+        space += indent
+      space + text.replace(new_line_re, new_line + space)
+    if task_options.compress
+      new_line = indent = ''
+      mkindent = (text, amount)-> text
     mkimport = (src)->"<link rel=\"import\" href=\"#{src}\">"
+    mktag = (name, content)->
+      mkindent('<'+name+'>', 1)+ 
+      new_line + 
+      mkindent(content, 2) + 
+      new_line + 
+      mkindent('</'+name+'>', 1)+ 
+      new_line
     this.files.forEach (file)->
-      html = grunt.file.read file.src
-      out_name = require('path').parse file.src[0]
-      grunt.log.write(mkimport('index.html'))
-      grunt.log.writeflags out_name
+      json_src = require('path').parse file.src[0]
+      json_dst = require('path').parse file.dest
+      component = grunt.file.readJSON file.src[0]
       
+      content = ''
+      for external_component in component.imports
+        content += mkimport(external_component) + new_line
+        
+      content += "<dom-module id=\"#{component.name}\">" + new_line
+      
+      style_path = "#{json_src.dir}/#{task_options.style}"
+      style_content = grunt.file.read style_path
+      content += mktag 'style', style_content
+      
+      html_path = "#{json_src.dir}/#{task_options.html}"
+      html_content = grunt.file.read html_path
+      content += mktag 'template', html_content
+      
+      script_path = "#{json_src.dir}/#{task_options.script}"
+      script_content = grunt.file.read script_path
+      content += mktag 'script', script_content
+      
+      content += "</dom-module>"
+      grunt.log.write content
+      
+      reg_exp = new RegExp(component.name + '\/?$')
+      if reg_exp.test json_dst.dir
+        grunt.log.write 'replacing directory by file' + json_src.dir + '\n'
+        file_dest = json_dst.dir.replace(reg_exp, '') + component.name + '.html'
+      else
+        grunt.log.write 'creating file into directory' + json_src.dir + '\n'
+        file_dest = json_dst.dir + '/' + component.name + '.html'
+        
+      grunt.log.write 'file: ' + file_dest + '\n'
+      
+      grunt.file.write file_dest, content
+      
+      #grunt.log.write reg_exp  + '\n'
+      #grunt.log.writeflags json_src
+      #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
+      #mkimport('index.html')
+    
   grunt.registerTask 'server', (target) ->
     grunt.task.run [
       'clean:staging'
       'clean:tmp'
       'components_prepare:src_tmp'
-      #'copy:json_src_tmp'
-      #'preprocess:src_tmp_html'
-      #'preprocess:tmp_prepare_script'
-      #'coffee:tmp_preprocessed'
-      #'sass:src_tmp'
-      #'components_build:tmp_staging'
+      'copy:json_src_tmp'
+      'preprocess:src_tmp_html'
+      'preprocess:tmp_script'
+      'coffee:tmp_preprocessed'
+      'sass:src_tmp'
+      'components_build:tmp_staging'
     ]

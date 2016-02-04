@@ -1,5 +1,5 @@
 Polymer
-    is: 'GLOBAL_COMPONENT_NAME',
+    is: '#GRUNT_COMPONENT_NAME',
 
     # Fires when an instance of the element is created
     created: ()->
