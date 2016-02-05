@@ -54,6 +54,11 @@ module.exports = (grunt) ->
           dot: true
           src: ['<%= yeoman.tmp %>/**/*']
         ]
+      dist_demo:
+        files: [
+          dot: true
+          src: ['<%= yeoman.dist %>/demo/**/*']
+        ]
         
     #################################################
     #                    styles                     #
@@ -97,7 +102,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.src %>'
-          src: '**/*.{htm,html}'
+          src: ['**/*.{htm,html}','!demo/**']
           dest: '<%= yeoman.tmp %>'
           ext: '.html'
         ]
@@ -105,8 +110,24 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/*.coffee'
+          src: ['**/*.coffee','!demo/**']
           dest: '<%= yeoman.tmp %>'
+          ext: '.preprocessed.coffee'
+        ]
+      src_dist_html_demo:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/demo'
+          src: '**/*.{htm,html}'
+          dest: '<%= yeoman.dist %>/demo'
+          ext: '.html'
+        ]
+      src_tmp_script_demo:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/demo'
+          src: '**/*.coffee'
+          dest: '<%= yeoman.tmp %>/demo'
           ext: '.preprocessed.coffee'
         ]
 
@@ -122,6 +143,13 @@ module.exports = (grunt) ->
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
         ]
+      demo_src_staging:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/demo'
+          src: '**/*'
+          dest: '<%= yeoman.staging %>/demo'
+        ]
         
     #################################################
     #                    scripts                    #
@@ -136,8 +164,19 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/*.preprocessed.coffee'
+          src: ['**/*.preprocessed.coffee','!demo/**']
           dest: '<%= yeoman.tmp %>'
+          ext: '.js'
+        ]
+      tmp_src_preprocessed_demo:
+        options:
+          sourceMap: false
+          sourceRoot: ''
+        files: [
+          expand: true
+          cwd: '<%= yeoman.tmp %>/demo'
+          src: '**/*.preprocessed.coffee'
+          dest: '<%= yeoman.dist %>/demo'
           ext: '.js'
         ]
         
@@ -259,7 +298,14 @@ module.exports = (grunt) ->
       #grunt.log.writeflags json_src
       #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
       #mkimport('index.html')
-    
+      
+  grunt.registerTask 'demo', (target) ->
+    grunt.task.run [
+      'clean:dist_demo'
+      'preprocess:src_dist_html_demo'
+      'preprocess:src_tmp_script_demo'
+      'coffee:tmp_src_preprocessed_demo'
+    ]
   grunt.registerTask 'server', (target) ->
     grunt.task.run [
       'clean:staging'
@@ -271,4 +317,5 @@ module.exports = (grunt) ->
       'coffee:tmp_preprocessed'
       'sass:src_tmp'
       'components_build:tmp_staging'
+      'demo'
     ]
