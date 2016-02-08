@@ -4,7 +4,7 @@
   gsTablero = document.querySelector('gs-tablero');
 
   document.querySelector("#load").addEventListener('click', function() {
-    return console.log('load');
+    return console.log('load2');
   });
 
   document.querySelector("#clean").addEventListener('click', function() {

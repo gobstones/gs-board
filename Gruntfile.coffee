@@ -47,21 +47,21 @@ module.exports = (grunt) ->
     #################################################
     # watch: cada vez que un archivo cambia 
     # dentro de 'files' se ejecutan las correspodientes 'tasks'
-    watch:    
-      
+    watch:
+
+      coffee_components:
+        files: ['<%= yeoman.src %>/components/**/*.coffee']
+        tasks: ['scripts:components']
+      coffee_demo:
+        files: ['demo/**/*.coffee']
+        tasks: ['scripts:demo']
       
       # watch.livereload: files which demand the page reload
       livereload:
         options:
           livereload: LIVERELOAD_PORT
         files: [
-          '<%= yeoman.tmp %>/*.html'
-          '<%= yeoman.tmp %>/<%= yeoman.project %>/views/**/*.html'
-          '<%= yeoman.tmp %>/<%= yeoman.project %>/styles/sheets/*.{css,map}'
-          '<%= yeoman.tmp %>/<%= yeoman.project %>/scripts/**/*.js'
-          '<%= yeoman.tmp %>/<%= yeoman.tac %>/**/*.js'
-          '<%= yeoman.app %>/<%= yeoman.project %>/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
-          '<%= yeoman.app %>/<%= yeoman.bower %>/**/*.js'
+          '<%= yeoman.dist %>/**/*'
         ]
     
     connect:
@@ -73,7 +73,7 @@ module.exports = (grunt) ->
       livereload:
         options:
           middleware: (connect) ->
-            [lrSnippet, mountFolder(connect, yeomanConfig.dist)]
+            [lrSnippet, mountFolder(connect, '.')]
 
     open:
       server:
@@ -93,7 +93,7 @@ module.exports = (grunt) ->
       dist_demo:
         files: [
           dot: true
-          src: ['<%= yeoman.dist %>/demo/**/*']
+          src: ['demo/**/*']
         ]
         
     #################################################
@@ -138,7 +138,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.src %>'
-          src: ['**/*.{htm,html}','!demo/**']
+          src: '**/*.{htm,html}'
           dest: '<%= yeoman.tmp %>'
           ext: '.html'
         ]
@@ -146,7 +146,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: ['**/*.coffee','!demo/**']
+          src: '**/*.coffee'
           dest: '<%= yeoman.tmp %>'
           ext: '.preprocessed.coffee'
         ]
@@ -155,7 +155,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: '<%= yeoman.src %>/demo'
           src: '**/*.{htm,html}'
-          dest: '<%= yeoman.dist %>/demo'
+          dest: 'demo'
           ext: '.html'
         ]
       src_tmp_script_demo:
@@ -179,18 +179,11 @@ module.exports = (grunt) ->
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
         ]
-      demo_src_dist:
-        files: [
-          expand: true
-          cwd: '<%= yeoman.src %>/demo'
-          src: '**/*'
-          dest: '<%= yeoman.dist %>/demo'
-        ]
         
     #################################################
     #                    scripts                    #
     #################################################  
-         
+
     coffee:
       tmp_preprocessed:
         options:
@@ -204,7 +197,7 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>'
           ext: '.js'
         ]
-      tmp_dist_preprocessed_demo:
+      tmp_preprocessed_demo:
         options:
           sourceMap: false
           sourceRoot: ''
@@ -212,10 +205,10 @@ module.exports = (grunt) ->
           expand: true
           cwd: '<%= yeoman.tmp %>/demo'
           src: '**/*.preprocessed.coffee'
-          dest: '<%= yeoman.dist %>/demo'
+          dest: 'demo'
           ext: '.js'
         ]
-        
+
     uglify:
       dist:
         files: [
@@ -225,7 +218,7 @@ module.exports = (grunt) ->
           dest: 'repositories'
           ext: '.min.js'
         ]
-        
+
     #################################################
     #                    polymer                    #
     #################################################  
@@ -241,7 +234,7 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>/'
           ext: '.js'
         ]
-        
+
     components_build:
       tmp_dist:
         options:
@@ -254,7 +247,7 @@ module.exports = (grunt) ->
           src: '**/component.json'
           dest: '<%= yeoman.dist %>/'
         ]
-        
+
   grunt.registerMultiTask 'components_prepare', 'process json files', (target)->
     GRUNT_COMPONENT_NAME = '#GRUNT_COMPONENT_NAME'
     task_options = this.options()
@@ -335,22 +328,34 @@ module.exports = (grunt) ->
       #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
       #mkimport('index.html')
       
+  grunt.registerTask 'scripts', (target) ->
+    switch target
+      when 'components'
+        grunt.task.run [
+          'components_prepare:src_tmp'
+          'preprocess:tmp_script'
+          'coffee:tmp_preprocessed'
+        ]
+      when 'demo'
+        grunt.task.run [
+          'preprocess:src_tmp_script_demo'
+          'coffee:tmp_preprocessed_demo'
+        ]
+    
   grunt.registerTask 'demo', (target) ->
     grunt.task.run [
       'clean:dist_demo'
       'preprocess:src_dist_html_demo'
-      'preprocess:src_tmp_script_demo'
-      'coffee:tmp_dist_preprocessed_demo'
+      'scripts:demo'
     ]
+    
   grunt.registerTask 'server', (target) ->
     grunt.task.run [
       'clean:dist'
       'clean:tmp'
-      'components_prepare:src_tmp'
       'copy:json_src_tmp'
       'preprocess:src_tmp_html'
-      'preprocess:tmp_script'
-      'coffee:tmp_preprocessed'
+      'scripts:components'
       'sass:src_tmp'
       'components_build:tmp_dist'
       'demo'
