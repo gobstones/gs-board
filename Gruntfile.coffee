@@ -21,7 +21,6 @@ module.exports = (grunt) ->
     bower:   'bower_components'
     src:     'src'
     dist:    'dist'
-    staging: 'staging'
     tmp:     'tmp'
   do ->
     (maybe_dist = grunt.option('dist')) and 
@@ -43,11 +42,48 @@ module.exports = (grunt) ->
   grunt.initConfig
     yeoman: yeomanConfig
     
+    #################################################
+    #                  livereload                   #
+    #################################################
+    # watch: cada vez que un archivo cambia 
+    # dentro de 'files' se ejecutan las correspodientes 'tasks'
+    watch:    
+      
+      
+      # watch.livereload: files which demand the page reload
+      livereload:
+        options:
+          livereload: LIVERELOAD_PORT
+        files: [
+          '<%= yeoman.tmp %>/*.html'
+          '<%= yeoman.tmp %>/<%= yeoman.project %>/views/**/*.html'
+          '<%= yeoman.tmp %>/<%= yeoman.project %>/styles/sheets/*.{css,map}'
+          '<%= yeoman.tmp %>/<%= yeoman.project %>/scripts/**/*.js'
+          '<%= yeoman.tmp %>/<%= yeoman.tac %>/**/*.js'
+          '<%= yeoman.app %>/<%= yeoman.project %>/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
+          '<%= yeoman.app %>/<%= yeoman.bower %>/**/*.js'
+        ]
+    
+    connect:
+      options:
+        port: 9002
+        # default 'localhost'
+        # Change this to '0.0.0.0' to access the server from outside.
+        hostname: "localhost"
+      livereload:
+        options:
+          middleware: (connect) ->
+            [lrSnippet, mountFolder(connect, yeomanConfig.dist)]
+
+    open:
+      server:
+        url: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>/demo'
+        
     clean:
-      staging:
+      dist:
         files: [
           dot: true
-          src: ['<%= yeoman.staging %>/**/*','!<%= yeoman.staging %>/bower_components/**']
+          src: ['<%= yeoman.dist %>/**/*','!<%= yeoman.dist %>/bower_components/**']
         ]
       tmp:
         files: [
@@ -143,12 +179,12 @@ module.exports = (grunt) ->
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
         ]
-      demo_src_staging:
+      demo_src_dist:
         files: [
           expand: true
           cwd: '<%= yeoman.src %>/demo'
           src: '**/*'
-          dest: '<%= yeoman.staging %>/demo'
+          dest: '<%= yeoman.dist %>/demo'
         ]
         
     #################################################
@@ -168,7 +204,7 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>'
           ext: '.js'
         ]
-      tmp_src_preprocessed_demo:
+      tmp_dist_preprocessed_demo:
         options:
           sourceMap: false
           sourceRoot: ''
@@ -207,7 +243,7 @@ module.exports = (grunt) ->
         ]
         
     components_build:
-      tmp_staging:
+      tmp_dist:
         options:
           html: 'template.html'
           script: 'script.js'
@@ -216,7 +252,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: '<%= yeoman.tmp %>'
           src: '**/component.json'
-          dest: '<%= yeoman.staging %>/'
+          dest: '<%= yeoman.dist %>/'
         ]
         
   grunt.registerMultiTask 'components_prepare', 'process json files', (target)->
@@ -304,11 +340,11 @@ module.exports = (grunt) ->
       'clean:dist_demo'
       'preprocess:src_dist_html_demo'
       'preprocess:src_tmp_script_demo'
-      'coffee:tmp_src_preprocessed_demo'
+      'coffee:tmp_dist_preprocessed_demo'
     ]
   grunt.registerTask 'server', (target) ->
     grunt.task.run [
-      'clean:staging'
+      'clean:dist'
       'clean:tmp'
       'components_prepare:src_tmp'
       'copy:json_src_tmp'
@@ -316,6 +352,10 @@ module.exports = (grunt) ->
       'preprocess:tmp_script'
       'coffee:tmp_preprocessed'
       'sass:src_tmp'
-      'components_build:tmp_staging'
+      'components_build:tmp_dist'
       'demo'
+      
+      'connect:livereload'
+      'open'
+      'watch'
     ]
