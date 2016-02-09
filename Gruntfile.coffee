@@ -67,6 +67,9 @@ module.exports = (grunt) ->
       html_demo:
         files: ['<%= yeoman.src %>/demo/**/*.html']
         tasks: ['html:demo']
+      json_components:
+        files: ['<%= yeoman.src %>/components/**/*.json']
+        tasks: ['copy:json_src_tmp','scripts:components','components_build:tmp_dist']
       
       # watch.livereload: files which demand the page reload
       livereload:
@@ -365,6 +368,7 @@ module.exports = (grunt) ->
           'preprocess:src_demo_tmp_script'
           'coffee:tmp_preprocessed_demo'
         ]
+        
   grunt.registerTask 'html', (target) ->
     switch target
       when 'components'
