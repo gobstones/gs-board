@@ -51,10 +51,22 @@ module.exports = (grunt) ->
 
       coffee_components:
         files: ['<%= yeoman.src %>/components/**/*.coffee']
-        tasks: ['scripts:components']
+        tasks: ['scripts:components','components_build:tmp_dist']
       coffee_demo:
-        files: ['demo/**/*.coffee']
+        files: ['<%= yeoman.src %>/demo/**/*.coffee']
         tasks: ['scripts:demo']
+      sass_components:
+        files: ['<%= yeoman.src %>/components/**/*.scss']
+        tasks: ['sass:src_tmp','components_build:tmp_dist']
+      sass_demo:
+        files: ['<%= yeoman.src %>/demo/**/*.scss']
+        tasks: ['sass:demo']
+      html_components:
+        files: ['<%= yeoman.src %>/components/**/*.html']
+        tasks: ['html:components','components_build:tmp_dist']
+      html_demo:
+        files: ['<%= yeoman.src %>/demo/**/*.html']
+        tasks: ['html:demo']
       
       # watch.livereload: files which demand the page reload
       livereload:
@@ -62,6 +74,7 @@ module.exports = (grunt) ->
           livereload: LIVERELOAD_PORT
         files: [
           '<%= yeoman.dist %>/**/*'
+          'demo/**/*'
         ]
     
     connect:
@@ -111,6 +124,17 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>'
           ext: '.css'
         ]
+      demo:
+        options:
+          style: 'expanded'
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/demo'
+          src: '**/*.scss'
+          dest: 'demo'
+          ext: '.css'
+        ]
+      #not in use
       dist_compress:
         options:
           style: 'compressed'
@@ -142,7 +166,7 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>'
           ext: '.html'
         ]
-      tmp_script:
+      tmp_prepared_script:
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
@@ -150,7 +174,7 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.tmp %>'
           ext: '.preprocessed.coffee'
         ]
-      src_dist_html_demo:
+      src_demo_html:
         files: [
           expand: true
           cwd: '<%= yeoman.src %>/demo'
@@ -158,7 +182,7 @@ module.exports = (grunt) ->
           dest: 'demo'
           ext: '.html'
         ]
-      src_tmp_script_demo:
+      src_demo_tmp_script:
         files: [
           expand: true
           cwd: '<%= yeoman.src %>/demo'
@@ -333,20 +357,31 @@ module.exports = (grunt) ->
       when 'components'
         grunt.task.run [
           'components_prepare:src_tmp'
-          'preprocess:tmp_script'
+          'preprocess:tmp_prepared_script'
           'coffee:tmp_preprocessed'
         ]
       when 'demo'
         grunt.task.run [
-          'preprocess:src_tmp_script_demo'
+          'preprocess:src_demo_tmp_script'
           'coffee:tmp_preprocessed_demo'
+        ]
+  grunt.registerTask 'html', (target) ->
+    switch target
+      when 'components'
+        grunt.task.run [
+          'preprocess:src_tmp_html'
+        ]
+      when 'demo'
+        grunt.task.run [
+          'preprocess:src_demo_html'
         ]
     
   grunt.registerTask 'demo', (target) ->
     grunt.task.run [
       'clean:dist_demo'
-      'preprocess:src_dist_html_demo'
+      'html:demo'
       'scripts:demo'
+      'sass:demo'
     ]
     
   grunt.registerTask 'server', (target) ->
