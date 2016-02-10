@@ -285,6 +285,7 @@ module.exports = (grunt) ->
       component = grunt.file.readJSON file.src[0]
       script_path = "#{json_src.dir}/#{script_name}"
       script_content = grunt.file.read script_path
+      #TODO control name hyphen and report
       fixed_content = script_content.replace GRUNT_COMPONENT_NAME, component.name
       script_path_dest = "#{json_dst.dir}/#{script_name}"
       grunt.file.write script_path_dest, fixed_content
@@ -305,12 +306,15 @@ module.exports = (grunt) ->
       new_line = indent = ''
       mkindent = (text, amount)-> text
     mkimport = (src)->"<link rel=\"import\" href=\"#{src}\">"
-    mktag = (name, content)->
-      mkindent('<'+name+'>', 1)+ 
+    mktag = (name, content, margin)->
+      margin = margin or 0
+      open_tag = '<'+name+'>'
+      close_tag = '</'+name+'>'
+      mkindent(open_tag, margin)+ 
       new_line + 
-      mkindent(content, 2) + 
+      mkindent(content, margin+1) + 
       new_line + 
-      mkindent('</'+name+'>', 1)+ 
+      mkindent(close_tag, margin)+ 
       new_line
     this.files.forEach (file)->
       json_src = require('path').parse file.src[0]
@@ -325,15 +329,16 @@ module.exports = (grunt) ->
       
       style_path = "#{json_src.dir}/#{task_options.style}"
       style_content = grunt.file.read style_path
-      content += mktag 'style', style_content
+      style_tag = mktag 'style', style_content
       
       html_path = "#{json_src.dir}/#{task_options.html}"
       html_content = grunt.file.read html_path
-      content += mktag 'template', html_content
+      style_embedded = style_tag + new_line + html_content
+      content += mktag 'template', style_embedded, 1
       
       script_path = "#{json_src.dir}/#{task_options.script}"
       script_content = grunt.file.read script_path
-      content += mktag 'script', script_content
+      content += mktag 'script', script_content, 1
       
       content += "</dom-module>"
       grunt.log.write content

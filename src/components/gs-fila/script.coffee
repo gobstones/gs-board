@@ -3,10 +3,11 @@ Polymer
 
     # Fires when an instance of the element is created
     created: ()->
-      console.log 'gs-row'
+      console.log 'gs-fila created'
 
     # Fires when the local DOM has been fully prepared
     ready: ()->
+      console.log this.celdas
 
     # Fires when the element was inserted into the document
     attached: ()->

@@ -2,7 +2,7 @@ $tablero-height: 800px;
 $tablero-width: 600px;
 $main-color: #880;
 
-.tablero{
+:host{
   height: $tablero-height;
   width: $tablero-width;
   background-color: $main-color;

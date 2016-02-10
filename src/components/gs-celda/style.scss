@@ -1,9 +1,14 @@
-$tablero-height: 800px;
-$tablero-width: 600px;
-$main-color: #880;
 
-.celda{
-  height: $tablero-height / 8;
-  width: $tablero-width / 8;
-  background-color: $main-color;
+:host{
+  float: left;
+  clear: none;
+  padding: 4px;
+  background-color: #E55;
+}
+.gs-celda-explicit{
+  float: left;
+  clear: none;
+  height: 20px;
+  width: 20px;
+  background-color: #301;
 }

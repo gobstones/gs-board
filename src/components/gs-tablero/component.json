@@ -1,4 +1,4 @@
 {
   "name": "gs-tablero",
-  "imports": ["gs-celda.html"]
+  "imports": ["gs-fila.html"]
 }

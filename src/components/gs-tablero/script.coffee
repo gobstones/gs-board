@@ -1,3 +1,9 @@
+
+generar_fila_vacias = ()->
+  {} for _ in [0...8]
+generar_filas_vacias = ()->
+  generar_fila_vacias() for index_fila in [0...8]
+    
 Polymer
     is: '#GRUNT_COMPONENT_NAME',
 
@@ -7,7 +13,11 @@ Polymer
 
     # Fires when the local DOM has been fully prepared
     ready: ()->
-
+        this.filas = generar_filas_vacias()
+    
+    hostAttributes:
+      "mi-atributo": "mivalor"
+      
     # Fires when the element was inserted into the document
     attached: ()->
 

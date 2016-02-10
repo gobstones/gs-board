@@ -1,0 +1,41 @@
+<link rel="import" href="gs-celda.html">
+<dom-module id="gs-fila">
+  <template>
+    <style>
+      :host {
+        width: 500px;
+        float: left;
+        clear: left;
+        padding: 2px;
+        background-color: #35A;
+      }
+
+      .gs-fila-explicit {
+        padding: 2px;
+        background-color: #38A;
+      }
+
+    </style>
+
+    <div class="gs-fila-explicit">
+      <template is="dom-repeat" items="{{celdas}}">
+        <gs-celda></gs-celda>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'gs-fila',
+      created: function() {
+        return console.log('gs-fila created');
+      },
+      ready: function() {
+        return console.log(this.celdas);
+      },
+      attached: function() {},
+      detached: function() {},
+      attributeChanged: function(name, type) {}
+    });
+
+  </script>
+</dom-module>

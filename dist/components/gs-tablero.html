@@ -1,25 +1,53 @@
-<link rel="import" href="gs-celda.html">
+<link rel="import" href="gs-fila.html">
 <dom-module id="gs-tablero">
-  <style>
-    .tablero {
-      height: 800px;
-      width: 600px;
-      background-color: #888800;
-    }
-
-  </style>
   <template>
-    <div class="tablero">
-      
+    <style>
+      :host {
+        height: 800px;
+        width: 600px;
+        background-color: #888800;
+      }
+
+    </style>
+
+    <div class="gs-tablero-explicit">
+      <template is="dom-repeat" items="{{filas}}">
+        <gs-fila celdas="{{item}}">item</gs-fila>
+      </template>
     </div>
   </template>
   <script>
+    var generar_fila_vacias, generar_filas_vacias;
+
+    generar_fila_vacias = function() {
+      var _, _i, _results;
+      _results = [];
+      for (_ = _i = 0; _i < 8; _ = ++_i) {
+        _results.push({});
+      }
+      return _results;
+    };
+
+    generar_filas_vacias = function() {
+      var index_fila, _i, _results;
+      _results = [];
+      for (index_fila = _i = 0; _i < 8; index_fila = ++_i) {
+        _results.push(generar_fila_vacias());
+      }
+      return _results;
+    };
+
     Polymer({
       is: 'gs-tablero',
       created: function() {
         return console.log('poly-demo-footer created');
       },
-      ready: function() {},
+      ready: function() {
+        return this.filas = generar_filas_vacias();
+      },
+      hostAttributes: {
+        "mi-atributo": "mivalor"
+      },
       attached: function() {},
       detached: function() {},
       attributeChanged: function(name, type) {}
