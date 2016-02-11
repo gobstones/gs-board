@@ -1,8 +1,8 @@
 
-generar_fila_vacias = ()->
+generar_fila_vacia = ()->
   {} for _ in [0...8]
 generar_filas_vacias = ()->
-  generar_fila_vacias() for index_fila in [0...8]
+  generar_fila_vacia() for index_fila in [0...8]
     
 Polymer
     is: '#GRUNT_COMPONENT_NAME',
@@ -13,6 +13,7 @@ Polymer
 
     # Fires when the local DOM has been fully prepared
     ready: ()->
+        console.log $
         this.filas = generar_filas_vacias()
     
     hostAttributes:

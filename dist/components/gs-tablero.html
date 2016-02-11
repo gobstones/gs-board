@@ -1,4 +1,5 @@
 <link rel="import" href="gs-fila.html">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <dom-module id="gs-tablero">
   <template>
     <style>
@@ -11,15 +12,15 @@
     </style>
 
     <div class="gs-tablero-explicit">
-      <template is="dom-repeat" items="{{filas}}">
-        <gs-fila celdas="{{item}}">item</gs-fila>
+      <template is="dom-repeat" items="{{filas}}" as="fila">
+        <gs-fila celdas="{{fila}}"></gs-fila>
       </template>
     </div>
   </template>
   <script>
-    var generar_fila_vacias, generar_filas_vacias;
+    var generar_fila_vacia, generar_filas_vacias;
 
-    generar_fila_vacias = function() {
+    generar_fila_vacia = function() {
       var _, _i, _results;
       _results = [];
       for (_ = _i = 0; _i < 8; _ = ++_i) {
@@ -32,7 +33,7 @@
       var index_fila, _i, _results;
       _results = [];
       for (index_fila = _i = 0; _i < 8; index_fila = ++_i) {
-        _results.push(generar_fila_vacias());
+        _results.push(generar_fila_vacia());
       }
       return _results;
     };
@@ -43,6 +44,7 @@
         return console.log('poly-demo-footer created');
       },
       ready: function() {
+        console.log($);
         return this.filas = generar_filas_vacias();
       },
       hostAttributes: {

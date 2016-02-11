@@ -1,4 +1,5 @@
 {
   "name": "gs-tablero",
-  "imports": ["gs-fila.html"]
+  "imports": ["gs-fila.html"],
+  "require": ["https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"]
 }

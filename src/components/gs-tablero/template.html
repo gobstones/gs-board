@@ -1,5 +1,5 @@
 <div class="gs-tablero-explicit">
-  <template is="dom-repeat" items="{{filas}}">
-    <gs-fila celdas="{{item}}">item</gs-fila>
+  <template is="dom-repeat" items="{{filas}}" as="fila">
+    <gs-fila celdas="{{fila}}"></gs-fila>
   </template>
 </div>

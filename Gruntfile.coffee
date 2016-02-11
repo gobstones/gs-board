@@ -306,6 +306,7 @@ module.exports = (grunt) ->
       new_line = indent = ''
       mkindent = (text, amount)-> text
     mkimport = (src)->"<link rel=\"import\" href=\"#{src}\">"
+    mkdependency = (src)->"<script type=\"text/javascript\" src=\"#{src}\"></script>"
     mktag = (name, content, margin)->
       margin = margin or 0
       open_tag = '<'+name+'>'
@@ -322,8 +323,12 @@ module.exports = (grunt) ->
       component = grunt.file.readJSON file.src[0]
       
       content = ''
-      for external_component in component.imports
+      imports = component.imports or []
+      for external_component in imports
         content += mkimport(external_component) + new_line
+      dependencies = component.require or []
+      for external_dependency in dependencies
+        content += mkdependency(external_dependency) + new_line
         
       content += "<dom-module id=\"#{component.name}\">" + new_line
       
