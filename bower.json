@@ -21,6 +21,5 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
-    "jsonymer": "~1.0.5"
   }
 }

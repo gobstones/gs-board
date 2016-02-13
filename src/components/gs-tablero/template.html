@@ -1,5 +1,13 @@
 <div class="gs-tablero-explicit">
-  <template is="dom-repeat" items="{{filas}}" as="fila">
+  <template is="dom-iterate" from="1" to="7" count="4">
+    <span>counter</span>
+    <span>{{indice}}</span>
+  </template>
+  <br/>
+  <template is="dom-repeat" items="{{filas}}" as="fila" index-as="posicion">
+    <span>{{fila.length}}</span>
+    <span>{{posicion}}</span>
     <gs-fila celdas="{{fila}}"></gs-fila>
+    <br/>
   </template>
 </div>

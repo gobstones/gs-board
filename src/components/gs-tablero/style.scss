@@ -1,9 +1,10 @@
-$tablero-height: 800px;
-$tablero-width: 600px;
-$main-color: #880;
+$tablero-height: 400px;
+$tablero-width: 400px;
+$main-color: #FFF;
 
 :host{
   height: $tablero-height;
   width: $tablero-width;
   background-color: $main-color;
+  display: block;
 }

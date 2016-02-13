@@ -346,14 +346,14 @@ module.exports = (grunt) ->
       content += mktag 'script', script_content, 1
       
       content += "</dom-module>"
-      grunt.log.write content
+      #grunt.log.write content
       
       reg_exp = new RegExp(component.name + '\/?$')
       if reg_exp.test json_dst.dir
-        grunt.log.write 'replacing directory by file' + json_src.dir + '\n'
+        grunt.log.write 'replacing directory by file: ' + json_src.dir + '\n'
         file_dest = json_dst.dir.replace(reg_exp, '') + component.name + '.html'
       else
-        grunt.log.write 'creating file into directory' + json_src.dir + '\n'
+        grunt.log.write 'creating file into directory: ' + json_src.dir + '\n'
         file_dest = json_dst.dir + '/' + component.name + '.html'
         
       grunt.log.write 'file: ' + file_dest + '\n'
