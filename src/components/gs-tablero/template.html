@@ -1,7 +1,16 @@
 <div class="gs-tablero-explicit">
-  <template is="dom-iterate" from="1" to="7" count="4">
-    <span>counter</span>
-    <span>{{indice}}</span>
+  <span>Repeat</span><br/>
+  <input type="text" is="iron-input" bind-value="{{lastIndex}}" /><br/>
+  <span>tablero</span><br/>
+  <input type="text" is="iron-input" bind-value="{{tableroRows}}" /><br/>
+  <span>{{last_index}}</span><br/>
+  <template is="dom-iterate" from="1" to="{{lastIndex}}" index-as="indice">
+    <template is="dom-iterate" from="20" to="25" index-as="indice2">
+      <span>child parent indice </span>
+      <span>{{indice}}</span><br/>
+      <span>--child self indice </span>
+      <span>{{indice2}}</span><br/>
+    </template>
   </template>
   <br/>
   <template is="dom-repeat" items="{{filas}}" as="fila" index-as="posicion">

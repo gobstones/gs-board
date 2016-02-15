@@ -6,10 +6,23 @@ generar_filas_vacias = ()->
     
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
+  
+  properties:
+    filas:
+      type: Array
+      notify: true
+    lastIndex:
+      type: String
+      value: 0
+    tableroRows:
+      type: String
+      value: 8
+      observer: '_rows_change'
 
   # Fires when an instance of the element is created
   created: ()->
     console.log 'gs-tablero created'
+    #@last_index = 5
 
   # Fires when the local DOM has been fully prepared
   ready: ()->
@@ -27,5 +40,13 @@ Polymer
   # Fires when an attribute was added, removed, or updated
   attributeChanged: (name, type)->
 
-
+  _rows_change: ->
+    console.log @tableroRows
+    this.filas and this.splice('filas', 1, 1);
+    console.log this.filas
+    
+  load: ->
+    console.log 'tablero loading'
+    
+    
   

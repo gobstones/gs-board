@@ -24,22 +24,27 @@
           type: Number,
           value: 0
         },
-        count: {
-          type: Number,
-          observer: '_countChanged'
+        includeLast: {
+          type: Boolean,
+          value: true
+        },
+        indexAs: {
+          type: String,
+          value: 'index'
         }
       },
-      observers: ['_repeat_changed(from, to)'],
+      observers: ['_changed(from, to, includeLast)'],
       behaviors: [Polymer.Templatizer],
       created: function() {
-        return this._instances = [];
+        this._instances = [];
+        this._from = 0;
+        return this._to = 0;
       },
       ready: function() {
         this._instanceProps = {
           __key__: true
         };
-        this._instanceProps['indice'] = true;
-        console.log('ready');
+        this._instanceProps[this.indexAs] = true;
         if (!this.ctor) {
           return this.templatize(this);
         }
@@ -48,27 +53,22 @@
         return this._flushTemplates();
       },
       attached: function() {
-        var instance, parent, _results;
-        parent = this._getParentElement();
+        var instance, _results;
         _results = [];
         for (instance in this._instances) {
-          _results.push(this._attachInstance(instance, parent));
+          _results.push(this._insertBefore(instance));
         }
         return _results;
       },
       detached: function() {
-        var instance, _results;
+        var instance, _i, _len, _ref, _results;
+        _ref = this._instances;
         _results = [];
-        for (instance in this._instances) {
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          instance = _ref[_i];
           _results.push(this._detachInstance(instance));
         }
         return _results;
-      },
-      _attachInstance: function(instance, parent) {
-        parent = parent || this._getParentElement();
-        return this._insertBefore(instance, {
-          parent: parent
-        });
       },
       _insertBefore: function(instance, target) {
         var before, parent;
@@ -78,86 +78,79 @@
         parent.insertBefore(instance.root, before);
         return instance;
       },
-      _detachInstance: function(instance) {
-        var child, _results;
+      _attachInstances: function() {
+        var index, instance, model, prop, templatized, _i, _ref, _ref1, _results;
         _results = [];
-        for (child in instance._children) {
-          _results.push(Polymer.dom(instance.root).appendChild(child));
+        for (index = _i = _ref = this._from, _ref1 = this._to; _ref <= _ref1 ? _i < _ref1 : _i > _ref1; index = _ref <= _ref1 ? ++_i : --_i) {
+          model = {};
+          model[this.indexAs] = index;
+          if (this._parentProps) {
+            templatized = this._templatized;
+            for (prop in this._parentProps) {
+              if (!model.hasOwnProperty(prop)) {
+                model[prop] = templatized[this._parentPropPrefix + prop];
+              }
+            }
+          }
+          instance = new this.ctor(model, this);
+          this._insertBefore(instance);
+          _results.push(this._instances.push(instance));
         }
         return _results;
       },
-      _getParentElement: function() {
-        var parentNode;
-        parentNode = Polymer.dom(this).parentNode;
-        return Polymer.dom(parentNode);
-      },
-      _repeat_changed: function(from, to) {
-        return console.log('repeat-change');
-      },
-      _countChanged: function(count, oldValue) {
-        return this._debounceTemplate(function() {
-          oldValue = oldValue || 0;
-          if (count < oldValue) {
-            return this._detachInstances(count);
-          } else {
-            return this._insertItems(count - oldValue, oldValue);
+      _detachInstance: function(instance) {
+        var child, root, _i, _len, _ref, _results;
+        root = Polymer.dom(instance.root);
+        if (instance._children) {
+          _ref = instance._children;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            child = _ref[_i];
+            if (!child.isPlaceholder) {
+              _results.push(root.appendChild(child));
+            } else {
+              _results.push(void 0);
+            }
           }
-        });
+          return _results;
+        }
       },
       _detachInstances: function(start, count) {
-        var instances, self;
+        var instance, instances, self, _i, _len, _results;
         start = start || 0;
         count = count || this._instances.length - start;
         instances = this._instances.splice(start, count);
         self = this;
-        return instances.map(function(inst) {
-          return self._detachInstance(inst);
+        _results = [];
+        for (_i = 0, _len = instances.length; _i < _len; _i++) {
+          instance = instances[_i];
+          _results.push(self._detachInstance(instance));
+        }
+        return _results;
+      },
+      _getParentElement: function() {
+        return Polymer.dom(Polymer.dom(this).parentNode);
+      },
+      _changed: function() {
+        return this._debounceTemplate(function() {
+          return this._update();
         });
       },
-      _insertItems: function(count, startIndex) {
-        var before, beforeRow, include_last, index, instance, instances, model, parent, self, _i, _ref, _ref1;
-        startIndex = startIndex || 0;
-        parent = this._getParentElement();
-        if (startIndex === this._instances.length) {
-          before = this;
+      _calculate_points: function() {
+        this._from = this.from;
+        this._to = this.to;
+        if (this.from <= this.to) {
+          return this.includeLast && (this._from -= 1);
         } else {
-          beforeRow = this._instances[startIndex];
-          before = beforeRow._children[0];
+          return this.includeLast && (this._to += 1);
         }
-        self = this;
-        if (this.from > this.to) {
-          include_last = -1;
-        } else {
-          include_last = +1;
-        }
-        for (index = _i = _ref = this.from, _ref1 = this.to + include_last; _ref <= _ref1 ? _i < _ref1 : _i > _ref1; index = _ref <= _ref1 ? ++_i : --_i) {
-          model = '';
-          instance = '';
-          console.log(index);
-        }
-        return instances = Array.from({
-          length: count
-        }).map(function(value, i) {
-          return {
-            indice: i
-          };
-        }).map(function(model) {
-          return new self.ctor(model, self);
-        }).map(function(instance) {
-          return self._insertBefore(instance, {
-            parent: parent,
-            before: before
-          });
-        });
+      },
+      _update: function() {
+        this._detachInstances();
+        this._calculate_points();
+        return this._attachInstances();
       }
     });
-
-
-    /*
-    _showHideChildren: (hidden)->
-      for instance of @._instances
-        instance._showHideChildren(hidden)
-     */
 
   </script>
 </dom-module>
