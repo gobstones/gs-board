@@ -1,22 +1,12 @@
-<div class="gs-tablero-explicit">
-  <span>Repeat</span><br/>
-  <input type="text" is="iron-input" bind-value="{{lastIndex}}" /><br/>
-  <span>tablero</span><br/>
-  <input type="text" is="iron-input" bind-value="{{tableroRows}}" /><br/>
-  <span>{{last_index}}</span><br/>
-  <template is="dom-iterate" from="1" to="{{lastIndex}}" index-as="indice">
-    <template is="dom-iterate" from="20" to="25" index-as="indice2">
-      <span>child parent indice </span>
-      <span>{{indice}}</span><br/>
-      <span>--child self indice </span>
-      <span>{{indice2}}</span><br/>
-    </template>
-  </template>
-  <br/>
-  <template is="dom-repeat" items="{{filas}}" as="fila" index-as="posicion">
-    <span>{{fila.length}}</span>
-    <span>{{posicion}}</span>
-    <gs-fila celdas="{{fila}}"></gs-fila>
-    <br/>
-  </template>
-</div>
+<div class="empty-top-left"></div>
+<template is="dom-iterate" from="0" to="{{columnsMaxLength}}" include-last="{{hardcode_false}}" index-as="columnIndex">
+  <div class="column-index-top"><span class="index">{{columnIndex}}</span></div>
+</template>
+<div class="compass-top-right"></div>
+<template is="dom-repeat" items="{{rows}}" as="row" index-as="rowIndex">
+  <gs-fila row="{{row}}" row-index="{{rowIndex}}"></gs-fila>
+</template>
+<div class="empty-bottom-left"></div>
+<template is="dom-iterate" from="0" to="{{columnsMaxLength}}" include-last="{{hardcode_false}}" index-as="columnIndex">
+  <div class="column-index-bottom">{{columnIndex}}</div>
+</template>

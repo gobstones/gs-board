@@ -55,8 +55,8 @@ module.exports = (grunt) ->
       coffee_demo:
         files: ['<%= yeoman.src %>/demo/**/*.coffee']
         tasks: ['scripts:demo']
-      sass_components:
-        files: ['<%= yeoman.src %>/components/**/*.scss']
+      sass_common_and_components:
+        files: ['<%= yeoman.src %>/{components,common}/**/*.scss']
         tasks: ['sass:src_tmp','components_build:tmp_dist']
       sass_demo:
         files: ['<%= yeoman.src %>/demo/**/*.scss']

@@ -1,12 +1,28 @@
+@import '../../common/style';
 
 :host{
-  width: 500px;
   float: left;
   clear: left;
-  padding: 2px;
-  background-color: #35A;
+  margin-top: $cel-margin;
+  height: $cel-height;
 }
-.gs-fila-explicit{
-  padding: 2px;
-  background-color: #38A;
+
+.gs-row-left,
+.gs-row-right{
+  float: left;
+  height: $cel-height - $cel-index-margin;
+  padding-top: $cel-index-margin;
+  background-color: #BBB;
 }
+.gs-row-right{
+  text-align: left;
+  width: $cel-width - $cel-index-margin;
+  margin-left: $cel-margin;
+  padding-left: $cel-index-margin;
+}
+.gs-row-left{
+  width: $cel-width - $cel-index-margin;
+  padding-right: $cel-index-margin;
+  text-align: right;
+}
+

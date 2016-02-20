@@ -1,10 +1,47 @@
-$tablero-height: 400px;
-$tablero-width: 400px;
-$main-color: #FFF;
+@import '../../common/style';
 
 :host{
-  height: $tablero-height;
-  width: $tablero-width;
   background-color: $main-color;
   display: block;
+}
+
+.compass-top-right,
+.empty-top-left,
+.empty-bottom-left,
+.column-index-bottom,
+.column-index-top{
+  float: left;
+  width: $cel-width;
+  height: $cel-height;
+  background-color: #BBB;
+}
+
+.compass-top-right,
+.column-index-bottom,
+.column-index-top{
+  margin-left: $cel-margin;
+}
+
+.column-index-bottom,
+.empty-bottom-left{
+  margin-top: $cel-margin;
+}
+
+.empty-bottom-left{
+  clear: left;
+}
+
+.column-index-bottom{
+  height: $cel-height - $cel-index-margin;
+  padding-top: $cel-index-margin;
+}
+
+.column-index-top .index{
+  display: block;
+  vertical-align: bottom;
+}
+
+.column-index-bottom,
+.column-index-top{
+  text-align: center;
 }

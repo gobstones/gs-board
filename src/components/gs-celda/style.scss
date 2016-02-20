@@ -1,14 +1,9 @@
+@import '../../common/style';
 
 :host{
   float: left;
-  clear: none;
-  padding: 4px;
-  background-color: #E55;
-}
-.gs-celda-explicit{
-  float: left;
-  clear: none;
-  height: 20px;
-  width: 20px;
-  background-color: #301;
+  margin-left: $cel-margin;
+  width: $cel-width;
+  height: $cel-height;
+  background-color: #BDB76B;
 }

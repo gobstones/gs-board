@@ -1,5 +1,5 @@
-<div class="gs-fila-explicit">
-  <template is="dom-repeat" items="{{celdas}}">
-    <gs-celda></gs-celda>
-  </template>
-</div>
+<div class="gs-row-left">{{rowIndex}}</div>
+<template is="dom-repeat" items="{{row}}" as="cell">
+  <gs-celda></gs-celda>
+</template>
+<div class="gs-row-right">{{rowIndex}}</div>
