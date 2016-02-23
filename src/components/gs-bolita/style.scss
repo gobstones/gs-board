@@ -1,4 +1,32 @@
+@import '../../common/style';
 
 :host{
   
+}
+.ball{
+  margin: $ball-margin;
+  width: $ball-size;
+  height: $ball-size;
+  display: block;
+  border-radius: $ball-size / 2;
+  float: left;
+  
+  &.black{
+    background-color: #111;
+  }
+  &.blue{
+    background-color: #11F;
+  }
+  &.red{
+    background-color: #F11;
+  }
+  &.green{
+    background-color: #3F3;
+  }
+  &.unknow{
+    background-color: #888;
+  }
+  *{
+    box-sizing: content-box;
+  }
 }

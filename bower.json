@@ -20,8 +20,15 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.2.0",
+    "polymer": "Polymer/polymer#^1.2.0"
+  },
+  "devDependencies": {
     "iron-input": "polymerelements/iron-input#~1.0.8",
-    "gs-common": "~0.0.0-pre"
+    "gs-common": "~0.0.0-pre",
+    "poly-zoom": "~0.5.3",
+    "juicy-jsoneditor": "~1.0.5"
+  },
+  "resolutions": {
+    "polymer": "^1.2.1"
   }
 }

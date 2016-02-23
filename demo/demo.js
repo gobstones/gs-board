@@ -1,5 +1,5 @@
 (function() {
-  var buffer, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+  var buffer;
 
   window.buffer = buffer = {
     actions: {},
@@ -28,46 +28,21 @@
     }
   };
 
-  vacio0 = function() {
-    return {};
-  };
 
-  verde2 = function() {
-    return {
-      VERDE: 2
-    };
-  };
-
-  rojo_3 = function() {
-    return {
-      ROJO: 3
-    };
-  };
-
-  negro4 = function() {
-    return {
-      NEGRO: 4
-    };
-  };
-
-  varias = function() {
-    return {
-      NEGRO: 4,
-      ROJO: 4
-    };
-  };
-
-  tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]];
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var gsTablero;
-    gsTablero = document.querySelector('gs-tablero');
-    document.querySelector('#load').addEventListener('click', function() {
-      return buffer.send(buffer.ACTION.SHOW, tablero_inicial);
-    });
-    return document.querySelector("#clean").addEventListener('click', function() {
-      return console.log('clean');
-    });
-  });
+  /*
+  document.addEventListener 'DOMContentLoaded', ()->
+    
+    json = tablero_inicial
+    model = json:json
+    json_editor = document.querySelector '#json-editor'
+    json_editor.model = model
+    window.json = json
+    
+    document.querySelector('#load').addEventListener 'click', ()->
+      buffer.send buffer.ACTION.SHOW, tablero_inicial
+    
+    document.querySelector("#clean").addEventListener 'click', ()->
+      console.log 'clean'
+   */
 
 }).call(this);

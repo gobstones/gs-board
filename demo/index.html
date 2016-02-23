@@ -7,18 +7,19 @@
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
     <script src="demo.js"></script>
     <link rel="stylesheet" type="text/css" href="demo.css">
+    <link rel="stylesheet" href="http://juicy.github.io/juicy-tile-list/examples/github-markdown.css">
+
     <link rel="import" href="../bower_components/polymer/polymer.html">
     <link rel="import" href="../bower_components/iron-input/iron-input.html">
+    <link rel="import" href="../bower_components/poly-zoom/poly-zoom.html">
+    <link rel="import" href="../bower_components/juicy-jsoneditor/src/juicy-jsoneditor.html">
     <link rel="import" href="../dist/components/gs-tablero.html">
+    <link rel="import" href="../dist/components/demo/tablero-demo.html">
     <link rel="import" href="../bower_components/gs-common/dist/components/dom-iterate.html">
-    
+  
   </head>
-  <body unresolved>
+  <body unresolved class="demo">
     <p>An example of <code>&lt;gs-tablero&gt;</code>:</p>
-    <p><button id="clean">Clean</button></p>
-    <p><button id="load">Load</button></p>
-    <div class="tablero-wrap">
-      <gs-tablero></gs-tablero>
-    </div>
+    <tablero-demo></tablero-demo>
   </body>
 </html>

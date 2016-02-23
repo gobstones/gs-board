@@ -4,28 +4,94 @@
     <style>
       :host {
         float: left;
+      }
+      :host .gs-cel {
+        float: left;
         margin-left: 4px;
         width: 40px;
         height: 40px;
         background-color: #BDB76B;
       }
+      :host .gs-cel.first-row.first-column {
+        border-top-left-radius: 10px;
+      }
+      :host .gs-cel.first-row.last-column {
+        border-top-right-radius: 10px;
+      }
+      :host .gs-cel.last-row.first-column {
+        border-bottom-left-radius: 10px;
+      }
+      :host .gs-cel.last-row.last-column {
+        border-bottom-right-radius: 10px;
+      }
+      :host * {
+        box-sizing: content-box;
+      }
 
     </style>
 
-    <div class="gs-celda-explicit">
-      
+    <div class$="gs-cel {{customClass}}" title="{{computedTitle}}">
+      <gs-bolita color="black" amount="cell.negro"></gs-bolita>
+      <gs-bolita color="blue" amount="cell.azul"></gs-bolita>
+      <gs-bolita color="green" amount="cell.verde"></gs-bolita>
+      <gs-bolita color="red" amount="cell.rojo"></gs-bolita>
     </div>
   </template>
   <script>
     Polymer({
       is: 'gs-celda',
-      created: function() {
-        return console.log('gs-row');
+      properties: {
+        cell: {
+          type: Object,
+          value: {}
+        },
+        rowIndex: {
+          type: Number,
+          value: 0
+        },
+        rowsAmount: {
+          type: Number,
+          value: 0
+        },
+        columnIndex: {
+          type: Number,
+          value: 0
+        },
+        columnsAmount: {
+          type: Number,
+          value: 0
+        },
+        customClass: {
+          type: String,
+          value: ''
+        },
+        computedTitle: {
+          type: String,
+          value: 'NaN:NaN'
+        }
       },
-      ready: function() {},
-      attached: function() {},
-      detached: function() {},
-      attributeChanged: function(name, type) {}
+      observers: ['_update(rowIndex, rowsAmount, columnIndex, columnAmount)'],
+      created: function() {
+        return this._custom_classes = [];
+      },
+      ready: function() {
+        return this._update();
+      },
+      _update: function() {
+        this.computedTitle = this.rowIndex + ':' + this.columnIndex;
+        this._custom_classes.length = 0;
+        if (this.rowIndex === 0) {
+          this._custom_classes.push('first-row');
+        } else if (this.rowIndex === (this.rowsAmount - 1)) {
+          this._custom_classes.push('last-row');
+        }
+        if (this.columnIndex === 0) {
+          this._custom_classes.push('first-column');
+        } else if (this.columnIndex === (this.columnsAmount - 1)) {
+          this._custom_classes.push('last-column');
+        }
+        return this.customClass = this._custom_classes.join(' ');
+      }
     });
 
   </script>

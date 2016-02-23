@@ -1,0 +1,70 @@
+<dom-module id="tablero-demo">
+  <template>
+    <style>
+      
+    </style>
+
+
+        
+    <div class="buttons">
+      <button id="clean" class="btn clean">Clean</button>
+      <button id="load" class="btn load">Load</button>
+    </div>
+    <div class="tablero-wrap-before">
+      <gs-tablero style="width: 400px; height: 300px;" tablero="{{model.tablero}}"></gs-tablero>
+    </div>
+    <div class="tablero-wrap-json">
+      <juicy-jsoneditor style="height: 300px;" json="{{model}}"></juicy-jsoneditor>
+    </div>
+    <div class="tablero-wrap-after">
+      <gs-tablero style=" width: 350px; height: 400px;"></gs-tablero>
+    </div>
+  </template>
+  <script>
+    var negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+
+    vacio0 = function() {
+      return {};
+    };
+
+    verde2 = function() {
+      return {
+        verde: 2
+      };
+    };
+
+    rojo_3 = function() {
+      return {
+        rojo: 3
+      };
+    };
+
+    negro4 = function() {
+      return {
+        negro: 4
+      };
+    };
+
+    varias = function() {
+      return {
+        negro: 4,
+        rojo: 4
+      };
+    };
+
+    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]];
+
+    Polymer({
+      is: 'tablero-demo',
+      properties: {
+        model: {
+          type: Object,
+          value: {
+            tablero: tablero_inicial
+          }
+        }
+      }
+    });
+
+  </script>
+</dom-module>

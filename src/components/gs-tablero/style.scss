@@ -3,6 +3,23 @@
 :host{
   background-color: $main-color;
   display: block;
+  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  font-size: 0;
+  *{
+    box-sizing: content-box;
+  }
+}
+
+.viewport{
+  display: inline-block;
+}
+
+.footer-row,
+.header-row{
+  display: inline-flex;
+  height: $cel-height;
 }
 
 .compass-top-right,
@@ -10,6 +27,7 @@
 .empty-bottom-left,
 .column-index-bottom,
 .column-index-top{
+  display: inline-flex;
   float: left;
   width: $cel-width;
   height: $cel-height;
@@ -32,16 +50,19 @@
 }
 
 .column-index-bottom{
-  height: $cel-height - $cel-index-margin;
-  padding-top: $cel-index-margin;
+  align-items: flex-start;
+  padding-top: $cel-index-margin-h;
 }
 
-.column-index-top .index{
-  display: block;
-  vertical-align: bottom;
+.column-index-top{
+  align-items: flex-end;
+  padding-bottom: $cel-index-margin-h;
 }
 
 .column-index-bottom,
 .column-index-top{
-  text-align: center;
+  display: flex;
+  font-size: 16px;
+  justify-content: center;
+  height: $cel-height - $cel-index-margin-h;
 }

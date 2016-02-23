@@ -1,5 +1,11 @@
 <div class="gs-row-left">{{rowIndex}}</div>
-<template is="dom-repeat" items="{{row}}" as="cell">
-  <gs-celda></gs-celda>
+<template is="dom-repeat" items="{{row}}" as="cell" index-as="columnIndex">
+  <gs-celda 
+    cell="{{cell}}"
+    row-index="{{rowIndex}}" 
+    rows-amount="{{rowsAmount}}"
+    column-index="{{columnIndex}}"
+    columns-amount="{{columnsAmount}}"
+  ></gs-celda>
 </template>
 <div class="gs-row-right">{{rowIndex}}</div>

@@ -1,14 +1,52 @@
 <dom-module id="gs-bolita">
   <template>
     <style>
-      
+      .ball {
+        margin: 1px;
+        width: 18px;
+        height: 18px;
+        display: block;
+        border-radius: 9px;
+        float: left;
+      }
+      .ball.black {
+        background-color: #111;
+      }
+      .ball.blue {
+        background-color: #11F;
+      }
+      .ball.red {
+        background-color: #F11;
+      }
+      .ball.green {
+        background-color: #3F3;
+      }
+      .ball.unknow {
+        background-color: #888;
+      }
+      .ball * {
+        box-sizing: content-box;
+      }
+
     </style>
 
-    <img src=""/>
+    <div class$="ball {{color}}">
+      <span>{{amount}}</span>
+    </div>
   </template>
   <script>
     Polymer({
-      is: 'gs-bolita'
+      is: 'gs-bolita',
+      properties: {
+        color: {
+          type: String,
+          value: 'unknow'
+        },
+        amount: {
+          type: Number,
+          value: 1
+        }
+      }
     });
 
   </script>

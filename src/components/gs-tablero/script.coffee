@@ -3,12 +3,11 @@ Polymer
   
   properties:
     
-    rows:
+    board:
       type: Array
-      notify: true
-      observer: '_rows_change'
+      observer: '_update'
       
-    columnsMaxLength:
+    columnsAmount:
       type: String
       value: 0
     
@@ -24,14 +23,37 @@ Polymer
     @_generate_empty_row() for _ in [0...8]
     
   ready: ->
-    @rows = @_generate_empty_rows()
-  
-  _rows_change: ->
-    @columnsMaxLength = 0
-    for row in @rows
-      if row.length > @columnsMaxLength
-        @columnsMaxLength = row.length
-    
-    
-    
-  
+    @board = @board or @_generate_empty_rows()
+    @viewport = @$.viewport
+    @_update()
+
+  _sanitize_rows: ->
+    #TODO assert rows structure
+
+  _update: ->
+    @columnsAmount = 0
+    for row in @board
+      if row.length > @columnsAmount
+        @columnsAmount = row.length
+    @_sanitize_rows()
+    @async @_resize, 1
+
+  _resize: ->
+    parent_h = @clientHeight
+    parent_w = @clientWidth
+    viewport_h = @viewport.clientHeight
+    viewport_w = @viewport.clientWidth
+    h_fix = parent_h / viewport_h
+    w_fix = parent_w / viewport_w
+    if w_fix > h_fix 
+      zoom = h_fix 
+      move = ((parent_h - viewport_h) / 2) / zoom
+    else 
+      zoom = w_fix
+      move = ((parent_w - viewport_w) / 2) / zoom
+    @viewport.style.transform = "scale(#{zoom}) translate3d(#{move}px,#{move}px,0)"
+
+
+
+
+

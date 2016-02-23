@@ -17,28 +17,21 @@ window.buffer = buffer =
      for action in actions
        action(data)
       
-vacio0 = ()-> {}
-verde2 = ()-> VERDE: 2
-rojo_3 = ()-> ROJO:  3
-negro4 = ()-> NEGRO: 4
-varias = ()-> NEGRO: 4,ROJO: 4
 
-tablero_inicial = [
-  [verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
-  [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
-  [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()]
-  [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
-]
 
+###
 document.addEventListener 'DOMContentLoaded', ()->
-  gsTablero = document.querySelector('gs-tablero');
-  document.querySelector('#load').addEventListener('click', ()->
+  
+  json = tablero_inicial
+  model = json:json
+  json_editor = document.querySelector '#json-editor'
+  json_editor.model = model
+  window.json = json
+  
+  document.querySelector('#load').addEventListener 'click', ()->
     buffer.send buffer.ACTION.SHOW, tablero_inicial
-  )
-  document.querySelector("#clean").addEventListener('click', ()->
+  
+  document.querySelector("#clean").addEventListener 'click', ()->
     console.log 'clean'
-  )
+  
+###

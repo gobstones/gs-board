@@ -2,8 +2,30 @@
 
 :host{
   float: left;
-  margin-left: $cel-margin;
-  width: $cel-width;
-  height: $cel-height;
-  background-color: #BDB76B;
+  .gs-cel{
+    float: left;
+    margin-left: $cel-margin;
+    width: $cel-width;
+    height: $cel-height;
+    background-color: #BDB76B;
+    &.first-row{
+      &.first-column{
+        border-top-left-radius: $cel-radius;
+      }
+      &.last-column{
+        border-top-right-radius: $cel-radius;
+      }
+    }
+    &.last-row{
+      &.first-column{
+        border-bottom-left-radius: $cel-radius;
+      }
+      &.last-column{
+        border-bottom-right-radius: $cel-radius;
+      }
+    }
+  }
+  *{
+    box-sizing: content-box;
+  }
 }
