@@ -1,3 +1,5 @@
 <div class$="ball {{color}}">
-  <span>{{amount}}</span>
+  <template is="dom-if" if="{{amount}}">
+    <span class="amount">{{amount}}</span>
+  </template>
 </div>

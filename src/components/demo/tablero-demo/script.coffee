@@ -16,13 +16,32 @@ tablero_inicial = [
   [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
 ]
 
+model = tablero: tablero_inicial
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
   
   properties:
+    
     model: 
       type: Object
-      value: tablero: tablero_inicial
-    
+      value: model
+    jsonModel:
+      type: Object
+      value: model
+      
+  listeners: 
+    'jsoneditor.change': '_json_change'
+  
+  _json_change: ()->
+    @async @_force_render, 0
+  
+  _force_render: ->
+    @model = {}
+    @async @_set_model, 0
+  
+  _set_model: ->
+    @model = model
+  
+  
   

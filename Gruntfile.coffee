@@ -1,11 +1,16 @@
 'use strict'
 
+version = '0.0.1'
+
 LIVERELOAD_PORT = 35730
 lrSnippet = require('connect-livereload')(port: LIVERELOAD_PORT)
+exec = require('child_process').execSync;
 
 # var conf = require('./conf.'+process.env.NODE_ENV);
 mountFolder = (connect, dir) ->
   connect.static require('path').resolve(dir)
+
+app_name = require('./bower.json').name
 
 # # Globbing
 # for performance reasons we're only matching one level down:
@@ -13,6 +18,12 @@ mountFolder = (connect, dir) ->
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
+  
+  unless app_name
+    throw new TypeError('must specify an application name in bower.json file')
+    
+  grunt.log.write 'application name: ' + app_name + '\n'
+    
   require('load-grunt-tasks') grunt
   require('time-grunt') grunt
   # configurable paths
@@ -93,7 +104,7 @@ module.exports = (grunt) ->
 
     open:
       server:
-        url: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>/demo'
+        url: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>/bower_components/' + app_name + '/demo'
         
     clean:
       dist:
@@ -364,6 +375,19 @@ module.exports = (grunt) ->
       #grunt.log.writeflags json_src
       #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
       #mkimport('index.html')
+  
+  
+  grunt.registerTask 'symlinks', (target) ->
+    cwd = 'bower_components/' + app_name
+    commands = [
+      'rm -rf ' + cwd
+      'mkdir -p ' + cwd
+      'ln -s ../../demo ' + cwd + '/demo'
+      'ln -s ../../dist ' + cwd + '/dist'
+    ]
+    for command in commands
+      grunt.log.write command + '\n'
+      exec command, cdw: __dirname
       
   grunt.registerTask 'scripts', (target) ->
     switch target
@@ -408,6 +432,7 @@ module.exports = (grunt) ->
       'sass:src_tmp'
       'components_build:tmp_dist'
       'demo'
+      'symlinks'
       
       'connect:livereload'
       'open'

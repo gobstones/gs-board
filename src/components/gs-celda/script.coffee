@@ -6,7 +6,6 @@ Polymer
     
     cell:
       type: Object
-      value: {}
     
     rowIndex:
       type: Number
@@ -38,10 +37,10 @@ Polymer
   
   created: ->
     @_custom_classes = []
-    
+      
   ready:->
     @_update()
-  
+    
   _update: ()->
     @computedTitle = @rowIndex + ':' + @columnIndex
     @_custom_classes.length = 0
@@ -54,4 +53,3 @@ Polymer
     else if @columnIndex is (@columnsAmount - 1)
       @_custom_classes.push 'last-column'
     @customClass = @_custom_classes.join ' '
-

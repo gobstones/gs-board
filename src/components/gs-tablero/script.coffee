@@ -32,6 +32,7 @@ Polymer
 
   _update: ->
     @columnsAmount = 0
+    @board = @board or []
     for row in @board
       if row.length > @columnsAmount
         @columnsAmount = row.length
@@ -47,11 +48,11 @@ Polymer
     w_fix = parent_w / viewport_w
     if w_fix > h_fix 
       zoom = h_fix 
-      move = ((parent_h - viewport_h) / 2) / zoom
     else 
       zoom = w_fix
-      move = ((parent_w - viewport_w) / 2) / zoom
-    @viewport.style.transform = "scale(#{zoom}) translate3d(#{move}px,#{move}px,0)"
+    movey = ((parent_h - viewport_h) / 2) / zoom
+    movex = ((parent_w - viewport_w) / 2) / zoom
+    @viewport.style.transform = "scale(#{zoom}) translate3d(#{movex}px,#{movey}px,0)"
 
 
 

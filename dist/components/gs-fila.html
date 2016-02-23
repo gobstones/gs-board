@@ -51,7 +51,15 @@
   </template>
   <script>
     Polymer({
-      is: 'gs-fila'
+      is: 'gs-fila',
+      properties: {
+        row: {
+          type: Array,
+          value: [],
+          observer: '_row_change'
+        }
+      },
+      _row_change: function() {}
     });
 
   </script>
