@@ -148,11 +148,11 @@ Polymer
       fix_x = (viewport_w - (viewport_w * zoom)) / 2
       fix_y = (viewport_h - (viewport_h * zoom)) / 2
       #cero divided support
-      #cero divided support
+      movex = (@positionX - fix_x) / zoom
       movey = (@positionY - fix_y) / zoom
       ###
       
-      movex = (@positionX - fix_x) / zoom
+      #cero divided support
       movex = @positionX / zoom
       movey = @positionY / zoom
       
