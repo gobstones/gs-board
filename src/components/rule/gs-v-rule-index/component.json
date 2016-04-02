@@ -1,0 +1,4 @@
+{
+  "name": "gs-v-rule-index",
+  "imports": ["gs-rule-index.html"]
+}

@@ -1,11 +1,31 @@
+<link rel="import" href="../../../../gs-panels/dist/components/gs-panel-root.html">
 <dom-module id="tablero-demo">
   <template>
     <style>
-      
+      .tablero-wrap-json,
+      .tablero-panels {
+        margin: 0px;
+      }
+
+      .tablero-panels {
+        width: auto;
+        margin-left: 310px;
+        height: 300px;
+      }
+
+      .tablero-wrap-json {
+        width: 300px;
+        height: 300px;
+        float: left;
+      }
+
     </style>
 
 
         
+
+
+    <!--
     <div class="buttons">
       <button id="clean" class="btn clean">Clean</button>
       <button id="load" class="btn load">Load</button>
@@ -13,11 +33,17 @@
     <div class="tablero-wrap-before">
       <gs-tablero style="width: 400px; height: 300px;" board="{{model.tablero}}"></gs-tablero>
     </div>
+    <div class="tablero-wrap-after">
+      <gs-tablero style=" width: 350px; height: 400px;" board="{{model.tablero}}"></gs-tablero>
+    </div>
+    -->
+
+
     <div class="tablero-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
     </div>
-    <div class="tablero-wrap-after">
-      <gs-tablero style=" width: 350px; height: 400px;" board="{{model.tablero}}"></gs-tablero>
+    <div class="tablero-panels">
+      <gs-panel-root id="gsPanels" root-height="400"></gs-panel-root>
     </div>
   </template>
   <script>
@@ -72,6 +98,32 @@
       },
       listeners: {
         'jsoneditor.change': '_json_change'
+      },
+      AFTER: 'AFTER',
+      BEFORE: 'BEFORE',
+      IDE: 'IDE',
+      ready: function() {
+        this.panels = this.$.gsPanels;
+        this.after = this.create_board(true);
+        return this.before = this.create_board(false);
+      },
+      attached: function() {
+        this.panels.add_horizontal(this.IDE);
+        this.panels.add(this.after, {
+          id: this.AFTER,
+          into: this.IDE
+        });
+        return this.panels.add(this.before, {
+          id: this.BEFORE,
+          into: this.IDE
+        });
+      },
+      create_board: function(editable) {
+        var element;
+        element = document.createElement('gs-tablero');
+        element.board = this.model.tablero;
+        element.editable = editable;
+        return element;
       },
       _json_change: function() {
         return this.async(this._force_render, 0);

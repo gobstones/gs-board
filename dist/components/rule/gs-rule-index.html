@@ -1,0 +1,55 @@
+<dom-module id="gs-rule-index">
+  <template>
+    <style>
+      
+    </style>
+
+
+  </template>
+  <script>
+    if (typeof window.GS === 'undefined') {
+      window.GS = {};
+    }
+
+    GS.RuleIndex = {
+      properties: {
+        ruleIndex: {
+          type: Number
+        },
+        zoom: {
+          type: Number,
+          observer: '_render'
+        }
+      },
+      parse_px: function(in_px) {
+        var value;
+        if (in_px === '') {
+          value = 0;
+        } else if (/px$/.test(in_px)) {
+          value = parseFloat(in_px.slice(0, -2));
+        } else {
+          value = in_px;
+        }
+        return value;
+      },
+      get_originals: function() {
+        var style;
+        style = window.getComputedStyle(this);
+        return this.originals = {
+          height: this.parse_px(style.height),
+          width: this.parse_px(style.width),
+          marginTop: this.parse_px(style.marginTop),
+          marginLeft: this.parse_px(style.marginLeft),
+          paddingTop: this.parse_px(style.paddingTop),
+          indexHeight: this.$.ruleIndex.clientHeight
+        };
+      },
+      attached: function() {
+        if (!this.originals) {
+          return this.get_originals();
+        }
+      }
+    };
+
+  </script>
+</dom-module>

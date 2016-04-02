@@ -1,5 +1,9 @@
 {
   "name": "gs-tablero",
-  "imports": ["gs-fila.html"],
+  "imports": [
+    "gs-fila.html", 
+    "rule/gs-h-rule-index.html",
+    "rule/gs-v-rule-index.html"
+  ],
   "require": []
 }

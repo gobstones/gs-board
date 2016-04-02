@@ -1,0 +1,27 @@
+<link rel="import" href="gs-rule-index.html">
+<dom-module id="gs-h-rule-index">
+  <template>
+    <style>
+      
+    </style>
+
+    <span id="ruleIndex">{{ruleIndex}}</span>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'gs-h-rule-index',
+      behaviors: [GS.RuleIndex],
+      attached: function() {
+        return this._render();
+      },
+      _render: function() {
+        if (this.originals) {
+          this.style.width = (this.originals.width * this.zoom / 100) + 'px';
+          return this.style.marginLeft = (this.originals.marginLeft * this.zoom / 100) + 'px';
+        }
+      }
+    });
+
+  </script>
+</dom-module>

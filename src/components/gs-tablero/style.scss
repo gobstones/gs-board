@@ -1,6 +1,8 @@
 @import '../../common/style';
 
-:host{
+$rule-size: 30px;
+
+.old-host{
   background-color: $main-color;
   display: block;
   overflow: hidden;
@@ -12,9 +14,115 @@
   }
 }
 
-.viewport{
-  display: inline-block;
+:host{
+  display: block;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: #FFF;
+  >.top,
+  >.bottom{
+    display: block;
+    height: $rule-size;
+    width: 100%;
+    background-color: #555;
+    position: absolute;
+    >.center{
+      position: absolute;
+      top:0;
+      left: $rule-size;
+      width: 100%;
+      padding-right: 2*$rule-size;
+      box-sizing: border-box;
+      height: $rule-size;
+      background-color: green;
+      overflow: hidden;
+    }
+    >.left,
+    >.right{
+      top:0;
+      height: $rule-size;
+      width: $rule-size;
+      background-color: #333;
+      color: white;
+      position: absolute;
+    }
+    >.left{
+      left:0;
+    }
+    >.right{
+      right:0;
+    }
+  }
+  >.top{
+    top:0;
+  }
+  >.bottom{
+    bottom:0;
+  }
+  >.center{
+    height: 100%;
+    padding: $rule-size;
+    box-sizing: border-box;
+    background-color: transparent;
+    >.left,
+    >.right{
+      top: $rule-size;
+      width: $rule-size;
+      padding-bottom: 2*$rule-size;
+      height: 100%;
+      position: absolute;
+      background-color: #555;
+    }
+    >.left{
+      left: 0;
+    }
+    >.right{
+      right: 0;
+    }
+    >.content{
+      height: 100%;
+      width: 100%;
+      background-color: transparent;
+      overflow: hidden;
+      >.viewport{
+        display: inline-block;
+      }
+    }
+  }
 }
+
+
+.row-index-left,
+.row-index-right{
+  box-sizing: content-box;
+  height: $cel-height - $cel-index-margin-v;
+  padding-top: $cel-index-margin-v;
+  background-color: #BBB;
+  font-size: 16px;
+  margin-top: $cel-margin;
+}
+
+.row-index-right{
+  float: left;
+  text-align: left;
+  width: $cel-width - $cel-index-margin-v;
+  padding-left: $cel-index-margin-v;
+}
+
+.row-index-left{
+  float: right;
+  width: $cel-width - $cel-index-margin-v;
+  padding-right: $cel-index-margin-v;
+  text-align: right;
+}
+
+
+
+
+
+
 
 .footer-row,
 .header-row{
@@ -34,20 +142,15 @@
   background-color: #BBB;
 }
 
-.compass-top-right,
 .column-index-bottom,
 .column-index-top{
   margin-left: $cel-margin;
 }
 
-.column-index-bottom,
-.empty-bottom-left{
-  margin-top: $cel-margin;
+.column-index-bottom{
+  //margin-top: $cel-margin;
 }
 
-.empty-bottom-left{
-  clear: left;
-}
 
 .column-index-bottom{
   align-items: flex-start;

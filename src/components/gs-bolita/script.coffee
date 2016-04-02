@@ -11,21 +11,35 @@ Polymer
       value: 0
       notify: true
       observer: '_sanitize_amount'
+    editable:
+      type: Object
+      observer: '_editable_change'
       
-  listeners:
-    tap: '_process_tap'
-    contextmenu: '_right_click'
-    
   ready: ->
     @_sanitize_amount()
-        
+    
+  attached:->
+    @editable and @_editable_change(true)
+    
+  detached:->
+    @editable and @_editable_change(false)
+    
+  _editable_change:(value)->
+    if value
+      @listen @, 'tap',         '_process_tap'
+      @listen @, 'contextmenu', '_right_click'
+    else
+      @unlisten @, 'tap',         '_process_tap'
+      @unlisten @, 'contextmenu', '_right_click'
+
   _sanitize_amount: ->
     unless typeof @amount is 'number' and @amount >= 0 
       @amount = 0
     
   _process_tap: (evnt)->
-    @amount += 1
+    @editable and @amount += 1
 
   _right_click: (evnt)->
-    evnt.preventDefault()
-    @amount -= 1
+    if @editable
+      evnt.preventDefault()
+      @amount -= 1

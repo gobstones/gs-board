@@ -1,8 +1,10 @@
 <link rel="import" href="gs-fila.html">
+<link rel="import" href="rule/gs-h-rule-index.html">
+<link rel="import" href="rule/gs-v-rule-index.html">
 <dom-module id="gs-tablero">
   <template>
     <style>
-      :host {
+      .old-host {
         background-color: white;
         display: block;
         overflow: hidden;
@@ -10,12 +12,116 @@
         overflow-x: hidden;
         font-size: 0;
       }
-      :host * {
+      .old-host * {
         box-sizing: content-box;
       }
 
-      .viewport {
+      :host {
+        display: block;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background-color: #FFF;
+      }
+      :host > .top,
+      :host > .bottom {
+        display: block;
+        height: 30px;
+        width: 100%;
+        background-color: #555;
+        position: absolute;
+      }
+      :host > .top > .center,
+      :host > .bottom > .center {
+        position: absolute;
+        top: 0;
+        left: 30px;
+        width: 100%;
+        padding-right: 60px;
+        box-sizing: border-box;
+        height: 30px;
+        background-color: green;
+        overflow: hidden;
+      }
+      :host > .top > .left,
+      :host > .top > .right,
+      :host > .bottom > .left,
+      :host > .bottom > .right {
+        top: 0;
+        height: 30px;
+        width: 30px;
+        background-color: #333;
+        color: white;
+        position: absolute;
+      }
+      :host > .top > .left,
+      :host > .bottom > .left {
+        left: 0;
+      }
+      :host > .top > .right,
+      :host > .bottom > .right {
+        right: 0;
+      }
+      :host > .top {
+        top: 0;
+      }
+      :host > .bottom {
+        bottom: 0;
+      }
+      :host > .center {
+        height: 100%;
+        padding: 30px;
+        box-sizing: border-box;
+        background-color: transparent;
+      }
+      :host > .center > .left,
+      :host > .center > .right {
+        top: 30px;
+        width: 30px;
+        padding-bottom: 60px;
+        height: 100%;
+        position: absolute;
+        background-color: #555;
+      }
+      :host > .center > .left {
+        left: 0;
+      }
+      :host > .center > .right {
+        right: 0;
+      }
+      :host > .center > .content {
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+        overflow: hidden;
+      }
+      :host > .center > .content > .viewport {
         display: inline-block;
+      }
+
+      .row-index-left,
+      .row-index-right {
+        box-sizing: content-box;
+        height: 30px;
+        padding-top: 10px;
+        background-color: #BBB;
+        font-size: 16px;
+        margin-top: 4px;
+      }
+
+      .row-index-right {
+        float: left;
+        text-align: left;
+        width: 30px;
+        padding-left: 10px;
+      }
+
+      .row-index-left {
+        float: right;
+        width: 30px;
+        padding-right: 10px;
+        text-align: right;
       }
 
       .footer-row,
@@ -36,19 +142,9 @@
         background-color: #BBB;
       }
 
-      .compass-top-right,
       .column-index-bottom,
       .column-index-top {
         margin-left: 4px;
-      }
-
-      .column-index-bottom,
-      .empty-bottom-left {
-        margin-top: 4px;
-      }
-
-      .empty-bottom-left {
-        clear: left;
       }
 
       .column-index-bottom {
@@ -71,29 +167,78 @@
 
     </style>
 
-    <div id="viewport" class="viewport">
-      <div class="header-row">
-        <div class="empty-top-left"></div>
-        <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
-          <div class="column-index-top">{{columnIndex}}</div>
-        </template>
-        <div class="compass-top-right"></div>
+    <div class="center">
+      <div class="left">
+        <div id="ruleLeft">
+          <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+            <gs-v-rule-index
+              class="row-index-left" 
+              rule-index="{{rowIndex}}"
+              zoom="{{zoom}}"
+              >
+            </gs-v-rule-index>
+          </template>
+        </div>
       </div>
-      <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
-        <gs-fila 
-          row="{{row}}" 
-          row-index="{{rowIndex}}"
-          rows-amount="{{rows.length}}"
-          columns-amount="{{columnsAmount}}"
-        >
-        </gs-fila>
-      </template>
-      <div class="footer-row">
-        <div class="empty-bottom-left"></div>
-        <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
-          <div class="column-index-bottom">{{columnIndex}}</div>
-        </template>
+      <div class="content" id="screen">
+        <div id="viewport" class="viewport">
+          <template is="dom-repeat" items="{{rows}}" as="row" index-as="rowIndex">
+            <gs-fila 
+              row="{{row}}" 
+              row-index="{{row.reverseIndex}}"
+              rows-amount="{{rows.length}}"
+              columns-amount="{{columnsAmount}}"
+              editable="{{editable}}"
+            >
+            </gs-fila>
+          </template>
+        </div>
       </div>
+      <div class="right">
+        <div id="ruleRight">
+          <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+            <gs-v-rule-index
+              class="row-index-right" 
+              rule-index="{{rowIndex}}"
+              zoom="{{zoom}}"
+              >
+            </gs-v-rule-index>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <div class="top">
+      <div class="left"></div>
+      <div class="center">
+        <div id="ruleTop">
+          <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+            <gs-h-rule-index
+              class="column-index-top" 
+              rule-index="{{columnIndex}}"
+              zoom="{{zoom}}"
+              >
+            </gs-h-rule-index>
+          </template>
+        </div>
+      </div>
+      <div class="right">N</div>
+    </div>
+    <div class="bottom">
+      <div class="left"></div>
+      <div class="center">
+        <div id="ruleBottom">
+          <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+            <gs-h-rule-index
+              class="column-index-bottom" 
+              rule-index="{{columnIndex}}"
+              zoom="{{zoom}}"
+              >
+            </gs-h-rule-index>
+          </template>
+        </div>
+      </div>
+      <div class="right"></div>
     </div>
   </template>
   <script>
@@ -102,16 +247,35 @@
       properties: {
         board: {
           type: Array,
+          observer: '_reverse'
+        },
+        rows: {
+          type: Array,
           observer: '_update'
         },
         columnsAmount: {
           type: String,
           value: 0
         },
-        hardcode_false: {
-          comment: 'polymer does not allow literal false in html',
-          type: Boolean,
+        editable: {
+          type: Object,
           value: false
+        },
+        panelHeight: {
+          type: Number,
+          observer: '_panel_height_change'
+        },
+        positionX: {
+          type: Number,
+          value: 0
+        },
+        positionY: {
+          type: Number,
+          value: 0
+        },
+        zoom: {
+          type: Number,
+          value: 100
         }
       },
       _generate_empty_row: function() {
@@ -130,17 +294,104 @@
         }
         return _results;
       },
+      get_screen_pos: function() {
+        var current, pos;
+        pos = {
+          x: 0,
+          y: 0
+        };
+        current = this.screen;
+        while (current) {
+          pos.x += current.offsetLeft;
+          pos.y += current.offsetTop;
+          current = current.offsetParent;
+        }
+        return pos;
+      },
+      _make_zoom_aux: function(evnt, initial_zoom) {
+        var delta_zoom, next_center_x, next_center_y, next_pointer_to_center_x, next_pointer_to_center_y, pointer_to_center_x, pointer_to_center_y, pointer_x, pointer_y, screen_pos, viewport_center_x, viewport_center_y, viewport_h, viewport_to_pointer_x, viewport_to_pointer_y, viewport_w;
+        viewport_w = this.viewport.clientWidth;
+        viewport_h = this.viewport.clientHeight;
+        screen_pos = this.get_screen_pos();
+        pointer_x = evnt.clientX - screen_pos.x;
+        pointer_y = evnt.clientY - screen_pos.y;
+        delta_zoom = this.zoom / initial_zoom;
+        viewport_center_x = viewport_w * initial_zoom / (2 * 100);
+        viewport_center_y = viewport_h * initial_zoom / (2 * 100);
+        viewport_to_pointer_x = pointer_x - this.positionX;
+        viewport_to_pointer_y = pointer_y - this.positionY;
+        pointer_to_center_x = viewport_center_x - viewport_to_pointer_x;
+        pointer_to_center_y = viewport_center_x - viewport_to_pointer_y;
+        next_pointer_to_center_x = pointer_to_center_x * delta_zoom;
+        next_pointer_to_center_y = pointer_to_center_y * delta_zoom;
+        next_center_x = pointer_x + next_pointer_to_center_x;
+        next_center_y = pointer_y + next_pointer_to_center_y;
+        this.positionX = next_center_x - (viewport_w * this.zoom / (100 * 2));
+        this.positionY = next_center_y - (viewport_h * this.zoom / (100 * 2));
+        return this._render();
+      },
+      _make_zoom: function(evnt) {
+        var MAX_ZOOM, MIN_ZOOM, delta, initial_zoom;
+        MAX_ZOOM = 400;
+        MIN_ZOOM = 30;
+        initial_zoom = this.zoom;
+        delta = (evnt.wheelDelta || evnt.detail) / 100;
+        if (delta > 0) {
+          this.zoom *= delta;
+          if (this.zoom > MAX_ZOOM) {
+            this.zoom = MAX_ZOOM;
+          }
+        } else if (delta < 0) {
+          this.zoom /= -delta;
+          if (this.zoom < MIN_ZOOM) {
+            this.zoom = MIN_ZOOM;
+          }
+        }
+        if (initial_zoom !== this.zoom) {
+          return this._make_zoom_aux(evnt, initial_zoom);
+        }
+      },
+      bind_mouse: function() {
+        var key, _i, _len, _ref;
+        _ref = ['mousewheel', 'DOMMouseScroll', 'onmousewheel'];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          key = _ref[_i];
+          this.listen(this, key, '_make_zoom');
+        }
+        return this.listen(this.screen, 'mousedown', '_begin_move');
+      },
       ready: function() {
         this.board = this.board || this._generate_empty_rows();
         this.viewport = this.$.viewport;
-        return this._update();
+        this.screen = this.$.screen;
+        this.ruleLeft = this.$.ruleLeft;
+        this.ruleRight = this.$.ruleRight;
+        this.ruleTop = this.$.ruleTop;
+        this.ruleBottom = this.$.ruleBottom;
+        this.bind_mouse();
+        return this._reverse();
       },
       _sanitize_rows: function() {},
+      _reverse: function() {
+        var item, last, rows, _i, _len;
+        this.board = this.board || [];
+        rows = this.board.slice().reverse();
+        last = rows.length - 1;
+        for (_i = 0, _len = rows.length; _i < _len; _i++) {
+          item = rows[_i];
+          item.reverseIndex = last--;
+        }
+        return this.rows = rows;
+      },
+      attached: function() {
+        this.has_been_attached = true;
+        this.zoom = 100;
+        return this._render();
+      },
       _update: function() {
         var row, _i, _len, _ref;
         this.columnsAmount = 0;
-        this.board = this.board || [];
-        _ref = this.board;
+        _ref = this.rows;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           row = _ref[_i];
           if (row.length > this.columnsAmount) {
@@ -148,24 +399,92 @@
           }
         }
         this._sanitize_rows();
-        return this.async(this._resize, 1);
+        return this._render();
       },
-      _resize: function() {
-        var h_fix, movex, movey, parent_h, parent_w, viewport_h, viewport_w, w_fix, zoom;
-        parent_h = this.clientHeight;
-        parent_w = this.clientWidth;
-        viewport_h = this.viewport.clientHeight;
-        viewport_w = this.viewport.clientWidth;
-        h_fix = parent_h / viewport_h;
-        w_fix = parent_w / viewport_w;
-        if (w_fix > h_fix) {
-          zoom = h_fix;
-        } else {
-          zoom = w_fix;
+      _render: function() {
+        var movex, movey, viewport_h, viewport_w, zoom;
+        if (this.has_been_attached) {
+          zoom = this.zoom / 100;
+          console.log(this.zoom);
+          console.log(this.positionX);
+          console.log(this.positionY);
+          viewport_h = this.viewport.clientHeight;
+          viewport_w = this.viewport.clientWidth;
+
+          /* scale fix strategy
+          fix_x = (viewport_w - (viewport_w * zoom)) / 2
+          fix_y = (viewport_h - (viewport_h * zoom)) / 2
+           *cero divided support
+           *cero divided support
+          movey = (@positionY - fix_y) / zoom
+           */
+          movex = (this.positionX - fix_x) / zoom;
+          movex = this.positionX / zoom;
+          movey = this.positionY / zoom;
+          this.viewport.style.transform = "translate3d(" + movex + "px," + movey + "px,0)";
+          this.viewport.style.zoom = zoom;
+          this.ruleTop.style.marginLeft = this.ruleBottom.style.marginLeft = this.positionX + 'px';
+          return this.ruleLeft.style.marginTop = this.ruleRight.style.marginTop = this.positionY + 'px';
         }
-        movey = ((parent_h - viewport_h) / 2) / zoom;
-        movex = ((parent_w - viewport_w) / 2) / zoom;
-        return this.viewport.style.transform = "scale(" + zoom + ") translate3d(" + movex + "px," + movey + "px,0)";
+      },
+      _auto_resize: function() {},
+      _auto_resize2: function() {
+        var h_fix, w_fix, zoom;
+        h_fix = screen_h / viewport_h;
+        w_fix = screen_w / viewport_w;
+        if (w_fix > h_fix) {
+          return zoom = h_fix;
+        } else {
+          return zoom = w_fix;
+        }
+      },
+      _begin_move: function(evnt) {
+        var context, mousemove, mouseup;
+        if (evnt.which !== 1) {
+          return;
+        }
+        evnt.cancelBubble = true;
+        evnt.preventDefault();
+        context = {
+          item: this
+        };
+        mousemove = (function(_this) {
+          return function(evnt) {
+            evnt.cancelBubble = true;
+            evnt.preventDefault();
+            return _this.make_move(context, evnt);
+          };
+        })(this);
+        mouseup = (function(_this) {
+          return function(evnt) {
+            if (evnt.which !== 1) {
+              return;
+            }
+            evnt.cancelBubble = true;
+            evnt.preventDefault();
+            _this.finish_move(context, evnt);
+            window.removeEventListener("mousemove", mousemove);
+            return window.removeEventListener("mouseup", mouseup);
+          };
+        })(this);
+        window.addEventListener("mouseup", mouseup);
+        window.addEventListener("mousemove", mousemove);
+        return this.init_move(context, evnt);
+      },
+      init_move: function(context, evnt) {
+        context.initial_x = this.positionX;
+        context.initial_y = this.positionY;
+        context.initial_mouse_x = evnt.clientX;
+        return context.initial_mouse_y = evnt.clientY;
+      },
+      make_move: function(context, evnt) {
+        this.positionX = context.initial_x + evnt.clientX - context.initial_mouse_x;
+        this.positionY = context.initial_y + evnt.clientY - context.initial_mouse_y;
+        return this._render();
+      },
+      finish_move: function(context, evnt) {},
+      _panel_height_change: function() {
+        return this._auto_resize();
       }
     });
 

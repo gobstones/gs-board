@@ -11,25 +11,3 @@
   }
 }
 
-.gs-row-left,
-.gs-row-right{
-  float: left;
-  height: $cel-height - $cel-index-margin-v;
-  padding-top: $cel-index-margin-v;
-  background-color: #BBB;
-  font-size: 16px;
-}
-
-.gs-row-right{
-  text-align: left;
-  width: $cel-width - $cel-index-margin-v;
-  margin-left: $cel-margin;
-  padding-left: $cel-index-margin-v;
-}
-
-.gs-row-left{
-  width: $cel-width - $cel-index-margin-v;
-  padding-right: $cel-index-margin-v;
-  text-align: right;
-}
-

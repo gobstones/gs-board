@@ -1,0 +1,34 @@
+$json-width: 300px;
+
+
+.tablero-wrap-json,
+.tablero-panels{
+  margin: 0px;
+}
+
+.tablero-panels{
+  width: auto;
+  margin-left: $json-width + 10px; 
+  height: 300px;
+}
+
+.tablero-wrap-json{
+  width: $json-width;
+  height: 300px;
+  float: left;
+}
+
+// .buttons{
+  // float: left;
+  // width: 98%;
+  // padding: 10px 2%;
+  // .btn{
+    // .clean{
+//       
+    // }
+    // .load{
+//       
+    // }
+//     
+  // }
+// }

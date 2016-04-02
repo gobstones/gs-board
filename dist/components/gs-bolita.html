@@ -1,8 +1,13 @@
 <dom-module id="gs-bolita">
   <template>
     <style>
-      .ball {
+      .container {
         margin: 1px;
+        width: 18px;
+        height: 18px;
+        float: left;
+      }
+      .container .ball {
         width: 18px;
         height: 18px;
         display: block;
@@ -10,29 +15,29 @@
         float: left;
         font-weight: bold;
       }
-      .ball.black {
+      .container .ball.black {
         background-color: #111;
         color: #FFF;
       }
-      .ball.blue {
+      .container .ball.blue {
         background-color: #11F;
         color: #FFF;
       }
-      .ball.red {
+      .container .ball.red {
         background-color: #F11;
         color: #FFF;
       }
-      .ball.green {
+      .container .ball.green {
         background-color: #3F3;
         color: #000;
       }
-      .ball.unknow {
+      .container .ball.unknow {
         background-color: #888;
       }
-      .ball * {
+      .container .ball * {
         box-sizing: content-box;
       }
-      .ball .amount {
+      .container .ball .amount {
         cursor: default;
         display: flex;
         font-size: 16px;
@@ -43,9 +48,11 @@
 
     </style>
 
-    <div class$="ball {{color}}">
+    <div class="container" title$="">
       <template is="dom-if" if="{{amount}}">
-        <span class="amount">{{amount}}</span>
+        <div class$="ball {{color}}">
+            <span class="amount">{{amount}}</span>
+        </div>
       </template>
     </div>
   </template>
@@ -62,14 +69,29 @@
           value: 0,
           notify: true,
           observer: '_sanitize_amount'
+        },
+        editable: {
+          type: Object,
+          observer: '_editable_change'
         }
-      },
-      listeners: {
-        tap: '_process_tap',
-        contextmenu: '_right_click'
       },
       ready: function() {
         return this._sanitize_amount();
+      },
+      attached: function() {
+        return this.editable && this._editable_change(true);
+      },
+      detached: function() {
+        return this.editable && this._editable_change(false);
+      },
+      _editable_change: function(value) {
+        if (value) {
+          this.listen(this, 'tap', '_process_tap');
+          return this.listen(this, 'contextmenu', '_right_click');
+        } else {
+          this.unlisten(this, 'tap', '_process_tap');
+          return this.unlisten(this, 'contextmenu', '_right_click');
+        }
       },
       _sanitize_amount: function() {
         if (!(typeof this.amount === 'number' && this.amount >= 0)) {
@@ -77,11 +99,13 @@
         }
       },
       _process_tap: function(evnt) {
-        return this.amount += 1;
+        return this.editable && (this.amount += 1);
       },
       _right_click: function(evnt) {
-        evnt.preventDefault();
-        return this.amount -= 1;
+        if (this.editable) {
+          evnt.preventDefault();
+          return this.amount -= 1;
+        }
       }
     });
 

@@ -13,31 +13,8 @@
         box-sizing: content-box;
       }
 
-      .gs-row-left,
-      .gs-row-right {
-        float: left;
-        height: 30px;
-        padding-top: 10px;
-        background-color: #BBB;
-        font-size: 16px;
-      }
-
-      .gs-row-right {
-        text-align: left;
-        width: 30px;
-        margin-left: 4px;
-        padding-left: 10px;
-      }
-
-      .gs-row-left {
-        width: 30px;
-        padding-right: 10px;
-        text-align: right;
-      }
-
     </style>
 
-    <div class="gs-row-left">{{rowIndex}}</div>
     <template is="dom-repeat" items="{{row}}" as="cell" index-as="columnIndex">
       <gs-celda 
         cell="{{cell}}"
@@ -45,9 +22,10 @@
         rows-amount="{{rowsAmount}}"
         column-index="{{columnIndex}}"
         columns-amount="{{columnsAmount}}"
+        editable="{{editable}}"
       ></gs-celda>
     </template>
-    <div class="gs-row-right">{{rowIndex}}</div>
+
   </template>
   <script>
     Polymer({

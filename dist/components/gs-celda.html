@@ -13,16 +13,16 @@
         background-color: #BDB76B;
       }
       :host .gs-cel.first-row.first-column {
-        border-top-left-radius: 10px;
-      }
-      :host .gs-cel.first-row.last-column {
-        border-top-right-radius: 10px;
-      }
-      :host .gs-cel.last-row.first-column {
         border-bottom-left-radius: 10px;
       }
-      :host .gs-cel.last-row.last-column {
+      :host .gs-cel.first-row.last-column {
         border-bottom-right-radius: 10px;
+      }
+      :host .gs-cel.last-row.first-column {
+        border-top-left-radius: 10px;
+      }
+      :host .gs-cel.last-row.last-column {
+        border-top-right-radius: 10px;
       }
       :host * {
         box-sizing: content-box;
@@ -31,10 +31,10 @@
     </style>
 
     <div class$="gs-cel {{customClass}}" title="{{computedTitle}}">
-      <gs-bolita color="black" amount="{{cell.negro}}"></gs-bolita>
-      <gs-bolita color="blue"  amount="{{cell.azul}}" ></gs-bolita>
-      <gs-bolita color="green" amount="{{cell.verde}}"></gs-bolita>
-      <gs-bolita color="red"   amount="{{cell.rojo}}" ></gs-bolita>
+      <gs-bolita editable="{{editable}}" color="black" amount="{{cell.negro}}"></gs-bolita>
+      <gs-bolita editable="{{editable}}" color="blue"  amount="{{cell.azul}}" ></gs-bolita>
+      <gs-bolita editable="{{editable}}" color="green" amount="{{cell.verde}}"></gs-bolita>
+      <gs-bolita editable="{{editable}}" color="red"   amount="{{cell.rojo}}" ></gs-bolita>
     </div>
   </template>
   <script>

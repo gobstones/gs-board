@@ -1,44 +1,48 @@
 @import '../../common/style';
 
 :host{
-  
 }
-.ball{
+.container{
   margin: $ball-margin;
   width: $ball-size;
   height: $ball-size;
-  display: block;
-  border-radius: $ball-size / 2;
   float: left;
-  font-weight: bold;
-  &.black{
-    background-color: #111;
-    color: #FFF;
-  }
-  &.blue{
-    background-color: #11F;
-    color: #FFF;
-  }
-  &.red{
-    background-color: #F11;
-    color: #FFF;
-  }
-  &.green{
-    background-color: #3F3;
-    color: #000;
-  }
-  &.unknow{
-    background-color: #888;
-  }
-  *{
-    box-sizing: content-box;
-  }
-  .amount{
-    cursor: default;
-    display: flex;
-    font-size: 16px;
-    line-height: 18px;
-    justify-content: center;
-    align-items: center;
+  .ball{
+    width: $ball-size;
+    height: $ball-size;
+    display: block;
+    border-radius: $ball-size / 2;
+    float: left;
+    font-weight: bold;
+    &.black{
+      background-color: #111;
+      color: #FFF;
+    }
+    &.blue{
+      background-color: #11F;
+      color: #FFF;
+    }
+    &.red{
+      background-color: #F11;
+      color: #FFF;
+    }
+    &.green{
+      background-color: #3F3;
+      color: #000;
+    }
+    &.unknow{
+      background-color: #888;
+    }
+    *{
+      box-sizing: content-box;
+    }
+    .amount{
+      cursor: default;
+      display: flex;
+      font-size: 16px;
+      line-height: 18px;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

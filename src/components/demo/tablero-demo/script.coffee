@@ -32,6 +32,30 @@ Polymer
       
   listeners: 
     'jsoneditor.change': '_json_change'
+    
+  AFTER:  'AFTER'
+  BEFORE: 'BEFORE'
+  IDE:    'IDE'
+    
+  ready:->
+    @panels = @$.gsPanels
+    @after = @create_board(true)
+    @before = @create_board(false)
+    
+  attached: ->
+    @panels.add_horizontal @IDE
+    @panels.add @after,
+      id: @AFTER
+      into: @IDE
+    @panels.add @before,
+      id: @BEFORE
+      into: @IDE
+  
+  create_board: (editable) ->
+    element = document.createElement 'gs-tablero'
+    element.board = @model.tablero
+    element.editable = editable
+    element
   
   _json_change: ()->
     @async @_force_render, 0
