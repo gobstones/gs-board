@@ -1,48 +1,67 @@
 @import '../../common/style';
 
 :host{
-}
-.container{
-  margin: $ball-margin;
-  width: $ball-size;
-  height: $ball-size;
-  float: left;
-  .ball{
+  .container{
+    margin: $ball-margin;
     width: $ball-size;
     height: $ball-size;
-    display: block;
-    border-radius: $ball-size / 2;
     float: left;
-    font-weight: bold;
-    &.black{
-      background-color: #111;
-      color: #FFF;
+    .ball{
+      width: $ball-size;
+      height: $ball-size;
+      display: block;
+      border-radius: $ball-size / 2;
+      float: left;
+      font-weight: bold;
+      
+      background-size: 100% 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      
+      &.negro{
+        background-image: url("../assets/bolita/black.png");
+        background-color: #111;
+        color: #FFF;
+      }
+      &.azul{
+        background-image: url("../assets/bolita/blue.png");
+        background-color: #11F;
+        color: #FFF;
+      }
+      &.rojo{
+        background-image: url("../assets/bolita/red.png");
+        background-color: #F11;
+        color: #FFF;
+      }
+      &.verde{
+        background-image: url("../assets/bolita/green.png");
+        background-color: #014F00;
+        color: #FFF;
+      }
+      &.unknow{
+        background-color: #888;
+      }
+      *{
+        box-sizing: content-box;
+      }
+      .amount{
+        cursor: default;
+        display: flex;
+        font-size: 16px;
+        line-height: 18px;
+        justify-content: center;
+        align-items: center;
+      }
     }
-    &.blue{
-      background-color: #11F;
-      color: #FFF;
-    }
-    &.red{
-      background-color: #F11;
-      color: #FFF;
-    }
-    &.green{
-      background-color: #3F3;
-      color: #000;
-    }
-    &.unknow{
-      background-color: #888;
-    }
-    *{
-      box-sizing: content-box;
-    }
-    .amount{
-      cursor: default;
-      display: flex;
-      font-size: 16px;
-      line-height: 18px;
-      justify-content: center;
-      align-items: center;
+  }
+  &.two-digits{
+    .container{
+      .ball{
+        .amount{
+          font-size: 12px;
+          line-height: 18px;
+        }
+      }
     }
   }
 }

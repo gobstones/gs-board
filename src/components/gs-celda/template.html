@@ -1,6 +1,11 @@
-<div class$="gs-cel {{customClass}}" title="{{computedTitle}}">
-  <gs-bolita editable="{{editable}}" color="black" amount="{{cell.negro}}"></gs-bolita>
-  <gs-bolita editable="{{editable}}" color="blue"  amount="{{cell.azul}}" ></gs-bolita>
-  <gs-bolita editable="{{editable}}" color="green" amount="{{cell.verde}}"></gs-bolita>
-  <gs-bolita editable="{{editable}}" color="red"   amount="{{cell.rojo}}" ></gs-bolita>
+<div class$="gs-cel {{customClass}}" title="{{cellTitle}}">
+  <template is="dom-repeat" items="{{colors}}" as="color">
+    <gs-bolita 
+      color="{{color}}" 
+      row-index="{{rowIndex}}"
+      column-index="{{columnIndex}}"
+      editable="{{editable}}" 
+      cell="{{cell}}"
+      ></gs-bolita>
+  </template>
 </div>

@@ -1,35 +1,31 @@
 <link rel="import" href="gs-fila.html">
 <link rel="import" href="rule/gs-h-rule-index.html">
 <link rel="import" href="rule/gs-v-rule-index.html">
+<link rel="import" href="../../../gs-common/dist/components/dom-iterate.html">
+<link rel="import" href="../../../iron-icon/iron-icon.html">
+<link rel="import" href="../../../iron-icons/iron-icons.html">
+<link rel="import" href="../../../paper-item/paper-item.html">
+<link rel="import" href="../../../paper-menu/paper-menu.html">
+<link rel="import" href="../../../paper-button/paper-button.html">
+<link rel="import" href="../../../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../paper-menu-button/paper-menu-button.html">
 <dom-module id="gs-tablero">
   <template>
     <style>
-      .old-host {
-        background-color: white;
-        display: block;
-        overflow: hidden;
-        overflow-y: hidden;
-        overflow-x: hidden;
-        font-size: 0;
-      }
-      .old-host * {
-        box-sizing: content-box;
-      }
-
       :host {
         display: block;
         overflow: hidden;
         height: 100%;
         width: 100%;
         position: relative;
-        background-color: #FFF;
+        background-color: white;
+        background-image: url("../assets/background-widget.png");
       }
       :host > .top,
       :host > .bottom {
         display: block;
         height: 30px;
         width: 100%;
-        background-color: #555;
         position: absolute;
       }
       :host > .top > .center,
@@ -41,7 +37,7 @@
         padding-right: 60px;
         box-sizing: border-box;
         height: 30px;
-        background-color: green;
+        background-color: #cee9f2;
         overflow: hidden;
       }
       :host > .top > .left,
@@ -51,9 +47,10 @@
         top: 0;
         height: 30px;
         width: 30px;
-        background-color: #333;
+        background-color: #FFF;
         color: white;
         position: absolute;
+        background-color: #d9f5ff;
       }
       :host > .top > .left,
       :host > .bottom > .left {
@@ -73,7 +70,6 @@
         height: 100%;
         padding: 30px;
         box-sizing: border-box;
-        background-color: transparent;
       }
       :host > .center > .left,
       :host > .center > .right {
@@ -82,7 +78,7 @@
         padding-bottom: 60px;
         height: 100%;
         position: absolute;
-        background-color: #555;
+        background-color: #cee9f2;
       }
       :host > .center > .left {
         left: 0;
@@ -93,76 +89,100 @@
       :host > .center > .content {
         height: 100%;
         width: 100%;
-        background-color: transparent;
         overflow: hidden;
       }
       :host > .center > .content > .viewport {
         display: inline-block;
       }
-
-      .row-index-left,
-      .row-index-right {
+      :host #ruleTop,
+      :host #ruleBottom {
+        display: inline-flex;
+      }
+      :host .column-index-bottom,
+      :host .column-index-top,
+      :host .row-index-left,
+      :host .row-index-right {
+        font-size: 16px;
+        background-color: white;
+        display: block;
+      }
+      :host .row-index-left,
+      :host .row-index-right {
+        overflow: hidden;
         box-sizing: content-box;
         height: 30px;
         padding-top: 10px;
-        background-color: #BBB;
-        font-size: 16px;
         margin-top: 4px;
+        width: 17px;
       }
-
-      .row-index-right {
+      :host .row-index-right {
         float: left;
+        margin-left: 2px;
         text-align: left;
-        width: 30px;
         padding-left: 10px;
       }
-
-      .row-index-left {
+      :host .row-index-left {
         float: right;
-        width: 30px;
+        margin-right: 2px;
         padding-right: 10px;
         text-align: right;
       }
-
-      .footer-row,
-      .header-row {
-        display: inline-flex;
-        height: 40px;
-      }
-
-      .compass-top-right,
-      .empty-top-left,
-      .empty-bottom-left,
-      .column-index-bottom,
-      .column-index-top {
-        display: inline-flex;
+      :host .column-index-bottom,
+      :host .column-index-top {
         float: left;
         width: 40px;
-        height: 40px;
-        background-color: #BBB;
-      }
-
-      .column-index-bottom,
-      .column-index-top {
+        height: 27px;
         margin-left: 4px;
-      }
-
-      .column-index-bottom {
-        align-items: flex-start;
-        padding-top: 7px;
-      }
-
-      .column-index-top {
-        align-items: flex-end;
-        padding-bottom: 7px;
-      }
-
-      .column-index-bottom,
-      .column-index-top {
-        display: flex;
-        font-size: 16px;
         justify-content: center;
-        height: 33px;
+        display: flex;
+      }
+      :host .column-index-bottom {
+        align-items: flex-start;
+        padding-top: 2px;
+        margin-top: 2px;
+      }
+      :host .column-index-top {
+        align-items: flex-end;
+        padding-bottom: 1px;
+        margin-top: 1px;
+      }
+      :host .compass {
+        background-image: url("../assets/compass.png");
+        background-size: 80% 80%;
+        background-position: center center;
+        background-repeat: no-repeat;
+        transition: all .2s ease-in-out;
+      }
+      :host .compass:hover {
+        border-left: 1px solid #cee9f2;
+        border-bottom: 1px solid #cee9f2;
+        transform: scale(3) translate(-33%, 33%);
+      }
+
+      .options {
+        color: #BDB76B;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+      }
+      .options paper-button {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        padding: 0;
+        min-width: 0;
+        margin: 0;
+        box-shadow: none;
+      }
+      .options paper-button iron-icon {
+        margin: 10%;
+        width: 80%;
+        height: 80%;
+      }
+      .options paper-button iron-icon:hover {
+        margin: 0;
+        width: 100%;
+        height: 100%;
       }
 
     </style>
@@ -170,7 +190,7 @@
     <div class="center">
       <div class="left">
         <div id="ruleLeft">
-          <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+          <template is="dom-iterate" from="{{lastIndex}}" to="0" include-last="true" index-as="rowIndex">
             <gs-v-rule-index
               class="row-index-left" 
               rule-index="{{rowIndex}}"
@@ -187,7 +207,7 @@
               row="{{row}}" 
               row-index="{{row.reverseIndex}}"
               rows-amount="{{rows.length}}"
-              columns-amount="{{columnsAmount}}"
+              column-amount="{{columnAmount}}"
               editable="{{editable}}"
             >
             </gs-fila>
@@ -196,7 +216,7 @@
       </div>
       <div class="right">
         <div id="ruleRight">
-          <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+          <template is="dom-iterate" from="{{lastIndex}}" to="0" include-last="true" index-as="rowIndex">
             <gs-v-rule-index
               class="row-index-right" 
               rule-index="{{rowIndex}}"
@@ -209,10 +229,21 @@
     </div>
 
     <div class="top">
-      <div class="left"></div>
+      <div class="left">
+        <paper-menu-button class="options">
+          <paper-button class="dropdown-trigger" raised>
+            <iron-icon icon="menu"></iron-icon>
+          </paper-button>
+          <paper-menu class="dropdown-content">
+            <paper-item>centrar tablero</paper-item>
+            <paper-item>guardar como</paper-item>
+            <paper-item>...</paper-item>
+          </paper-menu>
+        </paper-menu-button>
+      </div>
       <div class="center">
         <div id="ruleTop">
-          <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+          <template is="dom-iterate" from="0" to="{{columnAmount}}" include-last="false" index-as="columnIndex">
             <gs-h-rule-index
               class="column-index-top" 
               rule-index="{{columnIndex}}"
@@ -222,13 +253,13 @@
           </template>
         </div>
       </div>
-      <div class="right">N</div>
+      <div class="right compass"></div>
     </div>
     <div class="bottom">
       <div class="left"></div>
       <div class="center">
         <div id="ruleBottom">
-          <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+          <template is="dom-iterate" from="0" to="{{columnAmount}}" include-last="false" index-as="columnIndex">
             <gs-h-rule-index
               class="column-index-bottom" 
               rule-index="{{columnIndex}}"
@@ -253,9 +284,11 @@
           type: Array,
           observer: '_update'
         },
-        columnsAmount: {
-          type: String,
-          value: 0
+        columnAmount: {
+          type: Number
+        },
+        lastIndex: {
+          type: Number
         },
         editable: {
           type: Object,
@@ -297,8 +330,8 @@
       get_screen_pos: function() {
         var current, pos;
         pos = {
-          x: 0,
-          y: 0
+          x: -window.scrollX,
+          y: -window.scrollY
         };
         current = this.screen;
         while (current) {
@@ -321,7 +354,7 @@
         viewport_to_pointer_x = pointer_x - this.positionX;
         viewport_to_pointer_y = pointer_y - this.positionY;
         pointer_to_center_x = viewport_center_x - viewport_to_pointer_x;
-        pointer_to_center_y = viewport_center_x - viewport_to_pointer_y;
+        pointer_to_center_y = viewport_center_y - viewport_to_pointer_y;
         next_pointer_to_center_x = pointer_to_center_x * delta_zoom;
         next_pointer_to_center_y = pointer_to_center_y * delta_zoom;
         next_center_x = pointer_x + next_pointer_to_center_x;
@@ -330,19 +363,33 @@
         this.positionY = next_center_y - (viewport_h * this.zoom / (100 * 2));
         return this._render();
       },
+      normalize_delta: function(evnt) {
+        var spin_y;
+        spin_y = 0;
+        if ('wheelDelta' in evnt) {
+          spin_y = -evnt.wheelDelta / 120;
+        } else if ('wheelDeltaY' in evnt) {
+          spin_y = -evnt.wheelDeltaY / 120;
+        } else if ('detail' in evnt) {
+          spin_y = evnt.detail / 3;
+        }
+        return spin_y;
+      },
       _make_zoom: function(evnt) {
-        var MAX_ZOOM, MIN_ZOOM, delta, initial_zoom;
+        var MAX_ZOOM, MIN_ZOOM, ZOOM_DELTA, delta, initial_zoom;
+        evnt.preventDefault();
         MAX_ZOOM = 400;
-        MIN_ZOOM = 30;
+        MIN_ZOOM = 35;
+        ZOOM_DELTA = 1.2;
         initial_zoom = this.zoom;
-        delta = (evnt.wheelDelta || evnt.detail) / 100;
-        if (delta > 0) {
-          this.zoom *= delta;
+        delta = this.normalize_delta(evnt);
+        if (delta < 0) {
+          this.zoom *= -delta * ZOOM_DELTA;
           if (this.zoom > MAX_ZOOM) {
             this.zoom = MAX_ZOOM;
           }
-        } else if (delta < 0) {
-          this.zoom /= -delta;
+        } else if (delta > 0) {
+          this.zoom /= delta * ZOOM_DELTA;
           if (this.zoom < MIN_ZOOM) {
             this.zoom = MIN_ZOOM;
           }
@@ -381,7 +428,7 @@
           item = rows[_i];
           item.reverseIndex = last--;
         }
-        return this.rows = rows;
+        return this.set('rows', rows);
       },
       attached: function() {
         this.has_been_attached = true;
@@ -390,51 +437,38 @@
       },
       _update: function() {
         var row, _i, _len, _ref;
-        this.columnsAmount = 0;
+        this.columnAmount = 0;
         _ref = this.rows;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           row = _ref[_i];
-          if (row.length > this.columnsAmount) {
-            this.columnsAmount = row.length;
+          if (row.length > this.columnAmount) {
+            this.columnAmount = row.length;
           }
         }
+        this.lastIndex = this.rows.length - 1;
         this._sanitize_rows();
         return this._render();
       },
       _render: function() {
-        var movex, movey, viewport_h, viewport_w, zoom;
+        var fix_x, fix_y, movex, movey, viewport_h, viewport_w, zoom;
         if (this.has_been_attached) {
           zoom = this.zoom / 100;
-          console.log(this.zoom);
-          console.log(this.positionX);
-          console.log(this.positionY);
-          viewport_h = this.viewport.clientHeight;
-          viewport_w = this.viewport.clientWidth;
-
-          /* scale fix strategy
-          fix_x = (viewport_w - (viewport_w * zoom)) / 2
-          fix_y = (viewport_h - (viewport_h * zoom)) / 2
-           *cero divided support
-          movex = (@positionX - fix_x) / zoom
-          movey = (@positionY - fix_y) / zoom
-           */
-          movex = this.positionX / zoom;
-          movey = this.positionY / zoom;
-          this.viewport.style.transform = "translate3d(" + movex + "px," + movey + "px,0)";
-          this.viewport.style.zoom = zoom;
+          if (!!window.chrome && !!window.chrome.webstore) {
+            movex = this.positionX / zoom;
+            movey = this.positionY / zoom;
+            this.viewport.style.transform = "translate3d(" + movex + "px," + movey + "px,0)";
+            this.viewport.style.zoom = zoom;
+          } else {
+            viewport_h = this.viewport.clientHeight;
+            viewport_w = this.viewport.clientWidth;
+            fix_x = (viewport_w - (viewport_w * zoom)) / 2;
+            fix_y = (viewport_h - (viewport_h * zoom)) / 2;
+            movex = (this.positionX - fix_x) / zoom;
+            movey = (this.positionY - fix_y) / zoom;
+            this.viewport.style.transform = "scale(" + zoom + ") translate3d(" + movex + "px," + movey + "px,0)";
+          }
           this.ruleTop.style.marginLeft = this.ruleBottom.style.marginLeft = this.positionX + 'px';
           return this.ruleLeft.style.marginTop = this.ruleRight.style.marginTop = this.positionY + 'px';
-        }
-      },
-      _auto_resize: function() {},
-      _auto_resize2: function() {
-        var h_fix, w_fix, zoom;
-        h_fix = screen_h / viewport_h;
-        w_fix = screen_w / viewport_w;
-        if (w_fix > h_fix) {
-          return zoom = h_fix;
-        } else {
-          return zoom = w_fix;
         }
       },
       _begin_move: function(evnt) {
@@ -482,9 +516,7 @@
         return this._render();
       },
       finish_move: function(context, evnt) {},
-      _panel_height_change: function() {
-        return this._auto_resize();
-      }
+      _panel_height_change: function() {}
     });
 
   </script>

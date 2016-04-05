@@ -21,7 +21,7 @@
         row-index="{{rowIndex}}" 
         rows-amount="{{rowsAmount}}"
         column-index="{{columnIndex}}"
-        columns-amount="{{columnsAmount}}"
+        column-amount="{{columnAmount}}"
         editable="{{editable}}"
       ></gs-celda>
     </template>
@@ -31,13 +31,29 @@
     Polymer({
       is: 'gs-fila',
       properties: {
+        cell: {
+          type: Object
+        },
         row: {
           type: Array,
-          value: [],
-          observer: '_row_change'
+          value: []
+        },
+        columnAmount: {
+          type: Number
+        },
+        rowIndex: {
+          type: Number
+        },
+        rowsAmount: {
+          type: Number
+        },
+        columnIndex: {
+          type: Number
+        },
+        columnAmount: {
+          type: Number
         }
-      },
-      _row_change: function() {}
+      }
     });
 
   </script>

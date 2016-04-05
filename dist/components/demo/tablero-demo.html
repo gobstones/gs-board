@@ -1,22 +1,50 @@
+<link rel="import" href="../../../dist/components/gs-tablero.html">
 <link rel="import" href="../../../../gs-panels/dist/components/gs-panel-root.html">
+<link rel="import" href="../../../../iron-icon/iron-icon.html">
+<link rel="import" href="../../../../iron-input/iron-input.html">
+<link rel="import" href="../../../../juicy-jsoneditor/src/juicy-jsoneditor.html">
 <dom-module id="tablero-demo">
   <template>
     <style>
-      .tablero-wrap-json,
-      .tablero-panels {
+      .workbench {
+        width: 100%;
+        float: left;
+      }
+      .workbench .tablero-wrap-json,
+      .workbench .tablero-panels {
         margin: 0px;
       }
-
-      .tablero-panels {
+      .workbench .tablero-panels {
         width: auto;
         margin-left: 310px;
         height: 300px;
       }
-
-      .tablero-wrap-json {
+      .workbench .tablero-wrap-json {
         width: 300px;
         height: 300px;
         float: left;
+      }
+
+      .buttons {
+        float: left;
+        width: 98%;
+        padding: 0px 2% 10px 2%;
+      }
+      .buttons .pull-right {
+        float: right;
+        margin-left: 4px;
+      }
+      .buttons .btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 5px;
+        cursor: pointer;
       }
 
     </style>
@@ -24,30 +52,27 @@
 
         
 
-
-    <!--
     <div class="buttons">
-      <button id="clean" class="btn clean">Clean</button>
-      <button id="load" class="btn load">Load</button>
+      <span>columnas: </span><input is="iron-input" bind-value="{{columns}}" />
+      <span>filas: </span><input is="iron-input" bind-value="{{rows}}"/>
+      <button on-click="resize_board" class="btn">Establecer dimenciones</button><br />
+      
+      <button on-click="json_to_edit" class="btn">Json &gt;&gt; editable</button>
+      <button on-click="edit_to_json" class="btn">Json &lt;&lt; editable</button>
+      <button class="btn pull-right">Editable &lt;&lt; estático</button>
+      <button class="btn pull-right">Editable &gt;&gt; estático</button>
     </div>
-    <div class="tablero-wrap-before">
-      <gs-tablero style="width: 400px; height: 300px;" board="{{model.tablero}}"></gs-tablero>
-    </div>
-    <div class="tablero-wrap-after">
-      <gs-tablero style=" width: 350px; height: 400px;" board="{{model.tablero}}"></gs-tablero>
-    </div>
-    -->
-
-
-    <div class="tablero-wrap-json">
-      <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
-    </div>
-    <div class="tablero-panels">
-      <gs-panel-root id="gsPanels" root-height="400"></gs-panel-root>
+    <div class="workbench">
+      <div class="tablero-wrap-json">
+        <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
+      </div>
+      <div class="tablero-panels">
+        <gs-panel-root id="gsPanels" root-height="400"></gs-panel-root>
+      </div>
     </div>
   </template>
   <script>
-    var model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+    var deepCopy, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
 
     vacio0 = function() {
       return {};
@@ -78,62 +103,118 @@
       };
     };
 
-    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]];
+    tablero_inicial = function() {
+      return [[verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]];
+    };
 
-    model = {
-      tablero: tablero_inicial
+    deepCopy = function(obj) {
+      var rv;
+      rv = void 0;
+      switch (typeof obj) {
+        case 'object':
+          if (obj === null) {
+            rv = null;
+          } else {
+            switch (toString.call(obj)) {
+              case '[object Array]':
+                rv = obj.map(deepCopy);
+                break;
+              case '[object Date]':
+                rv = new Date(obj);
+                break;
+              case '[object RegExp]':
+                rv = new RegExp(obj);
+                break;
+              default:
+                rv = Object.keys(obj).reduce((function(prev, key) {
+                  prev[key] = deepCopy(obj[key]);
+                  return prev;
+                }), {});
+                break;
+            }
+          }
+          break;
+        default:
+          rv = obj;
+          break;
+      }
+      return rv;
     };
 
     Polymer({
       is: 'tablero-demo',
       properties: {
-        model: {
-          type: Object,
-          value: model
-        },
         jsonModel: {
           type: Object,
-          value: model
+          value: tablero_inicial()
+        },
+        rows: {
+          type: Number
+        },
+        columns: {
+          type: Number
         }
-      },
-      listeners: {
-        'jsoneditor.change': '_json_change'
       },
       AFTER: 'AFTER',
       BEFORE: 'BEFORE',
       IDE: 'IDE',
       ready: function() {
         this.panels = this.$.gsPanels;
-        this.after = this.create_board(true);
-        return this.before = this.create_board(false);
+        this.before = this.create_board(true);
+        return this.after = this.create_board(false);
       },
       attached: function() {
         this.panels.add_horizontal(this.IDE);
-        this.panels.add(this.after, {
-          id: this.AFTER,
+        this.panels.add(this.before, {
+          id: this.BEFORE,
           into: this.IDE
         });
-        return this.panels.add(this.before, {
-          id: this.BEFORE,
+        return this.panels.add(this.after, {
+          id: this.AFTER,
           into: this.IDE
         });
       },
       create_board: function(editable) {
         var element;
         element = document.createElement('gs-tablero');
-        element.board = this.model.tablero;
+        element.board = tablero_inicial();
         element.editable = editable;
         return element;
       },
-      _json_change: function() {
-        return this.async(this._force_render, 0);
+      edit_to_json: function() {
+        return this.jsonModel = deepCopy(this.before.board);
       },
-      _force_render: function() {
-        this.model = {};
-        return this.async(this._set_model, 0);
+      json_to_edit: function() {
+        return this.before.board = deepCopy(this.jsonModel);
       },
-      _set_model: function() {
-        return this.model = model;
+      resize_board: function() {
+        var board, index, row, _, _i, _j, _k, _len, _ref, _ref1, _ref2, _ref3;
+        board = deepCopy(this.before.board);
+        if (board.length < this.rows) {
+          for (index = _i = _ref = board.length, _ref1 = this.rows; _ref <= _ref1 ? _i < _ref1 : _i > _ref1; index = _ref <= _ref1 ? ++_i : --_i) {
+            board.push((function() {
+              var _j, _ref2, _results;
+              _results = [];
+              for (_ = _j = 0, _ref2 = this.columns.length; 0 <= _ref2 ? _j < _ref2 : _j > _ref2; _ = 0 <= _ref2 ? ++_j : --_j) {
+                _results.push({});
+              }
+              return _results;
+            }).call(this));
+          }
+        } else {
+          board.length = this.rows;
+        }
+        for (_j = 0, _len = board.length; _j < _len; _j++) {
+          row = board[_j];
+          if (row.length < this.columns) {
+            for (index = _k = _ref2 = row.length, _ref3 = this.columns; _ref2 <= _ref3 ? _k < _ref3 : _k > _ref3; index = _ref2 <= _ref3 ? ++_k : --_k) {
+              row.push({});
+            }
+          } else {
+            row.length = this.columns;
+          }
+        }
+        return this.before.board = board;
       }
     });
 

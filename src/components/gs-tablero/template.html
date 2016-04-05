@@ -1,7 +1,7 @@
 <div class="center">
   <div class="left">
     <div id="ruleLeft">
-      <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+      <template is="dom-iterate" from="{{lastIndex}}" to="0" include-last="true" index-as="rowIndex">
         <gs-v-rule-index
           class="row-index-left" 
           rule-index="{{rowIndex}}"
@@ -18,7 +18,7 @@
           row="{{row}}" 
           row-index="{{row.reverseIndex}}"
           rows-amount="{{rows.length}}"
-          columns-amount="{{columnsAmount}}"
+          column-amount="{{columnAmount}}"
           editable="{{editable}}"
         >
         </gs-fila>
@@ -27,7 +27,7 @@
   </div>
   <div class="right">
     <div id="ruleRight">
-      <template is="dom-iterate" from="0" to="{{rows.length}}" include-last="false" index-as="rowIndex">
+      <template is="dom-iterate" from="{{lastIndex}}" to="0" include-last="true" index-as="rowIndex">
         <gs-v-rule-index
           class="row-index-right" 
           rule-index="{{rowIndex}}"
@@ -40,10 +40,21 @@
 </div>
 
 <div class="top">
-  <div class="left"></div>
+  <div class="left">
+    <paper-menu-button class="options">
+      <paper-button class="dropdown-trigger" raised>
+        <iron-icon icon="menu"></iron-icon>
+      </paper-button>
+      <paper-menu class="dropdown-content">
+        <paper-item>centrar tablero</paper-item>
+        <paper-item>guardar como</paper-item>
+        <paper-item>...</paper-item>
+      </paper-menu>
+    </paper-menu-button>
+  </div>
   <div class="center">
     <div id="ruleTop">
-      <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+      <template is="dom-iterate" from="0" to="{{columnAmount}}" include-last="false" index-as="columnIndex">
         <gs-h-rule-index
           class="column-index-top" 
           rule-index="{{columnIndex}}"
@@ -53,13 +64,13 @@
       </template>
     </div>
   </div>
-  <div class="right">N</div>
+  <div class="right compass"></div>
 </div>
 <div class="bottom">
   <div class="left"></div>
   <div class="center">
     <div id="ruleBottom">
-      <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="false" index-as="columnIndex">
+      <template is="dom-iterate" from="0" to="{{columnAmount}}" include-last="false" index-as="columnIndex">
         <gs-h-rule-index
           class="column-index-bottom" 
           rule-index="{{columnIndex}}"

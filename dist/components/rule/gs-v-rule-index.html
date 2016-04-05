@@ -20,13 +20,17 @@
         return this._render();
       },
       _render: function() {
-        var initial_height, nextHeight, paddingTop;
+        var indexZoom, initial_height, nextHeight, paddingTop;
         if (this.originals) {
           initial_height = this.originals.height + this.originals.paddingTop;
           nextHeight = initial_height * this.zoom / 100;
           paddingTop = (nextHeight - this.originals.indexHeight) / 2;
           if (paddingTop < 0) {
+            indexZoom = nextHeight / (this.$.ruleIndex.clientHeight + paddingTop);
+            this.$.ruleIndex.style.zoom = indexZoom;
             paddingTop = 0;
+          } else {
+            this.$.ruleIndex.style.zoom = 1;
           }
           this.style.height = (nextHeight - paddingTop) + 'px';
           this.style.paddingTop = paddingTop + 'px';

@@ -2,27 +2,22 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
   
   properties:
-    
     board:
       type: Array
       observer: '_reverse'
-      
     rows:
       type: Array
       observer: '_update'
-      
-    columnsAmount:
-      type: String
-      value: 0
-      
+    columnAmount:
+      type: Number
+    lastIndex:
+      type: Number
     editable:
       type: Object
       value: false
-    
     panelHeight:
       type: Number
       observer: '_panel_height_change'
-      
     positionX:
         type: Number
         value: 0
@@ -40,7 +35,7 @@ Polymer
     @_generate_empty_row() for _ in [0...8]
     
   get_screen_pos:->
-    pos = x:0,y:0
+    pos = x:-window.scrollX,y:-window.scrollY
     current = @screen
     while current
       pos.x += current.offsetLeft
@@ -62,7 +57,7 @@ Polymer
     viewport_to_pointer_y = pointer_y - @positionY
     
     pointer_to_center_x = viewport_center_x - viewport_to_pointer_x
-    pointer_to_center_y = viewport_center_x - viewport_to_pointer_y 
+    pointer_to_center_y = viewport_center_y - viewport_to_pointer_y 
     
     next_pointer_to_center_x = pointer_to_center_x * delta_zoom
     next_pointer_to_center_y = pointer_to_center_y * delta_zoom
@@ -75,23 +70,31 @@ Polymer
     
     @_render()
     
+  normalize_delta: (evnt)->
+    spin_y = 0
+    if 'wheelDelta' of evnt
+      spin_y = -evnt.wheelDelta / 120
+    else if 'wheelDeltaY' of evnt
+      spin_y = -evnt.wheelDeltaY / 120
+    else if 'detail' of evnt
+      spin_y = evnt.detail / 3
+    spin_y
+    
   _make_zoom: (evnt)->
+    evnt.preventDefault()
     MAX_ZOOM = 400
-    MIN_ZOOM = 30
+    MIN_ZOOM = 35
+    ZOOM_DELTA = 1.2
     initial_zoom = @zoom
-    delta = (evnt.wheelDelta or evnt.detail) / 100
-    if delta > 0
-      @zoom *= delta
+    delta = @normalize_delta evnt
+    if delta < 0
+      @zoom *= -delta * ZOOM_DELTA
       if @zoom > MAX_ZOOM then @zoom = MAX_ZOOM
-    else if delta < 0
-      @zoom /= -delta
+    else if delta > 0
+      @zoom /= (delta * ZOOM_DELTA)
       if @zoom < MIN_ZOOM then @zoom = MIN_ZOOM
     if initial_zoom isnt @zoom
       @_make_zoom_aux evnt, initial_zoom
-      
-      
-      
-      
     
   bind_mouse:->
     for key in ['mousewheel','DOMMouseScroll','onmousewheel']
@@ -119,7 +122,7 @@ Polymer
     for item in rows
       item.reverseIndex = last--
     #trigger efects over @rows
-    @rows = rows
+    @set 'rows', rows
 
   attached:->
     @has_been_attached = true
@@ -127,53 +130,37 @@ Polymer
     @_render()
 
   _update: ->
-    @columnsAmount = 0
+    @columnAmount = 0
     for row in @rows
-      if row.length > @columnsAmount
-        @columnsAmount = row.length
+      if row.length > @columnAmount
+        @columnAmount = row.length
+    @lastIndex = @rows.length - 1
     @_sanitize_rows()
     @_render()
 
   _render:->
     if @has_been_attached
       zoom = @zoom / 100
-      console.log @zoom
-      console.log @positionX
-      console.log @positionY
-      viewport_h = @viewport.clientHeight
-      viewport_w = @viewport.clientWidth
-      
-      
-      ### scale fix strategy
-      fix_x = (viewport_w - (viewport_w * zoom)) / 2
-      fix_y = (viewport_h - (viewport_h * zoom)) / 2
-      #cero divided support
-      movex = (@positionX - fix_x) / zoom
-      movey = (@positionY - fix_y) / zoom
-      ###
-      
-      #cero divided support
-      movex = @positionX / zoom
-      movey = @positionY / zoom
-      
-      @viewport.style.transform = "translate3d(#{movex}px,#{movey}px,0)"
-      @viewport.style.zoom = zoom
+      if !!window.chrome and !!window.chrome.webstore
+        #cero divided support
+        movex = @positionX / zoom
+        movey = @positionY / zoom
+        @viewport.style.transform = "translate3d(#{movex}px,#{movey}px,0)"
+        @viewport.style.zoom = zoom
+      else
+        #scale fix strategy
+        viewport_h = @viewport.clientHeight
+        viewport_w = @viewport.clientWidth
+        fix_x = (viewport_w - (viewport_w * zoom)) / 2
+        fix_y = (viewport_h - (viewport_h * zoom)) / 2
+        #cero divided support
+        movex = (@positionX - fix_x) / zoom
+        movey = (@positionY - fix_y) / zoom
+        @viewport.style.transform = "scale(#{zoom}) translate3d(#{movex}px,#{movey}px,0)"
       
       @ruleTop.style.marginLeft = @ruleBottom.style.marginLeft = @positionX + 'px'
       @ruleLeft.style.marginTop = @ruleRight.style.marginTop = @positionY + 'px'
-      
 
-  _auto_resize: ->
-
-  _auto_resize2: ->
-    
-    h_fix = screen_h / viewport_h
-    w_fix = screen_w / viewport_w
-    if w_fix > h_fix 
-      zoom = h_fix 
-    else 
-      zoom = w_fix
-    
   _begin_move:(evnt)->
     unless evnt.which is 1 then return 
     evnt.cancelBubble = true
@@ -206,10 +193,9 @@ Polymer
     @_render()
     
   finish_move:(context, evnt)->
-    
 
   _panel_height_change:->
-    @_auto_resize()
+    
 
 
 

@@ -1,6 +1,6 @@
 'use strict'
 
-version = '0.0.1'
+version = '0.0.3'
 
 LIVERELOAD_PORT = 35730
 lrSnippet = require('connect-livereload')(port: LIVERELOAD_PORT)
@@ -81,6 +81,12 @@ module.exports = (grunt) ->
       json_components:
         files: ['<%= yeoman.src %>/components/**/*.json']
         tasks: ['copy:json_src_tmp','scripts:components','components_build:tmp_dist']
+      resources_src_dist:
+        files: ['<%= yeoman.src %>/**/*.{jpg,jpeg,gif,svg,png,ttf}', '!<%= yeoman.src %>/demo/**/*']
+        tasks: ['copy:resources_src_dist']
+      resources_src_demo:
+        files: ['<%= yeoman.src %>/demo/**/*.{jpg,jpeg,gif,svg,png,ttf}']
+        tasks: ['copy:resources_src_demo']
       
       # watch.livereload: files which demand the page reload
       livereload:
@@ -216,6 +222,20 @@ module.exports = (grunt) ->
           cwd: '<%= yeoman.src %>'
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
+        ]
+      resources_src_demo:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/demo'
+          src: '**/*.{jpg,jpeg,gif,svg,png,ttf}'
+          dest: 'demo'
+        ]
+      resources_src_dist:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>', 
+          src: ['**/*.{jpg,jpeg,gif,svg,png,ttf}', '!./demo/**/*']
+          dest: '<%= yeoman.dist %>'
         ]
         
     #################################################
@@ -420,6 +440,7 @@ module.exports = (grunt) ->
       'html:demo'
       'scripts:demo'
       'sass:demo'
+      'copy:resources_src_demo'
     ]
     
   grunt.registerTask 'server', (target) ->
@@ -431,9 +452,9 @@ module.exports = (grunt) ->
       'scripts:components'
       'sass:src_tmp'
       'components_build:tmp_dist'
+      'copy:resources_src_dist'
       'demo'
       'symlinks'
-      
       'connect:livereload'
       'open'
       'watch'

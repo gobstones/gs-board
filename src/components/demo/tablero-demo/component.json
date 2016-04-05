@@ -1,6 +1,10 @@
 {
   "name": "tablero-demo",
   "imports": [
-    "../../../../gs-panels/dist/components/gs-panel-root.html"
+    "../../../dist/components/gs-tablero.html",
+    "../../../../gs-panels/dist/components/gs-panel-root.html",
+    "../../../../iron-icon/iron-icon.html",
+    "../../../../iron-input/iron-input.html",
+    "../../../../juicy-jsoneditor/src/juicy-jsoneditor.html"
   ]
 }

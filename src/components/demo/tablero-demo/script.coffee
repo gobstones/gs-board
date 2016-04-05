@@ -5,7 +5,7 @@ rojo_3 = ()-> rojo:  3
 negro4 = ()-> negro: 4
 varias = ()-> negro: 4, rojo: 4
 
-tablero_inicial = [
+tablero_inicial = ()-> [
   [verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
   [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()]
   [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
@@ -16,22 +16,43 @@ tablero_inicial = [
   [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]
 ]
 
-model = tablero: tablero_inicial
+deepCopy = (obj) ->
+    rv = undefined
+    switch typeof obj
+      when 'object'
+        if obj == null
+          rv = null
+        else
+          switch toString.call(obj)
+            when '[object Array]'
+              rv = obj.map(deepCopy)
+            when '[object Date]'
+              rv = new Date(obj)
+            when '[object RegExp]'
+              rv = new RegExp(obj)
+            else
+              rv = Object.keys(obj).reduce(((prev, key) ->
+                prev[key] = deepCopy(obj[key])
+                prev
+              ), {})
+              break
+      else
+        rv = obj
+        break
+    rv
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
   
   properties:
     
-    model: 
-      type: Object
-      value: model
     jsonModel:
       type: Object
-      value: model
-      
-  listeners: 
-    'jsoneditor.change': '_json_change'
+      value: tablero_inicial()
+    rows:
+      type: Number
+    columns:
+      type: Number
     
   AFTER:  'AFTER'
   BEFORE: 'BEFORE'
@@ -39,33 +60,43 @@ Polymer
     
   ready:->
     @panels = @$.gsPanels
-    @after = @create_board(true)
-    @before = @create_board(false)
+    @before = @create_board(true)
+    @after = @create_board(false)
     
   attached: ->
     @panels.add_horizontal @IDE
-    @panels.add @after,
-      id: @AFTER
-      into: @IDE
     @panels.add @before,
       id: @BEFORE
       into: @IDE
-  
+    @panels.add @after,
+      id: @AFTER
+      into: @IDE
+      
   create_board: (editable) ->
     element = document.createElement 'gs-tablero'
-    element.board = @model.tablero
+    element.board = tablero_inicial()
     element.editable = editable
     element
   
-  _json_change: ()->
-    @async @_force_render, 0
+  edit_to_json:->
+    @jsonModel = deepCopy @before.board
+    
+  json_to_edit:->
+    @before.board = deepCopy @jsonModel
   
-  _force_render: ->
-    @model = {}
-    @async @_set_model, 0
-  
-  _set_model: ->
-    @model = model
-  
-  
+  resize_board:->
+    board = deepCopy @before.board
+    if board.length < @rows
+      for index in [board.length ... @rows]
+        board.push({} for _ in [0 ... @columns.length])
+    else
+      board.length = @rows
+    for row in board
+      if row.length < @columns
+        for index in [row.length ... @columns]
+          row.push {}
+      else
+        row.length = @columns
+    @before.board = board
+    
   

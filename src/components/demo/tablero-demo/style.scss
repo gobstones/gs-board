@@ -1,34 +1,41 @@
 $json-width: 300px;
 
-
-.tablero-wrap-json,
-.tablero-panels{
-  margin: 0px;
-}
-
-.tablero-panels{
-  width: auto;
-  margin-left: $json-width + 10px; 
-  height: 300px;
-}
-
-.tablero-wrap-json{
-  width: $json-width;
-  height: 300px;
+.workbench{
+  width: 100%;
   float: left;
+  .tablero-wrap-json,
+  .tablero-panels{
+    margin: 0px;
+  }
+  .tablero-panels{
+    width: auto;
+    margin-left: $json-width + 10px; 
+    height: 300px;
+  }
+  .tablero-wrap-json{
+    width: $json-width;
+    height: 300px;
+    float: left;
+  }
 }
-
-// .buttons{
-  // float: left;
-  // width: 98%;
-  // padding: 10px 2%;
-  // .btn{
-    // .clean{
-//       
-    // }
-    // .load{
-//       
-    // }
-//     
-  // }
-// }
+.buttons{
+  float: left;
+  width: 98%;
+  padding: 0px 2% 10px 2%;
+  .pull-right{
+    float: right;
+    margin-left: 4px;
+  }
+  .btn{
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+}

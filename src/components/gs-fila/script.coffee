@@ -2,10 +2,18 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
   
   properties:
+    cell: 
+      type: Object
     row: 
       type: Array
       value: []
-      observer: '_row_change'
-      
-  _row_change: ->
-    #console.log @row
+    columnAmount:
+      type: Number
+    rowIndex:
+      type: Number
+    rowsAmount:
+      type: Number
+    columnIndex:
+      type: Number
+    columnAmount:
+      type: Number

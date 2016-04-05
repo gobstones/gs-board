@@ -1,18 +1,5 @@
 @import '../../common/style';
 
-$rule-size: 30px;
-
-.old-host{
-  background-color: $main-color;
-  display: block;
-  overflow: hidden;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  font-size: 0;
-  *{
-    box-sizing: content-box;
-  }
-}
 
 :host{
   display: block;
@@ -20,13 +7,14 @@ $rule-size: 30px;
   height: 100%;
   width: 100%;
   position: relative;
-  background-color: #FFF;
+  background-color: $main-color;
+  background-image: url("../assets/background-widget.png");
   >.top,
   >.bottom{
     display: block;
     height: $rule-size;
     width: 100%;
-    background-color: #555;
+    //background-color: #FFF;
     position: absolute;
     >.center{
       position: absolute;
@@ -36,7 +24,7 @@ $rule-size: 30px;
       padding-right: 2*$rule-size;
       box-sizing: border-box;
       height: $rule-size;
-      background-color: green;
+      background-color: $rule-bg;;
       overflow: hidden;
     }
     >.left,
@@ -44,9 +32,10 @@ $rule-size: 30px;
       top:0;
       height: $rule-size;
       width: $rule-size;
-      background-color: #333;
+      background-color: #FFF;
       color: white;
       position: absolute;
+      background-color: $left-top-corner-bg;
     }
     >.left{
       left:0;
@@ -65,7 +54,6 @@ $rule-size: 30px;
     height: 100%;
     padding: $rule-size;
     box-sizing: border-box;
-    background-color: transparent;
     >.left,
     >.right{
       top: $rule-size;
@@ -73,99 +61,120 @@ $rule-size: 30px;
       padding-bottom: 2*$rule-size;
       height: 100%;
       position: absolute;
-      background-color: #555;
+      background-color: $rule-bg;
     }
     >.left{
-      left: 0;
+      left:0;
     }
     >.right{
-      right: 0;
+      right:0;
     }
     >.content{
       height: 100%;
       width: 100%;
-      background-color: transparent;
+      //background-color: transparent;
       overflow: hidden;
       >.viewport{
         display: inline-block;
       }
     }
   }
+
+  #ruleTop,
+  #ruleBottom{
+    display: inline-flex;
+  }
+  
+  .column-index-bottom,
+  .column-index-top,
+  .row-index-left,
+  .row-index-right{
+    font-size: 16px;
+    background-color: $index-bg;
+    display: block;
+  }
+  
+  .row-index-left,
+  .row-index-right{
+    overflow: hidden;
+    box-sizing: content-box;
+    height: $cel-height - $rule-index-margin-v;
+    padding-top: $rule-index-margin-v;
+    margin-top: $cel-margin;
+    width: $rule-size - $rule-external-border-size - $rule-internal-border-size - $rule-index-margin-v;
+  }
+  
+  .row-index-right{
+    float: left;
+    margin-left: $rule-internal-border-size;
+    text-align: left;
+    padding-left: $rule-index-margin-v;
+  }
+  
+  .row-index-left{
+    float: right;
+    margin-right: $rule-internal-border-size;
+    padding-right: $rule-index-margin-v;
+    text-align: right;
+  }
+  
+  .column-index-bottom,
+  .column-index-top{
+    float: left;
+    width: $cel-width;
+    height: $rule-size - $rule-external-border-size - $rule-internal-border-size;
+    margin-left: $cel-margin;
+    justify-content: center;
+    display: flex;
+  }
+  
+  .column-index-bottom{
+    align-items: flex-start;
+    padding-top: $rule-index-margin-h - $rule-external-border-size;
+    margin-top: $rule-internal-border-size;
+  }
+  
+  .column-index-top{
+    align-items: flex-end;
+    padding-bottom: $rule-index-margin-h - $rule-internal-border-size;
+    margin-top: $rule-external-border-size;
+  }
+  
+  .compass{
+    background-image: url("../assets/compass.png");
+    background-size: 80% 80%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: all .2s ease-in-out; 
+    &:hover{
+      border-left: 1px solid $rule-bg;
+      border-bottom: 1px solid $rule-bg;
+      transform: scale(3) translate(-33%, 33%);
+    }
+  }
 }
-
-
-.row-index-left,
-.row-index-right{
-  box-sizing: content-box;
-  height: $cel-height - $cel-index-margin-v;
-  padding-top: $cel-index-margin-v;
-  background-color: #BBB;
-  font-size: 16px;
-  margin-top: $cel-margin;
-}
-
-.row-index-right{
-  float: left;
-  text-align: left;
-  width: $cel-width - $cel-index-margin-v;
-  padding-left: $cel-index-margin-v;
-}
-
-.row-index-left{
-  float: right;
-  width: $cel-width - $cel-index-margin-v;
-  padding-right: $cel-index-margin-v;
-  text-align: right;
-}
-
-
-
-
-
-
-
-.footer-row,
-.header-row{
-  display: inline-flex;
-  height: $cel-height;
-}
-
-.compass-top-right,
-.empty-top-left,
-.empty-bottom-left,
-.column-index-bottom,
-.column-index-top{
-  display: inline-flex;
-  float: left;
-  width: $cel-width;
-  height: $cel-height;
-  background-color: #BBB;
-}
-
-.column-index-bottom,
-.column-index-top{
-  margin-left: $cel-margin;
-}
-
-.column-index-bottom{
-  //margin-top: $cel-margin;
-}
-
-
-.column-index-bottom{
-  align-items: flex-start;
-  padding-top: $cel-index-margin-h;
-}
-
-.column-index-top{
-  align-items: flex-end;
-  padding-bottom: $cel-index-margin-h;
-}
-
-.column-index-bottom,
-.column-index-top{
-  display: flex;
-  font-size: 16px;
-  justify-content: center;
-  height: $cel-height - $cel-index-margin-h;
+.options{
+  color: #BDB76B;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  paper-button{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 0;
+    min-width: 0;
+    margin: 0;
+    box-shadow: none;
+    iron-icon{
+      margin: 10%;
+      width: 80%;
+      height: 80%;
+      &:hover{
+        margin: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 }

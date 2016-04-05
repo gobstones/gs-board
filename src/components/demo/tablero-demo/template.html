@@ -1,24 +1,21 @@
 
     
 
-
-<!--
 <div class="buttons">
-  <button id="clean" class="btn clean">Clean</button>
-  <button id="load" class="btn load">Load</button>
+  <span>columnas: </span><input is="iron-input" bind-value="{{columns}}" />
+  <span>filas: </span><input is="iron-input" bind-value="{{rows}}"/>
+  <button on-click="resize_board" class="btn">Establecer dimenciones</button><br />
+  
+  <button on-click="json_to_edit" class="btn">Json &gt;&gt; editable</button>
+  <button on-click="edit_to_json" class="btn">Json &lt;&lt; editable</button>
+  <button class="btn pull-right">Editable &lt;&lt; estático</button>
+  <button class="btn pull-right">Editable &gt;&gt; estático</button>
 </div>
-<div class="tablero-wrap-before">
-  <gs-tablero style="width: 400px; height: 300px;" board="{{model.tablero}}"></gs-tablero>
-</div>
-<div class="tablero-wrap-after">
-  <gs-tablero style=" width: 350px; height: 400px;" board="{{model.tablero}}"></gs-tablero>
-</div>
--->
-
-
-<div class="tablero-wrap-json">
-  <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
-</div>
-<div class="tablero-panels">
-  <gs-panel-root id="gsPanels" root-height="400"></gs-panel-root>
+<div class="workbench">
+  <div class="tablero-wrap-json">
+    <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
+  </div>
+  <div class="tablero-panels">
+    <gs-panel-root id="gsPanels" root-height="400"></gs-panel-root>
+  </div>
 </div>
