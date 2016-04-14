@@ -1,8 +1,5 @@
 {
   "imports": [
-    "gs-fila.html", 
-    "rule/gs-h-rule-index.html",
-    "rule/gs-v-rule-index.html",
     "../../../gs-common/dist/components/dom-iterate.html",
     "../../../iron-icon/iron-icon.html",
     "../../../iron-icons/iron-icons.html",
@@ -11,5 +8,15 @@
     "../../../paper-button/paper-button.html",
     "../../../paper-icon-button/paper-icon-button.html",
     "../../../paper-menu-button/paper-menu-button.html"
+  ],
+  "imports.normal": [
+    "gs-fila.html", 
+    "rule/gs-h-rule-index.html",
+    "rule/gs-v-rule-index.html"
+  ],
+  "imports.min": [
+    "gs-fila.min.html", 
+    "rule/gs-h-rule-index.min.html",
+    "rule/gs-v-rule-index.min.html"
   ]
 }

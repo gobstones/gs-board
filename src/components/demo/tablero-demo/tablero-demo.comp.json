@@ -1,9 +1,14 @@
 {
   "imports": [
-    "../../../dist/components/gs-tablero.html",
     "../../../../gs-panels/dist/components/gs-panel-root.html",
     "../../../../iron-icon/iron-icon.html",
     "../../../../iron-input/iron-input.html",
     "../../../../juicy-jsoneditor/src/juicy-jsoneditor.html"
+  ],
+  "imports.normal": [
+    "../../../dist/components/gs-tablero.html"
+  ],
+  "imports.min": [
+    "../../../dist/components/gs-tablero.min.html"
   ]
 }

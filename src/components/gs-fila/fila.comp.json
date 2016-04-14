@@ -1,3 +1,8 @@
 {
-  "imports": ["gs-celda.html"]
+  "imports.normal": [
+    "gs-celda.html"
+  ],
+  "imports.min": [
+    "gs-celda.min.html"
+  ]
 }

@@ -1,3 +1,8 @@
 {
-  "imports": ["gs-bolita.html"]
+  "imports.normal": [
+    "gs-bolita.html"
+  ],
+  "imports.min": [
+    "gs-bolita.min.html"
+  ]
 }

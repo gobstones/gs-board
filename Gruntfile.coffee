@@ -1,6 +1,6 @@
 'use strict'
 
-version = '0.0.4'
+version = '1.0.0'
 
 LIVERELOAD_PORT = 35730
 lrSnippet = require('connect-livereload')(port: LIVERELOAD_PORT)
@@ -44,6 +44,7 @@ module.exports = (grunt) ->
     
   grunt.loadNpmTasks 'grunt-angular-templates'
   grunt.loadNpmTasks 'grunt-bake'
+  grunt.loadNpmTasks 'grunt-contrib-htmlmin'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-sass'
   grunt.loadNpmTasks 'grunt-html-angular-validate'
@@ -68,7 +69,7 @@ module.exports = (grunt) ->
         tasks: ['scripts:demo']
       sass_common_and_components:
         files: ['<%= yeoman.src %>/{components,common}/**/*.scss']
-        tasks: ['sass:src_tmp','components_build:tmp_dist_server']
+        tasks: ['sass:src_tmp_server','components_build:tmp_dist_server']
       sass_demo:
         files: ['<%= yeoman.src %>/demo/**/*.scss']
         tasks: ['sass:demo']
@@ -134,7 +135,7 @@ module.exports = (grunt) ->
     #################################################      
       
     sass:
-      src_tmp:
+      src_tmp_server:
         options:
           style: 'expanded'
         files: [
@@ -142,7 +143,17 @@ module.exports = (grunt) ->
           cwd: '<%= yeoman.src %>'
           src: '**/*.scss'
           dest: '<%= yeoman.tmp %>'
-          ext: '.css'
+          ext: '.normal.css'
+        ]
+      src_tmp_compress:
+        options:
+          style: 'compressed'
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>/components'
+          src: '**/*.scss'
+          dest: '<%= yeoman.tmp %>/components'
+          ext: '.min.css'
         ]
       demo:
         options:
@@ -154,17 +165,6 @@ module.exports = (grunt) ->
           dest: 'demo'
           ext: '.css'
         ]
-      #not in use
-      dist_compress:
-        options:
-          style: 'compressed'
-        files: [
-          expand: true
-          cwd: 'repositories'
-          src: '**/dist/*.scss'
-          dest: 'repositories'
-          ext: '.min.css'
-        ]
         
     #################################################
     #                     html                      #
@@ -173,34 +173,43 @@ module.exports = (grunt) ->
     preprocess:
       options:
         inline: true
-        context:
-          PRODUCTION: 'PRODUCTION'
-          STAGGING:   'STAGGING'
-          DEVELOP:    'DEVELOP'
-          ENV:        'DEVELOP'
       src_tmp_html:
         files: [
           expand: true
           cwd: '<%= yeoman.src %>'
-          src: '**/*.{htm,html}'
+          src: ['**/*.{htm,html}','!demo/**/*']
           dest: '<%= yeoman.tmp %>'
-          ext: '.html'
+          ext: '.normal.html'
         ]
       tmp_prepared_script:
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/*.coffee'
+          src: ['**/*.coffee','!demo/**/*']
           dest: '<%= yeoman.tmp %>'
           ext: '.preprocessed.coffee'
         ]
       src_demo_html:
+        options: 
+          context: 
+            MODE: 'NORMAL'
         files: [
           expand: true
-          cwd: '<%= yeoman.src %>/demo'
-          src: '**/*.{htm,html}'
+          cwd:  '<%= yeoman.src %>/demo'
+          src:  '**/*.{htm,html}'
           dest: 'demo'
-          ext: '.html'
+          ext:  '.html'
+        ]
+      src_demo_html_min:
+        options: 
+          context: 
+            MODE: 'COMPRESS'
+        files: [
+          expand: true
+          cwd:  '<%= yeoman.src %>/demo'
+          src:  '**/*.{htm,html}'
+          dest: 'demo'
+          ext:  '.min.html'
         ]
       src_demo_tmp_script:
         files: [
@@ -216,13 +225,6 @@ module.exports = (grunt) ->
     #################################################  
 
     copy:
-      json_src_tmp:
-        files: [
-          expand: true
-          cwd: '<%= yeoman.src %>'
-          src: '**/*.json'
-          dest: '<%= yeoman.tmp %>'
-        ]
       resources_src_demo:
         files: [
           expand: true
@@ -253,7 +255,7 @@ module.exports = (grunt) ->
           cwd: '<%= yeoman.tmp %>'
           src: ['**/*.preprocessed.coffee','!demo/**']
           dest: '<%= yeoman.tmp %>'
-          ext: '.js'
+          ext: '.normal.js'
         ]
       tmp_preprocessed_demo:
         options:
@@ -268,13 +270,25 @@ module.exports = (grunt) ->
         ]
 
     uglify:
-      dist:
+      scripts_tmp:
         files: [
           expand: true
-          cwd: 'repositories'
-          src: '**/dist/**/*.js'
-          dest: 'repositories'
+          cwd: '<%= yeoman.tmp %>/components'
+          src: '**/*.normal.js'
+          dest:'<%= yeoman.tmp %>/components'
           ext: '.min.js'
+        ]
+    htmlmin:
+      components_temp: 
+        options: 
+          removeComments: true,
+          collapseWhitespace: true
+        files: [
+          expand: true
+          cwd: '<%= yeoman.tmp %>/components'
+          src: '**/*.normal.html'
+          dest:'<%= yeoman.tmp %>/components'
+          ext: '.min.html'
         ]
 
     #################################################
@@ -292,6 +306,8 @@ module.exports = (grunt) ->
 
     components_build:
       tmp_dist_server:
+        options:
+          prefix: '.normal'
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
@@ -299,8 +315,10 @@ module.exports = (grunt) ->
           dest: '<%= yeoman.dist %>/'
         ]
       tmp_dist_compress:
-        compress: true
-        prefix: 'min'
+        options:
+          compress: true
+          prefix: '.min'
+          ext:    '.min.html'
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
@@ -334,52 +352,70 @@ module.exports = (grunt) ->
       
   grunt.registerMultiTask 'components_build', 'becomes files into polymer components', ()->
     task_options = this.options()
-    new_line= '\n'
-    new_line_re= /\n(?=[^\n$])/g
-    indent= '  '
-    mkindent = (text, amount)->
-      amount = if amount > 0 then amount else 0
-      space = ''
-      while amount--
-        space += indent
-      space + text.replace(new_line_re, new_line + space)
-    if task_options.compress
+    prefix       = task_options.prefix or ''
+    ext          = task_options.ext or '.html'
+    compress     = task_options.compress
+    new_line_re  = /\n(?=[^\n$])/g
+    
+    if compress
       new_line = indent = ''
-      mkindent = (text, amount)-> text
+      mesh = (text, amount)-> text
+    else
+      new_line     = '\n'
+      indent       = '  '
+      mesh = (text, amount)->
+        local_indent = mkindent(amount)
+        local_indent + text.replace(new_line_re, new_line + local_indent)
+      
     mkimport = (src)->"<link rel=\"import\" href=\"#{src}\">"
     mkscript = (src)->"<script type=\"text/javascript\" src=\"#{src}\"></script>"
     mkstyle = (src)->"<link rel=\"stylesheet\" type=\"text/css\" href=\"#{src}\">"
-    mktag = (name, content, margin)->
-      margin = margin or 0
+    mktag = (name, content, indent)->
+      indent = indent or 0
       open_tag = '<'+name+'>'
       close_tag = '</'+name+'>'
-      mkindent(open_tag, margin)+ 
-      new_line + 
-      mkindent(content, margin+1) + 
-      mkindent(close_tag, margin)+ 
-      new_line
+      mesh(open_tag, indent) + new_line + 
+      mesh(content, indent+1) + 
+      mesh(close_tag, indent) + new_line
+      
+    mkindent = (amount)->
+      amount = if amount > 0 then amount else 0
+      space  = ''
+      while amount--
+        space += indent
+      space
+    mktags = (maker, sources, indent)->
+      tags = ''
+      sources = sources or []
+      for source in sources
+        tags += mkindent(indent) + maker(source) + new_line
+      tags
     this.files.forEach (file)->
       json_src = require('path').parse file.src[0]
       json_dst = require('path').parse file.dest
       component = grunt.file.readJSON file.src[0]
       content = ''
-      imports = component.imports or []
-      for external_component in imports
-        content += indent + mkimport(external_component) + new_line
-      external_scripts = component.scripts or []
-      for external_script in external_scripts
-        content += indent + mkscript(external_script) + new_line
+      #create import tags
+      content += mktags mkimport, component.imports, 0
+      content += mktags mkimport, component["imports#{prefix}"], 0
+      #create external script tags
+      content += mktags mkscript, component.scripts, 1
+      #initialize module
       content += "<dom-module id=\"#{component.name}\">" + new_line
+      #initialize template
       content += indent + "<template>" + new_line
-      external_styles = component.styles or []
-      for external_style in external_styles
-        content += indent + indent + mkstyle(external_style) + new_line
-      styles = grunt.file.expand(cwd: json_src.dir, '*.css')
+      #create external style tags
+      content += mktags mkstyle, component.styles, 2
+      #embed local style tags
+      styles = grunt.file.expand(cwd: json_src.dir, "*#{prefix}.css")
       for style_name in styles
         style_src  = "#{json_src.dir}/#{style_name}"
         style_content = grunt.file.read style_src
+        if compress then style_content = style_content.trim()
         content += mktag 'style', style_content, 2
-      html = grunt.file.expand(cwd: json_src.dir, '*.html')
+      #embed unique template content
+      html = grunt.file.expand(cwd: json_src.dir, "*#{prefix}.html")
+      #throw error if detect multiple html files
       if html.length > 1
         throw new do ->
           error = () ->
@@ -390,16 +426,21 @@ module.exports = (grunt) ->
       if html.length is 1
         html_src  = "#{json_src.dir}/#{html[0]}"
         html_content = grunt.file.read html_src
-        content += mkindent(html_content, 2) + new_line
+        content += mesh(html_content, 2) + new_line
+      #close template
       content += indent + "</template>" + new_line
-      scripts = grunt.file.expand(cwd: json_src.dir, '*.js')
+      #embed local script tags
+      scripts = grunt.file.expand(cwd: json_src.dir, "*#{prefix}.js")
       for script_name in scripts
         script_src  = "#{json_src.dir}/#{script_name}"
         script_content = grunt.file.read script_src
-        content += mktag 'script', script_content, 1
+        script_tag = mktag 'script', script_content, 1
+        content += script_tag
+      #close module
       content += "</dom-module>"
+      #replace last directory name by file
       reg_exp = new RegExp(component.name + '\/?$')
-      file_dest = json_dst.dir.replace(reg_exp, '') + component.name + '.html'
+      file_dest = json_dst.dir.replace(reg_exp, '') + component.name + ext
       grunt.log.write 'generate file: ' + file_dest + '\n'
       grunt.file.write file_dest, content
       
@@ -456,7 +497,7 @@ module.exports = (grunt) ->
       'clean:tmp'
       'preprocess:src_tmp_html'
       'scripts:components'
-      'sass:src_tmp'
+      'sass:src_tmp_server'
       'components_build:tmp_dist_server'
       'copy:resources_src_dist'
       'demo'
@@ -472,12 +513,13 @@ module.exports = (grunt) ->
       'clean:tmp'
       'preprocess:src_tmp_html'
       'scripts:components'
-      'sass:src_tmp'
+      'uglify:scripts_tmp'
+      'sass:src_tmp_server'
+      'sass:src_tmp_compress'
+      'htmlmin:components_temp'
       'components_build:tmp_dist_server'
+      'components_build:tmp_dist_compress'
       'copy:resources_src_dist'
       'demo'
-      'symlinks'
-      'connect:livereload'
-      'open'
-      'watch'
+      'preprocess:src_demo_html_min'
     ]
