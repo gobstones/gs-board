@@ -1,6 +1,6 @@
 'use strict'
 
-version = '0.0.3'
+version = '0.0.4'
 
 LIVERELOAD_PORT = 35730
 lrSnippet = require('connect-livereload')(port: LIVERELOAD_PORT)
@@ -62,25 +62,25 @@ module.exports = (grunt) ->
 
       coffee_components:
         files: ['<%= yeoman.src %>/components/**/*.coffee']
-        tasks: ['scripts:components','components_build:tmp_dist']
+        tasks: ['scripts:components','components_build:tmp_dist_server']
       coffee_demo:
         files: ['<%= yeoman.src %>/demo/**/*.coffee']
         tasks: ['scripts:demo']
       sass_common_and_components:
         files: ['<%= yeoman.src %>/{components,common}/**/*.scss']
-        tasks: ['sass:src_tmp','components_build:tmp_dist']
+        tasks: ['sass:src_tmp','components_build:tmp_dist_server']
       sass_demo:
         files: ['<%= yeoman.src %>/demo/**/*.scss']
         tasks: ['sass:demo']
       html_components:
         files: ['<%= yeoman.src %>/components/**/*.html']
-        tasks: ['html:components','components_build:tmp_dist']
+        tasks: ['html:components','components_build:tmp_dist_server']
       html_demo:
         files: ['<%= yeoman.src %>/demo/**/*.html']
         tasks: ['html:demo']
       json_components:
         files: ['<%= yeoman.src %>/components/**/*.json']
-        tasks: ['copy:json_src_tmp','scripts:components','components_build:tmp_dist']
+        tasks: ['copy:json_src_tmp','scripts:components','components_build:tmp_dist_server']
       resources_src_dist:
         files: ['<%= yeoman.src %>/**/*.{jpg,jpeg,gif,svg,png,ttf}', '!<%= yeoman.src %>/demo/**/*']
         tasks: ['copy:resources_src_dist']
@@ -283,50 +283,60 @@ module.exports = (grunt) ->
              
     components_prepare:
       src_tmp:
-        options:
-          script_name: 'script.coffee'
         files: [
           expand: true
           cwd: '<%= yeoman.src %>'
-          src: '**/component.json'
+          src: '**/**.{comp,cmpt}.json'
           dest: '<%= yeoman.tmp %>/'
-          ext: '.js'
         ]
 
     components_build:
-      tmp_dist:
-        options:
-          html: 'template.html'
-          script: 'script.js'
-          style: 'style.css'
+      tmp_dist_server:
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/component.json'
+          src: '**/**.{comp,cmpt}.json'
+          dest: '<%= yeoman.dist %>/'
+        ]
+      tmp_dist_compress:
+        compress: true
+        prefix: 'min'
+        files: [
+          expand: true
+          cwd: '<%= yeoman.tmp %>'
+          src: '**/**.{comp,cmpt}.json'
           dest: '<%= yeoman.dist %>/'
         ]
 
   grunt.registerMultiTask 'components_prepare', 'process json files', (target)->
     GRUNT_COMPONENT_NAME = '#GRUNT_COMPONENT_NAME'
-    task_options = this.options()
-    script_name = task_options.script_name or 'script.js'
     this.files.forEach (file)->
       json_src = require('path').parse file.src[0]
       json_dst = require('path').parse file.dest
       component = grunt.file.readJSON file.src[0]
-      script_path = "#{json_src.dir}/#{script_name}"
-      script_content = grunt.file.read script_path
-      #TODO control name hyphen and report
-      fixed_content = script_content.replace GRUNT_COMPONENT_NAME, component.name
-      script_path_dest = "#{json_dst.dir}/#{script_name}"
-      grunt.file.write script_path_dest, fixed_content
-
+      component.name = /[^\/]*$/.exec(json_src.dir)[0]
+      unless /\-/.test component.name
+        throw new do ->
+          error = () ->
+            this.name = 'BadName'
+            this.message = "Cannot register a component without hyphen '-' in its name"
+          error.prototype = Error.prototype
+          error
+      grunt.log.writeln component.name
+      scripts = grunt.file.expand(cwd: json_src.dir, '*.coffee')
+      for script_name in scripts
+        script_src  = "#{json_src.dir}/#{script_name}"
+        script_dest = "#{json_dst.dir}/#{script_name}"
+        script_content = grunt.file.read script_src
+        fixed_content = script_content.replace GRUNT_COMPONENT_NAME, component.name
+        grunt.file.write script_dest, fixed_content
+      grunt.file.write file.dest, JSON.stringify(component, null, 2)
+      
   grunt.registerMultiTask 'components_build', 'becomes files into polymer components', ()->
     task_options = this.options()
     new_line= '\n'
     new_line_re= /\n(?=[^\n$])/g
     indent= '  '
-    
     mkindent = (text, amount)->
       amount = if amount > 0 then amount else 0
       space = ''
@@ -337,7 +347,8 @@ module.exports = (grunt) ->
       new_line = indent = ''
       mkindent = (text, amount)-> text
     mkimport = (src)->"<link rel=\"import\" href=\"#{src}\">"
-    mkdependency = (src)->"<script type=\"text/javascript\" src=\"#{src}\"></script>"
+    mkscript = (src)->"<script type=\"text/javascript\" src=\"#{src}\"></script>"
+    mkstyle = (src)->"<link rel=\"stylesheet\" type=\"text/css\" href=\"#{src}\">"
     mktag = (name, content, margin)->
       margin = margin or 0
       open_tag = '<'+name+'>'
@@ -345,57 +356,53 @@ module.exports = (grunt) ->
       mkindent(open_tag, margin)+ 
       new_line + 
       mkindent(content, margin+1) + 
-      new_line + 
       mkindent(close_tag, margin)+ 
       new_line
     this.files.forEach (file)->
       json_src = require('path').parse file.src[0]
       json_dst = require('path').parse file.dest
       component = grunt.file.readJSON file.src[0]
-      
       content = ''
       imports = component.imports or []
       for external_component in imports
-        content += mkimport(external_component) + new_line
-      dependencies = component.require or []
-      for external_dependency in dependencies
-        content += mkdependency(external_dependency) + new_line
-        
+        content += indent + mkimport(external_component) + new_line
+      external_scripts = component.scripts or []
+      for external_script in external_scripts
+        content += indent + mkscript(external_script) + new_line
       content += "<dom-module id=\"#{component.name}\">" + new_line
-      
-      style_path = "#{json_src.dir}/#{task_options.style}"
-      style_content = grunt.file.read style_path
-      style_tag = mktag 'style', style_content
-      
-      html_path = "#{json_src.dir}/#{task_options.html}"
-      html_content = grunt.file.read html_path
-      style_embedded = style_tag + new_line + html_content
-      content += mktag 'template', style_embedded, 1
-      
-      script_path = "#{json_src.dir}/#{task_options.script}"
-      script_content = grunt.file.read script_path
-      content += mktag 'script', script_content, 1
-      
+      content += indent + "<template>" + new_line
+      external_styles = component.styles or []
+      for external_style in external_styles
+        content += indent + indent + mkstyle(external_style) + new_line
+      styles = grunt.file.expand(cwd: json_src.dir, '*.css')
+      for style_name in styles
+        style_src  = "#{json_src.dir}/#{style_name}"
+        style_content = grunt.file.read style_src
+        content += mktag 'style', style_content, 2
+      html = grunt.file.expand(cwd: json_src.dir, '*.html')
+      if html.length > 1
+        throw new do ->
+          error = () ->
+            this.name = 'NotUniqueTemplate'
+            this.message = "Cannot declare multiple templates for unique component"
+          error.prototype = Error.prototype
+          error
+      if html.length is 1
+        html_src  = "#{json_src.dir}/#{html[0]}"
+        html_content = grunt.file.read html_src
+        content += mkindent(html_content, 2) + new_line
+      content += indent + "</template>" + new_line
+      scripts = grunt.file.expand(cwd: json_src.dir, '*.js')
+      for script_name in scripts
+        script_src  = "#{json_src.dir}/#{script_name}"
+        script_content = grunt.file.read script_src
+        content += mktag 'script', script_content, 1
       content += "</dom-module>"
-      #grunt.log.write content
-      
       reg_exp = new RegExp(component.name + '\/?$')
-      if reg_exp.test json_dst.dir
-        grunt.log.write 'replacing directory by file: ' + json_src.dir + '\n'
-        file_dest = json_dst.dir.replace(reg_exp, '') + component.name + '.html'
-      else
-        grunt.log.write 'creating file into directory: ' + json_src.dir + '\n'
-        file_dest = json_dst.dir + '/' + component.name + '.html'
-        
-      grunt.log.write 'file: ' + file_dest + '\n'
-      
+      file_dest = json_dst.dir.replace(reg_exp, '') + component.name + '.html'
+      grunt.log.write 'generate file: ' + file_dest + '\n'
       grunt.file.write file_dest, content
       
-      #grunt.log.write reg_exp  + '\n'
-      #grunt.log.writeflags json_src
-      #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
-      #mkimport('index.html')
-  
   
   grunt.registerTask 'symlinks', (target) ->
     cwd = 'bower_components/' + app_name
@@ -447,11 +454,26 @@ module.exports = (grunt) ->
     grunt.task.run [
       'clean:dist'
       'clean:tmp'
-      'copy:json_src_tmp'
       'preprocess:src_tmp_html'
       'scripts:components'
       'sass:src_tmp'
-      'components_build:tmp_dist'
+      'components_build:tmp_dist_server'
+      'copy:resources_src_dist'
+      'demo'
+      'symlinks'
+      'connect:livereload'
+      'open'
+      'watch'
+    ]
+    
+  grunt.registerTask 'build', (target) ->
+    grunt.task.run [
+      'clean:dist'
+      'clean:tmp'
+      'preprocess:src_tmp_html'
+      'scripts:components'
+      'sass:src_tmp'
+      'components_build:tmp_dist_server'
       'copy:resources_src_dist'
       'demo'
       'symlinks'

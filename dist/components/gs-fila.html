@@ -1,4 +1,4 @@
-<link rel="import" href="gs-celda.html">
+  <link rel="import" href="gs-celda.html">
 <dom-module id="gs-fila">
   <template>
     <style>
@@ -12,9 +12,7 @@
       :host * {
         box-sizing: content-box;
       }
-
     </style>
-
     <template is="dom-repeat" items="{{row}}" as="cell" index-as="columnIndex">
       <gs-celda 
         cell="{{cell}}"
@@ -55,6 +53,5 @@
         }
       }
     });
-
   </script>
 </dom-module>

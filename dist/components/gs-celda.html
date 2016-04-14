@@ -1,4 +1,4 @@
-<link rel="import" href="gs-bolita.html">
+  <link rel="import" href="gs-bolita.html">
 <dom-module id="gs-celda">
   <template>
     <style>
@@ -27,9 +27,7 @@
       :host * {
         box-sizing: content-box;
       }
-
     </style>
-
     <div class$="gs-cel {{customClass}}" title="{{cellTitle}}">
       <template is="dom-repeat" items="{{colors}}" as="color">
         <gs-bolita 
@@ -97,6 +95,5 @@
         return this.customClass = this._custom_classes.join(' ');
       }
     });
-
   </script>
 </dom-module>

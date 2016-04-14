@@ -1,5 +1,4 @@
 {
-  "name": "gs-tablero",
   "imports": [
     "gs-fila.html", 
     "rule/gs-h-rule-index.html",
@@ -12,6 +11,5 @@
     "../../../paper-button/paper-button.html",
     "../../../paper-icon-button/paper-icon-button.html",
     "../../../paper-menu-button/paper-menu-button.html"
-  ],
-  "require": []
+  ]
 }

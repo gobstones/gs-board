@@ -1,5 +1,4 @@
 {
-  "name": "tablero-demo",
   "imports": [
     "../../../dist/components/gs-tablero.html",
     "../../../../gs-panels/dist/components/gs-panel-root.html",
