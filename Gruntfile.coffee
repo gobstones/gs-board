@@ -18,30 +18,30 @@ app_name = require('./bower.json').name
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
-  
+
   unless app_name
     throw new TypeError('must specify an application name in bower.json file')
-    
+
   grunt.log.write 'application name: ' + app_name + '\n'
-    
+
   require('load-grunt-tasks') grunt
   require('time-grunt') grunt
   # configurable paths
-  
+
   yeomanConfig =
     bower:   'bower_components'
     src:     'src'
     dist:    'dist'
     tmp:     'tmp'
   do ->
-    (maybe_dist = grunt.option('dist')) and 
-    (typeof maybe_dist is 'string') and 
+    (maybe_dist = grunt.option('dist')) and
+    (typeof maybe_dist is 'string') and
     yeomanConfig.dist = maybe_dist
   do ->
-    (maybe_tmp = grunt.option('tmp')) and 
-    (typeof maybe_tmp is 'string') and 
+    (maybe_tmp = grunt.option('tmp')) and
+    (typeof maybe_tmp is 'string') and
     yeomanConfig.tmp = maybe_tmp
-    
+
   grunt.loadNpmTasks 'grunt-angular-templates'
   grunt.loadNpmTasks 'grunt-bake'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
@@ -49,14 +49,16 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-html-angular-validate'
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.loadNpmTasks 'grunt-string-replace'
-  
+
+  grunt.registerTask "default", "server"
+
   grunt.initConfig
     yeoman: yeomanConfig
-    
+
     #################################################
     #                  livereload                   #
     #################################################
-    # watch: cada vez que un archivo cambia 
+    # watch: cada vez que un archivo cambia
     # dentro de 'files' se ejecutan las correspodientes 'tasks'
     watch:
 
@@ -81,7 +83,7 @@ module.exports = (grunt) ->
       json_components:
         files: ['<%= yeoman.src %>/components/**/*.json']
         tasks: ['copy:json_src_tmp','scripts:components','components_build:tmp_dist']
-      
+
       # watch.livereload: files which demand the page reload
       livereload:
         options:
@@ -90,7 +92,7 @@ module.exports = (grunt) ->
           '<%= yeoman.dist %>/**/*'
           'demo/**/*'
         ]
-    
+
     connect:
       options:
         port: 9002
@@ -105,7 +107,7 @@ module.exports = (grunt) ->
     open:
       server:
         url: 'http://<%= connect.options.hostname %>:<%= connect.options.port %>/bower_components/' + app_name + '/demo'
-        
+
     clean:
       dist:
         files: [
@@ -122,11 +124,11 @@ module.exports = (grunt) ->
           dot: true
           src: ['demo/**/*']
         ]
-        
+
     #################################################
     #                    styles                     #
-    #################################################      
-      
+    #################################################
+
     sass:
       src_tmp:
         options:
@@ -159,11 +161,11 @@ module.exports = (grunt) ->
           dest: 'repositories'
           ext: '.min.css'
         ]
-        
+
     #################################################
     #                     html                      #
     #################################################
-    
+
     preprocess:
       options:
         inline: true
@@ -207,7 +209,7 @@ module.exports = (grunt) ->
 
     #################################################
     #                  copy helper                  #
-    #################################################  
+    #################################################
 
     copy:
       json_src_tmp:
@@ -217,10 +219,10 @@ module.exports = (grunt) ->
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
         ]
-        
+
     #################################################
     #                    scripts                    #
-    #################################################  
+    #################################################
 
     coffee:
       tmp_preprocessed:
@@ -259,8 +261,8 @@ module.exports = (grunt) ->
 
     #################################################
     #                    polymer                    #
-    #################################################  
-             
+    #################################################
+
     components_prepare:
       src_tmp:
         options:
@@ -306,7 +308,7 @@ module.exports = (grunt) ->
     new_line= '\n'
     new_line_re= /\n(?=[^\n$])/g
     indent= '  '
-    
+
     mkindent = (text, amount)->
       amount = if amount > 0 then amount else 0
       space = ''
@@ -322,17 +324,17 @@ module.exports = (grunt) ->
       margin = margin or 0
       open_tag = '<'+name+'>'
       close_tag = '</'+name+'>'
-      mkindent(open_tag, margin)+ 
-      new_line + 
-      mkindent(content, margin+1) + 
-      new_line + 
-      mkindent(close_tag, margin)+ 
+      mkindent(open_tag, margin)+
+      new_line +
+      mkindent(content, margin+1) +
+      new_line +
+      mkindent(close_tag, margin)+
       new_line
     this.files.forEach (file)->
       json_src = require('path').parse file.src[0]
       json_dst = require('path').parse file.dest
       component = grunt.file.readJSON file.src[0]
-      
+
       content = ''
       imports = component.imports or []
       for external_component in imports
@@ -340,25 +342,25 @@ module.exports = (grunt) ->
       dependencies = component.require or []
       for external_dependency in dependencies
         content += mkdependency(external_dependency) + new_line
-        
+
       content += "<dom-module id=\"#{component.name}\">" + new_line
-      
+
       style_path = "#{json_src.dir}/#{task_options.style}"
       style_content = grunt.file.read style_path
       style_tag = mktag 'style', style_content
-      
+
       html_path = "#{json_src.dir}/#{task_options.html}"
       html_content = grunt.file.read html_path
       style_embedded = style_tag + new_line + html_content
       content += mktag 'template', style_embedded, 1
-      
+
       script_path = "#{json_src.dir}/#{task_options.script}"
       script_content = grunt.file.read script_path
       content += mktag 'script', script_content, 1
-      
+
       content += "</dom-module>"
       #grunt.log.write content
-      
+
       reg_exp = new RegExp(component.name + '\/?$')
       if reg_exp.test json_dst.dir
         grunt.log.write 'replacing directory by file: ' + json_src.dir + '\n'
@@ -366,17 +368,17 @@ module.exports = (grunt) ->
       else
         grunt.log.write 'creating file into directory: ' + json_src.dir + '\n'
         file_dest = json_dst.dir + '/' + component.name + '.html'
-        
+
       grunt.log.write 'file: ' + file_dest + '\n'
-      
+
       grunt.file.write file_dest, content
-      
+
       #grunt.log.write reg_exp  + '\n'
       #grunt.log.writeflags json_src
       #grunt.log.write json_src.dir + ' is equal ' + component.name + '\n'
       #mkimport('index.html')
-  
-  
+
+
   grunt.registerTask 'symlinks', (target) ->
     cwd = 'bower_components/' + app_name
     commands = [
@@ -388,7 +390,7 @@ module.exports = (grunt) ->
     for command in commands
       grunt.log.write command + '\n'
       exec command, cdw: __dirname
-      
+
   grunt.registerTask 'scripts', (target) ->
     switch target
       when 'components'
@@ -402,7 +404,7 @@ module.exports = (grunt) ->
           'preprocess:src_demo_tmp_script'
           'coffee:tmp_preprocessed_demo'
         ]
-        
+
   grunt.registerTask 'html', (target) ->
     switch target
       when 'components'
@@ -413,7 +415,7 @@ module.exports = (grunt) ->
         grunt.task.run [
           'preprocess:src_demo_html'
         ]
-    
+
   grunt.registerTask 'demo', (target) ->
     grunt.task.run [
       'clean:dist_demo'
@@ -421,7 +423,7 @@ module.exports = (grunt) ->
       'scripts:demo'
       'sass:demo'
     ]
-    
+
   grunt.registerTask 'server', (target) ->
     grunt.task.run [
       'clean:dist'
@@ -433,7 +435,7 @@ module.exports = (grunt) ->
       'components_build:tmp_dist'
       'demo'
       'symlinks'
-      
+
       'connect:livereload'
       'open'
       'watch'
