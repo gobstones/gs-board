@@ -2,12 +2,9 @@
   <button id="clean" class="btn clean">Clean</button>
   <button id="load" class="btn load">Load</button>
 </div>
-<div class="tablero-wrap-before">
+<div>
   <gs-tablero board="{{model.tablero}}"></gs-tablero>
 </div>
 <div class="tablero-wrap-json">
   <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
-</div>
-<div class="tablero-wrap-after">
-  <gs-tablero board="{{model.tablero}}"></gs-tablero>
 </div>

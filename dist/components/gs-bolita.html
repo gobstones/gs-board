@@ -200,31 +200,31 @@
       properties: {
         color: {
           type: String,
-          value: 'unknow'
+          value: 'unknown'
         },
         amount: {
           type: Number,
           value: 0,
           notify: true,
-          observer: '_sanitize_amount'
+          observer: '_sanitizeAmount'
         }
       },
       listeners: {
-        tap: '_process_tap',
-        contextmenu: '_right_click'
+        tap: '_processTap',
+        contextmenu: '_rightClick'
       },
       ready: function() {
-        return this._sanitize_amount();
+        return this._sanitizeAmount();
       },
-      _sanitize_amount: function() {
+      _sanitizeAmount: function() {
         if (!(typeof this.amount === 'number' && this.amount >= 0)) {
           return this.amount = 0;
         }
       },
-      _process_tap: function(event) {
+      _processTap: function(event) {
         return this.amount += 1;
       },
-      _right_click: function(event) {
+      _rightClick: function(event) {
         event.preventDefault();
         return this.amount -= 1;
       }

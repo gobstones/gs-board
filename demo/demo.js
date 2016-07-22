@@ -31,16 +31,16 @@
 
   /*
   document.addEventListener 'DOMContentLoaded', ()->
-    
+  
     json = tablero_inicial
     model = json:json
     json_editor = document.querySelector '#json-editor'
     json_editor.model = model
     window.json = json
-    
+  
     document.querySelector('#load').addEventListener 'click', ()->
       buffer.send buffer.ACTION.SHOW, tablero_inicial
-    
+  
     document.querySelector("#clean").addEventListener 'click', ()->
       console.log 'clean'
    */

@@ -1,4 +1,4 @@
-<link rel="import" href="gs-fila.html">
+<link rel="import" href="gs-bolita.html">
 <dom-module id="gs-tablero">
   <template>
     <style>
@@ -185,31 +185,6 @@
       /*# sourceMappingURL=style.css.map */
 
     </style>
-
-    <!-- <div id="viewport" class="viewport">
-      <div class="header-row">
-        <div class="empty-top-left"></div>
-        <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
-          <div class="column-index-top">{{columnIndex}}</div>
-        </template>
-        <div class="compass-top-right"></div>
-      </div>
-      <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
-        <gs-fila
-          row="{{row}}"
-          row-index="{{rowIndex}}"
-          rows-amount="{{rows.length}}"
-          columns-amount="{{columnsAmount}}"
-        >
-        </gs-fila>
-      </template>
-      <div class="footer-row">
-        <div class="empty-bottom-left"></div>
-        <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
-          <div class="column-index-bottom">{{columnIndex}}</div>
-        </template>
-      </div>
-    </div> -->
 
     <table class="gbs_board">
       <tbody>

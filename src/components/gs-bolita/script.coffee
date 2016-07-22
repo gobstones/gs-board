@@ -4,27 +4,27 @@ Polymer
   properties:
     color:
       type: String
-      value: 'unknow'
+      value: 'unknown'
     amount:
       type: Number
       value: 0
       notify: true
-      observer: '_sanitize_amount'
+      observer: '_sanitizeAmount'
 
   listeners:
-    tap: '_process_tap'
-    contextmenu: '_right_click'
+    tap: '_processTap'
+    contextmenu: '_rightClick'
 
   ready: ->
-    @_sanitize_amount()
+    @_sanitizeAmount()
 
-  _sanitize_amount: ->
+  _sanitizeAmount: ->
     unless typeof @amount is 'number' and @amount >= 0
       @amount = 0
 
-  _process_tap: (event)->
+  _processTap: (event)->
     @amount += 1
 
-  _right_click: (event)->
+  _rightClick: (event)->
     event.preventDefault()
     @amount -= 1

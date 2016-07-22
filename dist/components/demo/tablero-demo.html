@@ -11,14 +11,11 @@
       <button id="clean" class="btn clean">Clean</button>
       <button id="load" class="btn load">Load</button>
     </div>
-    <div class="tablero-wrap-before">
+    <div>
       <gs-tablero board="{{model.tablero}}"></gs-tablero>
     </div>
     <div class="tablero-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
-    </div>
-    <div class="tablero-wrap-after">
-      <gs-tablero board="{{model.tablero}}"></gs-tablero>
     </div>
 
   </template>
@@ -65,7 +62,8 @@
       properties: {
         model: {
           type: Object,
-          value: model
+          value: model,
+          notify: true
         },
         jsonModel: {
           type: Object,
@@ -76,14 +74,8 @@
         'jsoneditor.change': '_json_change'
       },
       _json_change: function() {
-        return this.async(this._force_render, 0);
-      },
-      _force_render: function() {
-        this.model = {};
-        return this.async(this._set_model, 0);
-      },
-      _set_model: function() {
-        return this.model = model;
+        this.model = model;
+        return this.render();
       }
     });
 

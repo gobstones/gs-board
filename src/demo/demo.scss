@@ -4,41 +4,17 @@
   }
 }
 
-.tablero-wrap-json,
-.tablero-wrap-before,
-.tablero-wrap-after{
-  border: 1px solid #888;
-  padding: 20px;
-  margin: 0px;
-  float: left;
-}
-
-.tablero-wrap-before{
-  width: 400px;
-  height: 300px;
-}
-
-.tablero-wrap-json{
-  width: 400px;
-  height: 300px;
-}
-
-.tablero-wrap-after{
-  width: 350px;
-  height: 400px;
-}
-
 .buttons{
   float: left;
   width: 98%;
   padding: 10px 2%;
   .btn{
     .clean{
-      
+
     }
     .load{
-      
+
     }
-    
+
   }
 }

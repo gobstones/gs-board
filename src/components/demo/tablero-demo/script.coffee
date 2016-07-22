@@ -1,8 +1,8 @@
-vacio0 = ()-> {}
-verde2 = ()-> verde: 2
-rojo_3 = ()-> rojo:  3
-negro4 = ()-> negro: 4
-varias = ()-> negro: 4, rojo: 4
+vacio0 = -> {}
+verde2 = -> verde: 2
+rojo_3 = -> rojo:  3
+negro4 = -> negro: 4
+varias = -> negro: 4, rojo: 4
 
 tablero_inicial = [
   [verde2(), vacio0(), vacio0(), vacio0(), vacio0()]
@@ -22,6 +22,7 @@ Polymer
     model:
       type: Object
       value: model
+      notify: true
     jsonModel:
       type: Object
       value: model
@@ -29,12 +30,6 @@ Polymer
   listeners:
     'jsoneditor.change': '_json_change'
 
-  _json_change: ()->
-    @async @_force_render, 0
-
-  _force_render: ->
-    @model = {}
-    @async @_set_model, 0
-
-  _set_model: ->
+  _json_change: ->
     @model = model
+    @render()
