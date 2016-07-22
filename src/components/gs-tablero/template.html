@@ -1,4 +1,4 @@
-<div id="viewport" class="viewport">
+<!-- <div id="viewport" class="viewport">
   <div class="header-row">
     <div class="empty-top-left"></div>
     <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
@@ -7,8 +7,8 @@
     <div class="compass-top-right"></div>
   </div>
   <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
-    <gs-fila 
-      row="{{row}}" 
+    <gs-fila
+      row="{{row}}"
       row-index="{{rowIndex}}"
       rows-amount="{{rows.length}}"
       columns-amount="{{columnsAmount}}"
@@ -21,4 +21,54 @@
       <div class="column-index-bottom">{{columnIndex}}</div>
     </template>
   </div>
-</div>
+</div> -->
+
+<table class="gbs_board">
+  <caption>Tablero final obtenido</caption>
+  <tbody>
+    <tr>
+      <td class="lx top_left"></td>
+      <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+        <td class="lh">{{columnIndex}}</td>
+      </template>
+      <td class="lx top_right"></td>
+    </tr>
+    <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
+      <tr>
+        <td class="lv">{{getRowNumber(rowIndex)}}</td>
+        <template is="dom-repeat" items="{{row}}" as="cell">
+          <td class="gc">
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <gs-bolita color="black" amount="{{cell.negro}}"></gs-bolita>
+                  </td>
+                  <td>
+                    <gs-bolita color="blue" amount="{{cell.azul}}"></gs-bolita>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <gs-bolita color="red" amount="{{cell.rojo}}"></gs-bolita>
+                  </td>
+                  <td>
+                    <gs-bolita color="green" amount="{{cell.verde}}"></gs-bolita>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </template>
+        <td class="lv">{{getRowNumber(rowIndex)}}</td>
+      </tr>
+    </template>
+    <tr>
+      <td class="lx bottom_left"></td>
+      <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+        <td class="lh">{{columnIndex}}</td>
+      </template>
+      <td class="lx bottom_right"></td>
+    </tr>
+  </tbody>
+</table>

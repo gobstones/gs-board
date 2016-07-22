@@ -7,21 +7,20 @@
 
     </style>
 
-
-        
     <div class="buttons">
       <button id="clean" class="btn clean">Clean</button>
       <button id="load" class="btn load">Load</button>
     </div>
     <div class="tablero-wrap-before">
-      <gs-tablero style="width: 400px; height: 300px;" board="{{model.tablero}}"></gs-tablero>
+      <gs-tablero board="{{model.tablero}}"></gs-tablero>
     </div>
     <div class="tablero-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
     </div>
     <div class="tablero-wrap-after">
-      <gs-tablero style=" width: 350px; height: 400px;" board="{{model.tablero}}"></gs-tablero>
+      <gs-tablero board="{{model.tablero}}"></gs-tablero>
     </div>
+
   </template>
   <script>
     var model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
@@ -55,7 +54,7 @@
       };
     };
 
-    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), rojo_3(), vacio0(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0(), vacio0()]];
+    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3()]];
 
     model = {
       tablero: tablero_inicial

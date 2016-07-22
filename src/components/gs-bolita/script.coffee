@@ -1,4 +1,3 @@
-
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
@@ -11,21 +10,21 @@ Polymer
       value: 0
       notify: true
       observer: '_sanitize_amount'
-      
+
   listeners:
     tap: '_process_tap'
     contextmenu: '_right_click'
-    
+
   ready: ->
     @_sanitize_amount()
-        
+
   _sanitize_amount: ->
-    unless typeof @amount is 'number' and @amount >= 0 
+    unless typeof @amount is 'number' and @amount >= 0
       @amount = 0
-    
-  _process_tap: (evnt)->
+
+  _process_tap: (event)->
     @amount += 1
 
-  _right_click: (evnt)->
-    evnt.preventDefault()
+  _right_click: (event)->
+    event.preventDefault()
     @amount -= 1

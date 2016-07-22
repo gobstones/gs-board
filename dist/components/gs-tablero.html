@@ -2,6 +2,176 @@
 <dom-module id="gs-tablero">
   <template>
     <style>
+      table.gbs_board {
+        border-style: none;
+        border: solid black 0px;
+        border-spacing: 0;
+        border-collapse: collapse;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9pt;
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .gbs_board td {
+        margin: 0;
+        padding: 2px;
+        border: solid #888 1px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .gbs_board td.gh {
+        /* position of the header in the board */
+        margin: 0;
+        padding: 2px;
+        border: dotted #440 3px;
+        background: #dd8;
+        width: 30px;
+        height: 30px;
+      }
+
+      .gbs_board td.lv {
+        /* labels at the side */
+        text-align: center;
+        vertical-align: middle;
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        width: 15px;
+      }
+
+      .gbs_board td.lh {
+        /* labels at the top / bottom */
+        text-align: center;
+        vertical-align: middle;
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        height: 15px;
+      }
+
+      .gbs_board td.lx {
+        /* corner */
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        width: 15px;
+        height: 15px;
+      }
+
+      .gbs_board td.top_left {
+        -webkit-border-top-left-radius: 10px;
+        -moz-border-top-left-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+
+      .gbs_board td.top_right {
+        -webkit-border-top-right-radius: 10px;
+        -moz-border-top-right-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .gbs_board td.bottom_left {
+        -webkit-border-bottom-left-radius: 10px;
+        -moz-border-bottom-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      .gbs_board td.bottom_right {
+        -webkit-border-bottom-right-radius: 10px;
+        -moz-border-bottom-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .gbs_board table.gc {
+        /* cell table */
+        border-style: none;
+        border: solid black 0px;
+      }
+
+      .gbs_board .gc tr {
+        border-style: none;
+        border: 0px;
+      }
+
+      .gbs_board .gc td {
+        border-style: none;
+        border: solid black 0px;
+        width: 15px;
+        height: 15px;
+        text-align: center;
+        color: black;
+      }
+
+      .gbs_board .gc td div {
+        line-height: 2;
+      }
+
+      .gbs_board div.A {
+        background: #88f;
+        border: solid 1px #008;
+      }
+
+      .gbs_board div.N {
+        background: #aaa;
+        border: solid 1px #222;
+      }
+
+      .gbs_board div.R {
+        background: #f88;
+        border: solid 1px #800;
+      }
+
+      .gbs_board div.V {
+        background: #8f8;
+        border: solid 1px #080;
+      }
+
+      .gbs_board div.O {
+        width: 20px;
+        height: 20px;
+        background: none;
+      }
+
+      /* empty */
+      .gbs_stone {
+        font-weight: bold;
+        font-size: 8pt;
+        width: 20px;
+        height: 20px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+      }
+
+      .gbs_board div.blue {
+        background: #88f;
+        border: solid 1px #008;
+      }
+
+      .gbs_board div.black {
+        background: #aaa;
+        border: solid 1px #222;
+      }
+
+      .gbs_board div.red {
+        background: #f88;
+        border: solid 1px #800;
+      }
+
+      .gbs_board div.green {
+        background: #8f8;
+        border: solid 1px #080;
+      }
+
+      .gbs_board div.unknow {
+        width: 20px;
+        height: 20px;
+        background: none;
+      }
+
+      /* empty */
       :host {
         background-color: #FFF;
         display: block;
@@ -73,7 +243,7 @@
 
     </style>
 
-    <div id="viewport" class="viewport">
+    <!-- <div id="viewport" class="viewport">
       <div class="header-row">
         <div class="empty-top-left"></div>
         <template is="dom-iterate" from="0" to="{{columnsAmount}}" include-last="{{hardcode_false}}" index-as="columnIndex">
@@ -82,8 +252,8 @@
         <div class="compass-top-right"></div>
       </div>
       <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
-        <gs-fila 
-          row="{{row}}" 
+        <gs-fila
+          row="{{row}}"
           row-index="{{rowIndex}}"
           rows-amount="{{rows.length}}"
           columns-amount="{{columnsAmount}}"
@@ -96,7 +266,58 @@
           <div class="column-index-bottom">{{columnIndex}}</div>
         </template>
       </div>
-    </div>
+    </div> -->
+
+    <table class="gbs_board">
+      <caption>Tablero final obtenido</caption>
+      <tbody>
+        <tr>
+          <td class="lx top_left"></td>
+          <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+            <td class="lh">{{columnIndex}}</td>
+          </template>
+          <td class="lx top_right"></td>
+        </tr>
+        <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
+          <tr>
+            <td class="lv">{{getRowNumber(rowIndex)}}</td>
+            <template is="dom-repeat" items="{{row}}" as="cell">
+              <td class="gc">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <gs-bolita color="black" amount="{{cell.negro}}"></gs-bolita>
+                      </td>
+                      <td>
+                        <gs-bolita color="blue" amount="{{cell.azul}}"></gs-bolita>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <gs-bolita color="red" amount="{{cell.rojo}}"></gs-bolita>
+                      </td>
+                      <td>
+                        <gs-bolita color="green" amount="{{cell.verde}}"></gs-bolita>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </template>
+            <td class="lv">{{getRowNumber(rowIndex)}}</td>
+          </tr>
+        </template>
+        <tr>
+          <td class="lx bottom_left"></td>
+          <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+            <td class="lh">{{columnIndex}}</td>
+          </template>
+          <td class="lx bottom_right"></td>
+        </tr>
+      </tbody>
+    </table>
+
   </template>
   <script>
     Polymer({
@@ -131,6 +352,17 @@
           _results.push(this._generate_empty_row());
         }
         return _results;
+      },
+      getRowNumber: function(rowIndex) {
+        return this.board.length - rowIndex;
+      },
+      columnIndexes: function(board) {
+        var _i, _ref, _results;
+        return (function() {
+          _results = [];
+          for (var _i = 0, _ref = board[0].length; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
       },
       ready: function() {
         this.board = this.board || this._generate_empty_rows();
