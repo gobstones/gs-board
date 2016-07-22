@@ -31,8 +31,6 @@ Polymer
   headCssClassFor: (rowIndex, cellIndex) ->
     rowNumber = @getRowNumber rowIndex
 
-    console.log rowNumber, "rowNumber"
-    console.log cellIndex, "cellIndex"
     if rowNumber is @head.y and cellIndex is @head.x
       "gh"
     else ""

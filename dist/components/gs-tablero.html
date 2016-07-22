@@ -182,73 +182,6 @@
         cursor: pointer;
       }
 
-      :host {
-        background-color: #FFF;
-        display: block;
-        overflow: hidden;
-        overflow-y: hidden;
-        overflow-x: hidden;
-        font-size: 0;
-      }
-      :host * {
-        box-sizing: content-box;
-      }
-
-      .viewport {
-        display: inline-block;
-      }
-
-      .footer-row,
-      .header-row {
-        display: inline-flex;
-        height: 40px;
-      }
-
-      .compass-top-right,
-      .empty-top-left,
-      .empty-bottom-left,
-      .column-index-bottom,
-      .column-index-top {
-        display: inline-flex;
-        float: left;
-        width: 40px;
-        height: 40px;
-        background-color: #BBB;
-      }
-
-      .compass-top-right,
-      .column-index-bottom,
-      .column-index-top {
-        margin-left: 4px;
-      }
-
-      .column-index-bottom,
-      .empty-bottom-left {
-        margin-top: 4px;
-      }
-
-      .empty-bottom-left {
-        clear: left;
-      }
-
-      .column-index-bottom {
-        align-items: flex-start;
-        padding-top: 7px;
-      }
-
-      .column-index-top {
-        align-items: flex-end;
-        padding-bottom: 7px;
-      }
-
-      .column-index-bottom,
-      .column-index-top {
-        display: flex;
-        font-size: 16px;
-        justify-content: center;
-        height: 33px;
-      }
-
       /*# sourceMappingURL=style.css.map */
 
     </style>
@@ -373,8 +306,6 @@
       headCssClassFor: function(rowIndex, cellIndex) {
         var rowNumber;
         rowNumber = this.getRowNumber(rowIndex);
-        console.log(rowNumber, "rowNumber");
-        console.log(cellIndex, "cellIndex");
         if (rowNumber === this.head.y && cellIndex === this.head.x) {
           return "gh";
         } else {
