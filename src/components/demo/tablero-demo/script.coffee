@@ -6,10 +6,10 @@ varias = -> negro: 4, rojo: 4
 
 tablero_inicial = [
   [verde2(), vacio0(), vacio0(), vacio0(), vacio0()]
-  [verde2(), vacio0(), vacio0(), vacio0(), rojo_3()]
-  [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0()]
+  [verde2(), vacio0(), vacio0(), vacio0(), negro4()]
+  [vacio0(), vacio0(), verde2(), vacio0(), vacio0()]
   [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3()]
+  [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]
 ]
 
 model = tablero: tablero_inicial

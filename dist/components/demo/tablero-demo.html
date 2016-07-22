@@ -7,10 +7,6 @@
 
     </style>
 
-    <div class="buttons">
-      <button id="clean" class="btn clean">Clean</button>
-      <button id="load" class="btn load">Load</button>
-    </div>
     <div>
       <gs-tablero board="{{model.tablero}}"></gs-tablero>
     </div>
@@ -51,7 +47,7 @@
       };
     };
 
-    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), rojo_3()], [vacio0(), vacio0(), rojo_3(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), vacio0(), vacio0(), rojo_3()]];
+    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), negro4()], [vacio0(), vacio0(), verde2(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]];
 
     model = {
       tablero: tablero_inicial
