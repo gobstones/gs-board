@@ -1,4 +1,3 @@
-
 vacio0 = ()-> {}
 verde2 = ()-> verde: 2
 rojo_3 = ()-> rojo:  3
@@ -39,6 +38,3 @@ Polymer
 
   _set_model: ->
     @model = model
-
-
-
