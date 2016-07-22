@@ -102,6 +102,15 @@ table.gbs_board {
 .gbs_board div.V { background: #8f8; border: solid 1px #080; }
 .gbs_board div.O { width: 20px; height: 20px; background: none; } /* empty */
 
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .gbs_stone {
 	font-weight: bold;
 	font-size: 8pt;
@@ -110,12 +119,15 @@ table.gbs_board {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
+  cursor: pointer;
+
+  @extend .unselectable;
 }
 
 // ---
 
-.gbs_board div.blue { background: #88f; border: solid 1px #008; }
-.gbs_board div.black { background: #aaa; border: solid 1px #222; }
-.gbs_board div.red  { background: #f88; border: solid 1px #800; }
-.gbs_board div.green { background: #8f8; border: solid 1px #080; }
-.gbs_board div.unknow { width: 20px; height: 20px; background: none; } /* empty */
+div.blue { background: #88f; border: solid 1px #008; }
+div.black { background: #aaa; border: solid 1px #222; }
+div.red  { background: #f88; border: solid 1px #800; }
+div.green { background: #8f8; border: solid 1px #080; }
+div.O { width: 20px; height: 20px; background: none; }

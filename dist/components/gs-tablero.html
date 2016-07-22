@@ -135,6 +135,15 @@
       }
 
       /* empty */
+      .unselectable, .gbs_stone {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
       .gbs_stone {
         font-weight: bold;
         font-size: 8pt;
@@ -143,35 +152,35 @@
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
+        cursor: pointer;
       }
 
-      .gbs_board div.blue {
+      div.blue {
         background: #88f;
         border: solid 1px #008;
       }
 
-      .gbs_board div.black {
+      div.black {
         background: #aaa;
         border: solid 1px #222;
       }
 
-      .gbs_board div.red {
+      div.red {
         background: #f88;
         border: solid 1px #800;
       }
 
-      .gbs_board div.green {
+      div.green {
         background: #8f8;
         border: solid 1px #080;
       }
 
-      .gbs_board div.unknow {
+      div.O {
         width: 20px;
         height: 20px;
         background: none;
       }
 
-      /* empty */
       :host {
         background-color: #FFF;
         display: block;
