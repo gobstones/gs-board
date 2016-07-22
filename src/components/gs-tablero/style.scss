@@ -1,10 +1,1 @@
-$tablero-height: 400px;
-$tablero-width: 400px;
-$main-color: #FFF;
-
-:host{
-  height: $tablero-height;
-  width: $tablero-width;
-  background-color: $main-color;
-  display: block;
-}
+@import '../../common/style';

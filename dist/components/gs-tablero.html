@@ -1,97 +1,308 @@
-<link rel="import" href="gs-fila.html">
-<link rel="import" href="gs-common.html">
+<link rel="import" href="gs-bolita.html">
 <dom-module id="gs-tablero">
   <template>
     <style>
-      :host {
-        height: 400px;
-        width: 400px;
-        background-color: white;
-        display: block;
+      table.gbs_board {
+        border-style: none;
+        border: solid black 0px;
+        border-spacing: 0;
+        border-collapse: collapse;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9pt;
+        display: inline-block;
+        vertical-align: top;
       }
+
+      .gbs_board td {
+        margin: 0;
+        padding: 2px;
+        border: solid #888 1px;
+        width: 30px;
+        height: 30px;
+      }
+
+      .gbs_board td.gh {
+        /* position of the header in the board */
+        margin: 0;
+        padding: 2px;
+        border: dotted #440 3px;
+        background: #dd8;
+        width: 30px;
+        height: 30px;
+      }
+
+      .gbs_board td.lv {
+        /* labels at the side */
+        text-align: center;
+        vertical-align: middle;
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        width: 15px;
+      }
+
+      .gbs_board td.lh {
+        /* labels at the top / bottom */
+        text-align: center;
+        vertical-align: middle;
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        height: 15px;
+      }
+
+      .gbs_board td.lx {
+        /* corner */
+        border-style: none;
+        border: solid black 0px;
+        background: #ddd;
+        width: 15px;
+        height: 15px;
+      }
+
+      .gbs_board td.top_left {
+        -webkit-border-top-left-radius: 10px;
+        -moz-border-top-left-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+
+      .gbs_board td.top_right {
+        -webkit-border-top-right-radius: 10px;
+        -moz-border-top-right-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .gbs_board td.bottom_left {
+        -webkit-border-bottom-left-radius: 10px;
+        -moz-border-bottom-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+
+      .gbs_board td.bottom_right {
+        -webkit-border-bottom-right-radius: 10px;
+        -moz-border-bottom-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .gbs_board table.gc {
+        /* cell table */
+        border-style: none;
+        border: solid black 0px;
+      }
+
+      .gbs_board .gc tr {
+        border-style: none;
+        border: 0px;
+      }
+
+      .gbs_board .gc td {
+        border-style: none;
+        border: solid black 0px;
+        width: 15px;
+        height: 15px;
+        text-align: center;
+        color: black;
+      }
+
+      .gbs_board .gc td div {
+        line-height: 2;
+      }
+
+      .gbs_board div.A {
+        background: #88f;
+        border: solid 1px #008;
+      }
+
+      .gbs_board div.N {
+        background: #aaa;
+        border: solid 1px #222;
+      }
+
+      .gbs_board div.R {
+        background: #f88;
+        border: solid 1px #800;
+      }
+
+      .gbs_board div.V {
+        background: #8f8;
+        border: solid 1px #080;
+      }
+
+      .gbs_board div.O {
+        width: 20px;
+        height: 20px;
+        background: none;
+      }
+
+      /* empty */
+      .unselectable, .gbs_stone {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .gbs_stone {
+        font-weight: bold;
+        font-size: 8pt;
+        width: 20px;
+        height: 20px;
+        padding-top: 3px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      div.blue {
+        background: #88f;
+        border: solid 1px #008;
+      }
+
+      div.black {
+        background: #aaa;
+        border: solid 1px #222;
+      }
+
+      div.red {
+        background: #f88;
+        border: solid 1px #800;
+      }
+
+      div.green {
+        background: #8f8;
+        border: solid 1px #080;
+      }
+
+      div.O {
+        width: 20px;
+        height: 20px;
+        background: none;
+        cursor: pointer;
+      }
+
+      /*# sourceMappingURL=style.css.map */
 
     </style>
 
-    <div class="gs-tablero-explicit">
-      <span>Repeat</span><br/>
-      <input type="text" is="iron-input" bind-value="{{lastIndex}}" /><br/>
-      <span>tablero</span><br/>
-      <input type="text" is="iron-input" bind-value="{{tableroRows}}" /><br/>
-      <span>{{last_index}}</span><br/>
-      <template is="dom-iterate" from="1" to="{{lastIndex}}" index-as="indice">
-        <template is="dom-iterate" from="20" to="25" index-as="indice2">
-          <span>child parent indice </span>
-          <span>{{indice}}</span><br/>
-          <span>--child self indice </span>
-          <span>{{indice2}}</span><br/>
+    <table class="gbs_board">
+      <tbody>
+        <tr>
+          <td class="lx top_left"></td>
+          <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+            <td class="lh">{{columnIndex}}</td>
+          </template>
+          <td class="lx top_right"></td>
+        </tr>
+        <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
+          <tr>
+            <td class="lv">{{getRowNumber(rowIndex)}}</td>
+            <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
+              <td class$="gc {{headCssClassFor(rowIndex, cellIndex)}}">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <gs-bolita color="black" amount="{{cell.negro}}"></gs-bolita>
+                      </td>
+                      <td>
+                        <gs-bolita color="blue" amount="{{cell.azul}}"></gs-bolita>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <gs-bolita color="red" amount="{{cell.rojo}}"></gs-bolita>
+                      </td>
+                      <td>
+                        <gs-bolita color="green" amount="{{cell.verde}}"></gs-bolita>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </template>
+            <td class="lv">{{getRowNumber(rowIndex)}}</td>
+          </tr>
         </template>
-      </template>
-      <br/>
-      <template is="dom-repeat" items="{{filas}}" as="fila" index-as="posicion">
-        <span>{{fila.length}}</span>
-        <span>{{posicion}}</span>
-        <gs-fila celdas="{{fila}}"></gs-fila>
-        <br/>
-      </template>
-    </div>
+        <tr>
+          <td class="lx bottom_left"></td>
+          <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+            <td class="lh">{{columnIndex}}</td>
+          </template>
+          <td class="lx bottom_right"></td>
+        </tr>
+      </tbody>
+    </table>
+
   </template>
   <script>
-    var generar_fila_vacia, generar_filas_vacias;
-
-    generar_fila_vacia = function() {
-      var _, _i, _results;
-      _results = [];
-      for (_ = _i = 0; _i < 8; _ = ++_i) {
-        _results.push({});
-      }
-      return _results;
-    };
-
-    generar_filas_vacias = function() {
-      var index_fila, _i, _results;
-      _results = [];
-      for (index_fila = _i = 0; _i < 8; index_fila = ++_i) {
-        _results.push(generar_fila_vacia());
-      }
-      return _results;
-    };
-
     Polymer({
       is: 'gs-tablero',
       properties: {
-        filas: {
-          type: Array,
-          notify: true
+        board: Array,
+        size: {
+          type: Object,
+          value: {
+            x: 2,
+            y: 2
+          }
         },
-        lastIndex: {
-          type: String,
-          value: 0
+        head: {
+          type: Object,
+          value: {
+            x: 0,
+            y: 0
+          }
         },
-        tableroRows: {
-          type: String,
-          value: 8,
-          observer: '_rows_change'
+        editable: {
+          type: Boolean,
+          value: false
         }
       },
-      created: function() {
-        return console.log('gs-tablero created');
-      },
       ready: function() {
-        return this.filas = generar_filas_vacias();
+        if (this.board == null) {
+          return this._initializeBoard();
+        }
       },
-      hostAttributes: {
-        "mi-atributo": "mivalor"
+      getRowNumber: function(rowIndex) {
+        return this.board.length - 1 - rowIndex;
       },
-      attached: function() {},
-      detached: function() {},
-      attributeChanged: function(name, type) {},
-      _rows_change: function() {
-        console.log(this.tableroRows);
-        this.filas && this.splice('filas', 1, 1);
-        return console.log(this.filas);
+      columnIndexes: function(board) {
+        var _i, _ref, _results;
+        return (function() {
+          _results = [];
+          for (var _i = 0, _ref = board[0].length; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
       },
-      load: function() {
-        return console.log('tablero loading');
+      headCssClassFor: function(rowIndex, cellIndex) {
+        var rowNumber;
+        rowNumber = this.getRowNumber(rowIndex);
+        if (rowNumber === this.head.y && cellIndex === this.head.x) {
+          return "gh";
+        } else {
+          return "";
+        }
+      },
+      _initializeBoard: function() {
+        var i, j;
+        return this.board = (function() {
+          var _i, _ref, _results;
+          _results = [];
+          for (i = _i = 1, _ref = this.size.y; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+            _results.push((function() {
+              var _j, _ref1, _results1;
+              _results1 = [];
+              for (j = _j = 1, _ref1 = this.size.x; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; j = 1 <= _ref1 ? ++_j : --_j) {
+                _results1.push({});
+              }
+              return _results1;
+            }).call(this));
+          }
+          return _results;
+        }).call(this);
       }
     });
 

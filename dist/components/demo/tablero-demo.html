@@ -1,0 +1,89 @@
+<dom-module id="tablero-demo">
+  <template>
+    <style>
+      
+
+      /*# sourceMappingURL=style.css.map */
+
+    </style>
+
+    <div>
+      <gs-tablero board="{{model.tablero}}"></gs-tablero>
+    </div>
+    <div class="tablero-wrap-json">
+      <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
+    </div>
+
+  </template>
+  <script>
+    var empty, model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+
+    vacio0 = function() {
+      return {};
+    };
+
+    verde2 = function() {
+      return {
+        verde: 2
+      };
+    };
+
+    rojo_3 = function() {
+      return {
+        rojo: 3
+      };
+    };
+
+    negro4 = function() {
+      return {
+        negro: 4
+      };
+    };
+
+    varias = function() {
+      return {
+        negro: 4,
+        rojo: 4
+      };
+    };
+
+    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), negro4()], [vacio0(), vacio0(), verde2(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]];
+
+    model = {
+      tablero: tablero_inicial
+    };
+
+    empty = {
+      tablero: [[]]
+    };
+
+    Polymer({
+      is: 'tablero-demo',
+      properties: {
+        model: {
+          type: Object,
+          value: model,
+          notify: true
+        },
+        jsonModel: {
+          type: Object,
+          value: model
+        }
+      },
+      listeners: {
+        'jsoneditor.change': '_jsonChange'
+      },
+      _jsonChange: function() {
+        return this.async(this._forceRender, 0);
+      },
+      _forceRender: function() {
+        this.model = empty;
+        return this.async(this._setModel, 0);
+      },
+      _setModel: function() {
+        return this.model = model;
+      }
+    });
+
+  </script>
+</dom-module>

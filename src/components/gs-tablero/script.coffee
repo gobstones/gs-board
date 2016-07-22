@@ -1,52 +1,42 @@
-
-generar_fila_vacia = ()->
-  {} for _ in [0...8]
-generar_filas_vacias = ()->
-  generar_fila_vacia() for index_fila in [0...8]
-    
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
-  
+
   properties:
-    filas:
-      type: Array
-      notify: true
-    lastIndex:
-      type: String
-      value: 0
-    tableroRows:
-      type: String
-      value: 8
-      observer: '_rows_change'
+    board: Array
+    # ^ [[{ red: 2, blue: 1 }, { black: 3 }], [...]]
 
-  # Fires when an instance of the element is created
-  created: ()->
-    console.log 'gs-tablero created'
-    #@last_index = 5
+    size:
+      type: Object
+      value: { x: 2, y: 2 }
+    # ^ if `board` exists, this field is ignored
 
-  # Fires when the local DOM has been fully prepared
-  ready: ()->
-    this.filas = generar_filas_vacias()
-  
-  hostAttributes:
-    "mi-atributo": "mivalor"
-    
-  # Fires when the element was inserted into the document
-  attached: ()->
+    head:
+      type: Object
+      value: { x: 0, y: 0 }
 
-  # Fires when the element was removed from the document
-  detached: ()->
+    editable:
+      type: Boolean
+      value: false
 
-  # Fires when an attribute was added, removed, or updated
-  attributeChanged: (name, type)->
+  ready: ->
+    if not @board?
+      @_initializeBoard()
 
-  _rows_change: ->
-    console.log @tableroRows
-    this.filas and this.splice('filas', 1, 1);
-    console.log this.filas
-    
-  load: ->
-    console.log 'tablero loading'
-    
-    
-  
+  getRowNumber: (rowIndex) ->
+    @board.length - 1 - rowIndex
+
+  columnIndexes: (board) ->
+    [0 ... board[0].length]
+
+  headCssClassFor: (rowIndex, cellIndex) ->
+    rowNumber = @getRowNumber rowIndex
+
+    if rowNumber is @head.y and cellIndex is @head.x
+      "gh"
+    else ""
+
+  _initializeBoard: ->
+    @board =
+      for i in [1 .. @size.y]
+        for j in [1 .. @size.x]
+          {}

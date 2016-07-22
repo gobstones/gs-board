@@ -1,18 +1,30 @@
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
-  # Fires when an instance of the element is created
-  created: ()->
-    console.log 'gs-bolita'
+  properties:
+    color:
+      type: String
+      value: 'unknown'
+    amount:
+      type: Number
+      value: 0
+      notify: true
+      observer: '_sanitizeAmount'
 
-  # Fires when the local DOM has been fully prepared
-  ready: ()->
+  listeners:
+    tap: '_processTap'
+    contextmenu: '_rightClick'
 
-  # Fires when the element was inserted into the document
-  attached: ()->
+  ready: ->
+    @_sanitizeAmount()
 
-  # Fires when the element was removed from the document
-  detached: ()->
+  _sanitizeAmount: ->
+    unless typeof @amount is 'number' and @amount >= 0
+      @amount = 0
 
-  # Fires when an attribute was added, removed, or updated
-  attributeChanged: (name, type)->
+  _processTap: (event)->
+    @amount += 1
+
+  _rightClick: (event)->
+    event.preventDefault()
+    @amount -= 1
