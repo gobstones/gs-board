@@ -13,6 +13,7 @@ tablero_inicial = [
 ]
 
 model = tablero: tablero_inicial
+empty = tablero: [[]]
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
@@ -28,8 +29,14 @@ Polymer
       value: model
 
   listeners:
-    'jsoneditor.change': '_json_change'
+    'jsoneditor.change': '_jsonChange'
 
-  _json_change: ->
+  _jsonChange: ->
+    @async @_forceRender, 0
+
+  _forceRender: ->
+    @model = empty
+    @async @_setModel, 0
+
+  _setModel: ->
     @model = model
-    @render()

@@ -20,7 +20,7 @@
 
   </template>
   <script>
-    var model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+    var empty, model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
 
     vacio0 = function() {
       return {};
@@ -57,6 +57,10 @@
       tablero: tablero_inicial
     };
 
+    empty = {
+      tablero: [[]]
+    };
+
     Polymer({
       is: 'tablero-demo',
       properties: {
@@ -71,11 +75,17 @@
         }
       },
       listeners: {
-        'jsoneditor.change': '_json_change'
+        'jsoneditor.change': '_jsonChange'
       },
-      _json_change: function() {
-        this.model = model;
-        return this.render();
+      _jsonChange: function() {
+        return this.async(this._forceRender, 0);
+      },
+      _forceRender: function() {
+        this.model = empty;
+        return this.async(this._setModel, 0);
+      },
+      _setModel: function() {
+        return this.model = model;
       }
     });
 
