@@ -290,8 +290,8 @@
         <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
           <tr>
             <td class="lv">{{getRowNumber(rowIndex)}}</td>
-            <template is="dom-repeat" items="{{row}}" as="cell">
-              <td class="gc">
+            <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
+              <td class$="gc {{headCssClassFor(rowIndex, cellIndex)}}">
                 <table>
                   <tbody>
                     <tr>
@@ -334,10 +334,33 @@
     Polymer({
       is: 'gs-tablero',
       properties: {
-        board: Array
+        board: Array,
+        size: {
+          type: Object,
+          value: {
+            x: 2,
+            y: 2
+          }
+        },
+        head: {
+          type: Object,
+          value: {
+            x: 0,
+            y: 0
+          }
+        },
+        editable: {
+          type: Boolean,
+          value: false
+        }
+      },
+      ready: function() {
+        if (this.board == null) {
+          return this._initializeBoard();
+        }
       },
       getRowNumber: function(rowIndex) {
-        return this.board.length - rowIndex;
+        return this.board.length - 1 - rowIndex;
       },
       columnIndexes: function(board) {
         var _i, _ref, _results;
@@ -346,6 +369,35 @@
           for (var _i = 0, _ref = board[0].length; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
+      },
+      headCssClassFor: function(rowIndex, cellIndex) {
+        var rowNumber;
+        rowNumber = this.getRowNumber(rowIndex);
+        console.log(rowNumber, "rowNumber");
+        console.log(cellIndex, "cellIndex");
+        if (rowNumber === this.head.y && cellIndex === this.head.x) {
+          return "gh";
+        } else {
+          return "";
+        }
+      },
+      _initializeBoard: function() {
+        var i, j;
+        return this.board = (function() {
+          var _i, _ref, _results;
+          _results = [];
+          for (i = _i = 1, _ref = this.size.y; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+            _results.push((function() {
+              var _j, _ref1, _results1;
+              _results1 = [];
+              for (j = _j = 1, _ref1 = this.size.x; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; j = 1 <= _ref1 ? ++_j : --_j) {
+                _results1.push({});
+              }
+              return _results1;
+            }).call(this));
+          }
+          return _results;
+        }).call(this);
       }
     });
 

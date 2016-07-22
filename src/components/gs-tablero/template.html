@@ -35,8 +35,8 @@
     <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
       <tr>
         <td class="lv">{{getRowNumber(rowIndex)}}</td>
-        <template is="dom-repeat" items="{{row}}" as="cell">
-          <td class="gc">
+        <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
+          <td class$="gc {{headCssClassFor(rowIndex, cellIndex)}}">
             <table>
               <tbody>
                 <tr>
