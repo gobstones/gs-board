@@ -25,7 +25,7 @@ Polymer
     @board.length - 1 - rowIndex
 
   columnIndexes: (board) ->
-    [0 ... board[0].length]
+    [0 ... board?[0].length]
 
   headerCssClassFor: (rowIndex, cellIndex) ->
     rowNumber = @getRowNumber rowIndex
