@@ -200,7 +200,7 @@
           <tr>
             <td class="lv">{{getRowNumber(rowIndex)}}</td>
             <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
-              <td class$="gc {{headCssClassFor(rowIndex, cellIndex)}}">
+              <td class$="gc {{headerCssClassFor(rowIndex, cellIndex)}}">
                 <table>
                   <tbody>
                     <tr>
@@ -249,7 +249,7 @@
             y: 2
           }
         },
-        head: {
+        header: {
           type: Object,
           value: {
             x: 0,
@@ -277,10 +277,10 @@
           return _results;
         }).apply(this);
       },
-      headCssClassFor: function(rowIndex, cellIndex) {
+      headerCssClassFor: function(rowIndex, cellIndex) {
         var rowNumber;
         rowNumber = this.getRowNumber(rowIndex);
-        if (rowNumber === this.head.y && cellIndex === this.head.x) {
+        if (rowNumber === this.header.y && cellIndex === this.header.x) {
           return "gh";
         } else {
           return "";
