@@ -14,13 +14,12 @@ Polymer
       type: Object
       value: { x: 0, y: 0 }
 
-    editable:
-      type: Boolean
-      value: false
+    options: Object
+    # ^ { editable: false }
 
   ready: ->
-    if not @board?
-      @_initializeBoard()
+    @_initializeBoard() if not @board?
+    @_initializeOptions()
 
   getRowNumber: (rowIndex) ->
     @board.length - 1 - rowIndex
@@ -40,3 +39,7 @@ Polymer
       for i in [1 .. @size.y]
         for j in [1 .. @size.x]
           {}
+
+  _initializeOptions: ->
+    @options ?= {}
+    @options.editable ?= false

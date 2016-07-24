@@ -117,7 +117,6 @@ table.gbs_board {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-  cursor: pointer;
 
   @extend .unselectable;
 }
@@ -126,4 +125,4 @@ div.blue { background: #0A37D0; border: solid 1px #008; }
 div.black { background: #040928; border: solid 1px #222; }
 div.red  { background: #A60000; border: solid 1px #800; }
 div.green { background: #0B6600; border: solid 1px #080; }
-div.O { @extend .pointer; width: 20px; height: 20px; background: none; }
+div.O { width: 20px; height: 20px; background: none; }

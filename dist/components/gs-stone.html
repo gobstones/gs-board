@@ -135,7 +135,7 @@
 
       /* empty */
       /* .gbs_stone { ... } */
-      .pointer, div.O {
+      .pointer {
         cursor: pointer;
       }
 
@@ -157,7 +157,6 @@
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
-        cursor: pointer;
       }
 
       div.blue {
@@ -191,11 +190,11 @@
     </style>
 
     <template is="dom-if" if="{{amount}}">
-      <div class$="gbs_stone {{color}}"><span>{{amount}}</span></div>
+      <div class$="gbs_stone {{color}} {{cssClass()}}"><span>{{amount}}</span></div>
     </template>
 
     <template is="dom-if" if="{{!amount}}">
-      <div class="O"></div>
+      <div class$="O {{cssClass()}}"></div>
     </template>
 
   </template>
@@ -203,23 +202,31 @@
     Polymer({
       is: 'gs-stone',
       properties: {
-        color: {
-          type: String,
-          value: 'unknown'
-        },
+        color: String,
         amount: {
           type: Number,
           value: 0,
           notify: true,
           observer: '_sanitizeAmount'
-        }
+        },
+        options: Object
       },
       listeners: {
         tap: '_processTap',
         contextmenu: '_rightClick'
       },
       ready: function() {
-        return this._sanitizeAmount();
+        this._sanitizeAmount();
+        if (this.options == null) {
+          throw new Error("Options for the stone are required");
+        }
+      },
+      cssClass: function() {
+        if (this.options.editable) {
+          return "pointer";
+        } else {
+          return "";
+        }
       },
       _sanitizeAmount: function() {
         if (!(typeof this.amount === 'number' && this.amount >= 0)) {
@@ -227,9 +234,15 @@
         }
       },
       _processTap: function(event) {
+        if (!this.options.editable) {
+          return;
+        }
         return this.amount += 1;
       },
       _rightClick: function(event) {
+        if (!this.options.editable) {
+          return;
+        }
         event.preventDefault();
         return this.amount -= 1;
       }
