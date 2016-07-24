@@ -1,4 +1,4 @@
-<dom-module id="tablero-demo">
+<dom-module id="board-demo">
   <template>
     <style>
       
@@ -8,15 +8,15 @@
     </style>
 
     <div>
-      <gs-tablero board="{{model.tablero}}"></gs-tablero>
+      <gs-board board="{{model.board}}"></gs-board>
     </div>
-    <div class="tablero-wrap-json">
+    <div class="board-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
     </div>
 
   </template>
   <script>
-    var empty, model, negro4, rojo_3, tablero_inicial, vacio0, varias, verde2;
+    var board_inicial, empty, model, negro4, rojo_3, vacio0, varias, verde2;
 
     vacio0 = function() {
       return {};
@@ -47,18 +47,18 @@
       };
     };
 
-    tablero_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), negro4()], [vacio0(), vacio0(), verde2(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]];
+    board_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), negro4()], [vacio0(), vacio0(), verde2(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]];
 
     model = {
-      tablero: tablero_inicial
+      board: board_inicial
     };
 
     empty = {
-      tablero: [[]]
+      board: [[]]
     };
 
     Polymer({
-      is: 'tablero-demo',
+      is: 'board-demo',
       properties: {
         model: {
           type: Object,

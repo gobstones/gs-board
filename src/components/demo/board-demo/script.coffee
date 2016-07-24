@@ -4,7 +4,7 @@ rojo_3 = -> red:  3
 negro4 = -> black: 4
 varias = -> black: 4, red: 4
 
-tablero_inicial = [
+board_inicial = [
   [verde2(), vacio0(), vacio0(), vacio0(), vacio0()]
   [verde2(), vacio0(), vacio0(), vacio0(), negro4()]
   [vacio0(), vacio0(), verde2(), vacio0(), vacio0()]
@@ -12,8 +12,8 @@ tablero_inicial = [
   [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]
 ]
 
-model = tablero: tablero_inicial
-empty = tablero: [[]]
+model = board: board_inicial
+empty = board: [[]]
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'

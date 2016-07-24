@@ -1,8 +1,8 @@
-# tablero
+# gs-board
 
-gobstones grid Polymer component (aka: tablero)
+gobstones grid Polymer component (aka: board)
 
-Version: 0.0.0
+Version: 0.1.0
 
 ## deploy
 

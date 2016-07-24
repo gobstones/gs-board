@@ -1,5 +1,0 @@
-{
-  "name": "gs-tablero",
-  "imports": ["gs-bolita.html"],
-  "require": []
-}

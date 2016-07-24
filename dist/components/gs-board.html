@@ -1,5 +1,5 @@
-<link rel="import" href="gs-bolita.html">
-<dom-module id="gs-tablero">
+<link rel="import" href="gs-stone.html">
+<dom-module id="gs-board">
   <template>
     <style>
       table.gbs_board {
@@ -209,18 +209,18 @@
                   <tbody>
                     <tr>
                       <td>
-                        <gs-bolita color="blue" amount="{{cell.blue}}"></gs-bolita>
+                        <gs-stone color="blue" amount="{{cell.blue}}"></gs-stone>
                       </td>
                       <td>
-                        <gs-bolita color="black" amount="{{cell.black}}"></gs-bolita>
+                        <gs-stone color="black" amount="{{cell.black}}"></gs-stone>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <gs-bolita color="red" amount="{{cell.red}}"></gs-bolita>
+                        <gs-stone color="red" amount="{{cell.red}}"></gs-stone>
                       </td>
                       <td>
-                        <gs-bolita color="green" amount="{{cell.green}}"></gs-bolita>
+                        <gs-stone color="green" amount="{{cell.green}}"></gs-stone>
                       </td>
                     </tr>
                   </tbody>
@@ -243,7 +243,7 @@
   </template>
   <script>
     Polymer({
-      is: 'gs-tablero',
+      is: 'gs-board',
       properties: {
         board: Array,
         size: {

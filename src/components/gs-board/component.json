@@ -1,0 +1,5 @@
+{
+  "name": "gs-board",
+  "imports": ["gs-stone.html"],
+  "require": []
+}
