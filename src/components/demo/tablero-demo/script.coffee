@@ -1,8 +1,8 @@
 vacio0 = -> {}
-verde2 = -> verde: 2
-rojo_3 = -> rojo:  3
-negro4 = -> negro: 4
-varias = -> negro: 4, rojo: 4
+verde2 = -> green: 2
+rojo_3 = -> red:  3
+negro4 = -> black: 4
+varias = -> black: 4, red: 4
 
 tablero_inicial = [
   [verde2(), vacio0(), vacio0(), vacio0(), vacio0()]
