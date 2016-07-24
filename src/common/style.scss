@@ -121,8 +121,9 @@ table.gbs_board {
   @extend .unselectable;
 }
 
-div.blue { background: #0A37D0; border: solid 1px #008; }
-div.black { background: #040928; border: solid 1px #222; }
-div.red  { background: #A60000; border: solid 1px #800; }
-div.green { background: #0B6600; border: solid 1px #080; }
-div.O { width: 20px; height: 20px; background: none; }
+
+div.ball.blue { background: #0A37D0; border: solid 1px #008; }
+div.ball.black { background: #040928; border: solid 1px #222; }
+div.ball.red  { background: #A60000; border: solid 1px #800; }
+div.ball.green { background: #0B6600; border: solid 1px #080; }
+div.ball.O { width: 20px; height: 20px; background: none; }
