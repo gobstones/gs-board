@@ -153,10 +153,13 @@
         font-size: 8pt;
         width: 20px;
         height: 20px;
-        padding-top: 3px;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
+      }
+
+      .stone_amount {
+        vertical-align: sub;
       }
 
       ::content div.blue {
@@ -186,7 +189,9 @@
     </style>
 
     <template is="dom-if" if="{{amount}}">
-      <div class$="gbs_stone {{color}} {{cssClass()}}"><span>{{amount}}</span></div>
+      <div class$="gbs_stone {{color}} {{cssClass()}}">
+        <span class="stone_amount">{{amount}}</span>
+      </div>
     </template>
 
     <template is="dom-if" if="{{!amount}}">
