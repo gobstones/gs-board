@@ -18,7 +18,7 @@ Polymer
     # ^ { editable: false }
 
   ready: ->
-    @_initializeBoard() if not @board?
+    @_initializeBoard()
     @_initializeOptions()
 
   getRowNumber: (rowIndex) ->
@@ -35,7 +35,7 @@ Polymer
     else ""
 
   _initializeBoard: ->
-    @board =
+    @board ?=
       for i in [1 .. @size.y]
         for j in [1 .. @size.x]
           {}

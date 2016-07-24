@@ -16,38 +16,20 @@
 
   </template>
   <script>
-    var board_inicial, empty, model, negro4, rojo_3, vacio0, varias, verde2;
+    var board_inicial, empty, model;
 
-    vacio0 = function() {
-      return {};
-    };
-
-    verde2 = function() {
-      return {
-        green: 2
-      };
-    };
-
-    rojo_3 = function() {
-      return {
-        red: 3
-      };
-    };
-
-    negro4 = function() {
-      return {
-        black: 4
-      };
-    };
-
-    varias = function() {
-      return {
-        black: 4,
-        red: 4
-      };
-    };
-
-    board_inicial = [[verde2(), vacio0(), vacio0(), vacio0(), vacio0()], [verde2(), vacio0(), vacio0(), vacio0(), negro4()], [vacio0(), vacio0(), verde2(), vacio0(), vacio0()], [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()], [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]];
+    board_inicial = [
+      [{}, {}, {}, {}], [{}, {}, {}, {}], [
+        {}, {}, {
+          green: 2
+        }, {}
+      ], [
+        {
+          red: 3,
+          black: 4
+        }, {}, {}, {}
+      ]
+    ];
 
     model = {
       board: board_inicial

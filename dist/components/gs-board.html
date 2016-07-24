@@ -239,9 +239,7 @@
         options: Object
       },
       ready: function() {
-        if (this.board == null) {
-          this._initializeBoard();
-        }
+        this._initializeBoard();
         return this._initializeOptions();
       },
       getRowNumber: function(rowIndex) {
@@ -266,7 +264,7 @@
       },
       _initializeBoard: function() {
         var i, j;
-        return this.board = (function() {
+        return this.board != null ? this.board : this.board = (function() {
           var _i, _ref, _results;
           _results = [];
           for (i = _i = 1, _ref = this.size.y; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {

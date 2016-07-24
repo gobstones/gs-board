@@ -1,15 +1,8 @@
-vacio0 = -> {}
-verde2 = -> green: 2
-rojo_3 = -> red:  3
-negro4 = -> black: 4
-varias = -> black: 4, red: 4
-
 board_inicial = [
-  [verde2(), vacio0(), vacio0(), vacio0(), vacio0()]
-  [verde2(), vacio0(), vacio0(), vacio0(), negro4()]
-  [vacio0(), vacio0(), verde2(), vacio0(), vacio0()]
-  [rojo_3(), rojo_3(), vacio0(), vacio0(), vacio0()]
-  [vacio0(), vacio0(), varias(), vacio0(), rojo_3()]
+  [ {}, {}, {}, {} ]
+  [ {}, {}, {}, {} ]
+  [ {}, {}, { green: 2 }, {} ]
+  [ { red: 3, black: 4 }, {}, {}, {} ]
 ]
 
 model = board: board_inicial
