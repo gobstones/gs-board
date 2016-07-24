@@ -11,23 +11,23 @@
       <tr>
         <td class="lv">{{getRowNumber(rowIndex)}}</td>
         <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
-          <td class$="gc {{headCssClassFor(rowIndex, cellIndex)}}">
+          <td class$="gc {{headerCssClassFor(rowIndex, cellIndex)}}">
             <table>
               <tbody>
                 <tr>
                   <td>
-                    <gs-bolita color="black" amount="{{cell.negro}}"></gs-bolita>
+                    <gs-bolita color="blue" amount="{{cell.blue}}"></gs-bolita>
                   </td>
                   <td>
-                    <gs-bolita color="blue" amount="{{cell.azul}}"></gs-bolita>
+                    <gs-bolita color="black" amount="{{cell.black}}"></gs-bolita>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <gs-bolita color="red" amount="{{cell.rojo}}"></gs-bolita>
+                    <gs-bolita color="red" amount="{{cell.red}}"></gs-bolita>
                   </td>
                   <td>
-                    <gs-bolita color="green" amount="{{cell.verde}}"></gs-bolita>
+                    <gs-bolita color="green" amount="{{cell.green}}"></gs-bolita>
                   </td>
                 </tr>
               </tbody>
