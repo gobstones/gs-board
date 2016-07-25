@@ -156,7 +156,6 @@
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
         border-radius: 10px;
-        padding: 1px 1px 1px 1px;
       }
 
       .stone_amount {
@@ -180,9 +179,7 @@
         border: solid 1px #080;
       }
       ::content div.O {
-        width: 20px;
-        height: 20px;
-        background: none;
+        visibility: none;
       }
 
       /*# sourceMappingURL=style.css.map */
@@ -196,7 +193,7 @@
     </template>
 
     <template is="dom-if" if="{{!amount}}">
-      <div class$="O {{cssClass()}}"></div>
+      <div class$="gbs_stone O {{cssClass()}}"></div>
     </template>
 
   </template>
