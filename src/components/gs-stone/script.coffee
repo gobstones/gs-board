@@ -16,7 +16,7 @@ Polymer
 
   ready: ->
     @_sanitizeAmount()
-    throw new Error("Options for the stone are required") if not @options?
+    throw new Error("The options are required") if not @options?
 
   cssClass: ->
     if @options.editable then "pointer"

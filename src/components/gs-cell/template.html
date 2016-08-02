@@ -1,0 +1,25 @@
+<template is="dom-if" if="true">
+  <!-- // TODO: Otherwise, the cssClass() can't access to internal properties -->
+  <div class$="gc {{cssClass()}}">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <gs-stone color="blue" amount="{{cell.blue}}" options="{{options}}"></gs-stone>
+          </td>
+          <td>
+            <gs-stone color="black" amount="{{cell.black}}" options="{{options}}"></gs-stone>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <gs-stone color="red" amount="{{cell.red}}" options="{{options}}"></gs-stone>
+          </td>
+          <td>
+            <gs-stone color="green" amount="{{cell.green}}" options="{{options}}"></gs-stone>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>

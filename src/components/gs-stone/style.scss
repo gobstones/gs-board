@@ -7,3 +7,19 @@
   div.green { background: #0B6600; border: solid 1px #080; }
   div.O { background: white; opacity: 0; border: solid 1px #222; }
 }
+
+.gbs_stone {
+  font-weight: bold;
+  font-size: 8pt;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+
+  @extend .unselectable;
+}
+
+.stone_amount {
+  vertical-align: sub;
+}
