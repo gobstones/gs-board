@@ -12,15 +12,15 @@ Polymer
     options: Object
 
   listeners:
-    tap: '_processTap'
+    click: '_leftClick'
 
   ready: ->
     @_validateData()
     @_keyTracker = new KeyTracker()
 
-  cssClass: ->
-    return "" if not @header?
-    theHeaderIsHere = @x() is @header.x and @y() is @header.y
+  cssClass: (header) ->
+    return "" if not header?
+    theHeaderIsHere = @x() is header.x and @y() is header.y
 
     if theHeaderIsHere then "gh" else ""
 
@@ -32,18 +32,12 @@ Polymer
   y: -> @getRowNumber @rowIndex
   getRowNumber: (rowIndex) ->
     @board.length - 1 - rowIndex
-  # ---
 
-  _processTap: (event) ->
+  _leftClick: (event) ->
     return if not @options.editable
 
     if @_keyTracker.isPressed "Control"
-      @header.x = @x()
-      @header.y = @y()
-
-      # // TODO: Don't pass the event to the child stones
-      # // TODO: Fix problem with two-way-binding
-      console.log "The new header is in", @header
+      @header = { x: @x(), y: @y() }
 
   _validateData: ->
     throw new Error("The board is required") if not @board?
@@ -55,7 +49,7 @@ Polymer
 
 # ------------------------------
 
-# // TODO: Move to another place
+# // TODO: Duplicated. Move to another place.
 class KeyTracker
   constructor: ->
     @_pressedKeys = []
