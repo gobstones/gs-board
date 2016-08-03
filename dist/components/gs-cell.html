@@ -158,18 +158,18 @@
         this.isPressed = __bind(this.isPressed, this);
         this._pressedKeys = [];
         this._listenTo("keydown", (function(_this) {
-          return function(_arg) {
+          return function(ev) {
             var key;
-            key = _arg.key;
+            key = ev.key || ev.keyIdentifier;
             if (!_this.isPressed(key)) {
               return _this._pressedKeys.push(key);
             }
           };
         })(this));
         this._listenTo("keyup", (function(_this) {
-          return function(_arg) {
+          return function(ev) {
             var key;
-            key = _arg.key;
+            key = ev.key || ev.keyIdentifier;
             if (_this.isPressed(key)) {
               return _this._pressedKeys.splice(_this._indexOf(key), 1);
             }

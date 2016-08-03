@@ -40,6 +40,7 @@ Polymer
     if @_keyTracker.isPressed "Control"
       @header.x = @x()
       @header.y = @y()
+
       # // TODO: Don't pass the event to the child stones
       # // TODO: Fix problem with two-way-binding
       console.log "The new header is in", @header
@@ -59,10 +60,12 @@ class KeyTracker
   constructor: ->
     @_pressedKeys = []
 
-    @_listenTo "keydown", ({ key }) =>
+    @_listenTo "keydown", (ev) =>
+      key = ev.key || ev.keyIdentifier
       @_pressedKeys.push key if not @isPressed key
 
-    @_listenTo "keyup", ({ key }) =>
+    @_listenTo "keyup", (ev) =>
+      key = ev.key || ev.keyIdentifier
       @_pressedKeys.splice @_indexOf(key), 1 if @isPressed key
 
   isPressed: (key) =>
