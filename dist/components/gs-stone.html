@@ -1,140 +1,6 @@
 <dom-module id="gs-stone">
   <template>
     <style>
-      table.gbs_board {
-        border-style: none;
-        border: solid black 0px;
-        border-spacing: 0;
-        border-collapse: collapse;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 9pt;
-        display: inline-block;
-        vertical-align: top;
-      }
-
-      .gbs_board td {
-        margin: 0;
-        padding: 2px;
-        border: solid #888 1px;
-        width: 30px;
-        height: 30px;
-      }
-
-      .gbs_board td.gh {
-        /* position of the header in the board */
-        margin: 0;
-        padding: 2px;
-        border: solid #CC0000 3px;
-        background: #dd8;
-        width: 30px;
-        height: 30px;
-      }
-
-      .gbs_board td.lv {
-        /* labels at the side */
-        text-align: center;
-        vertical-align: middle;
-        border-style: none;
-        border: solid black 0px;
-        background: #ddd;
-        width: 15px;
-      }
-
-      .gbs_board td.lh {
-        /* labels at the top / bottom */
-        text-align: center;
-        vertical-align: middle;
-        border-style: none;
-        border: solid black 0px;
-        background: #ddd;
-        height: 15px;
-      }
-
-      .gbs_board td.lx {
-        /* corner */
-        border-style: none;
-        border: solid black 0px;
-        background: #ddd;
-        width: 15px;
-        height: 15px;
-      }
-
-      .gbs_board td.top_left {
-        -webkit-border-top-left-radius: 10px;
-        -moz-border-top-left-radius: 10px;
-        border-top-left-radius: 10px;
-      }
-
-      .gbs_board td.top_right {
-        -webkit-border-top-right-radius: 10px;
-        -moz-border-top-right-radius: 10px;
-        border-top-right-radius: 10px;
-      }
-
-      .gbs_board td.bottom_left {
-        -webkit-border-bottom-left-radius: 10px;
-        -moz-border-bottom-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-      }
-
-      .gbs_board td.bottom_right {
-        -webkit-border-bottom-right-radius: 10px;
-        -moz-border-bottom-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-      }
-
-      .gbs_board table.gc {
-        /* cell table */
-        border-style: none;
-        border: solid black 0px;
-      }
-
-      .gbs_board .gc tr {
-        border-style: none;
-        border: 0px;
-      }
-
-      .gbs_board .gc td {
-        border-style: none;
-        border: solid black 0px;
-        width: 15px;
-        height: 15px;
-        text-align: center;
-        color: #F3F3E9;
-      }
-
-      .gbs_board .gc td div {
-        line-height: 2;
-      }
-
-      .gbs_board div.A {
-        background: #0A37D0;
-        border: solid 1px #008;
-      }
-
-      .gbs_board div.N {
-        background: #040928;
-        border: solid 1px #222;
-      }
-
-      .gbs_board div.R {
-        background: #A60000;
-        border: solid 1px #800;
-      }
-
-      .gbs_board div.V {
-        background: #0B6600;
-        border: solid 1px #080;
-      }
-
-      .gbs_board div.O {
-        width: 20px;
-        height: 20px;
-        background: none;
-      }
-
-      /* empty */
-      /* .gbs_stone { ... } */
       .pointer {
         cursor: pointer;
       }
@@ -146,20 +12,6 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-      }
-
-      .gbs_stone {
-        font-weight: bold;
-        font-size: 8pt;
-        width: 20px;
-        height: 20px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-      }
-
-      .stone_amount {
-        vertical-align: sub;
       }
 
       ::content div.blue {
@@ -184,6 +36,20 @@
         border: solid 1px #222;
       }
 
+      .gbs_stone {
+        font-weight: bold;
+        font-size: 8pt;
+        width: 20px;
+        height: 20px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+      }
+
+      .stone_amount {
+        vertical-align: sub;
+      }
+
       /*# sourceMappingURL=style.css.map */
 
     </style>
@@ -200,6 +66,9 @@
 
   </template>
   <script>
+    var KeyTracker,
+      __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
     Polymer({
       is: 'gs-stone',
       properties: {
@@ -213,13 +82,14 @@
         options: Object
       },
       listeners: {
-        tap: '_processTap',
+        click: '_leftClick',
         contextmenu: '_rightClick'
       },
       ready: function() {
         this._sanitizeAmount();
+        this._keyTracker = new KeyTracker();
         if (this.options == null) {
-          throw new Error("Options for the stone are required");
+          throw new Error("The options are required");
         }
       },
       cssClass: function() {
@@ -234,11 +104,12 @@
           return this.amount = 0;
         }
       },
-      _processTap: function(event) {
-        if (!this.options.editable) {
+      _leftClick: function(event) {
+        if (!this.options.editable || this._keyTracker.isPressed("Control")) {
           return;
         }
-        return this.amount += 1;
+        this.amount += 1;
+        return event.stopPropagation();
       },
       _rightClick: function(event) {
         if (!this.options.editable) {
@@ -248,6 +119,48 @@
         return this.amount -= 1;
       }
     });
+
+    KeyTracker = (function() {
+      function KeyTracker() {
+        this._listenTo = __bind(this._listenTo, this);
+        this._indexOf = __bind(this._indexOf, this);
+        this.isPressed = __bind(this.isPressed, this);
+        this._pressedKeys = [];
+        this._listenTo("keydown", (function(_this) {
+          return function(ev) {
+            var key;
+            key = ev.key || ev.keyIdentifier;
+            if (!_this.isPressed(key)) {
+              return _this._pressedKeys.push(key);
+            }
+          };
+        })(this));
+        this._listenTo("keyup", (function(_this) {
+          return function(ev) {
+            var key;
+            key = ev.key || ev.keyIdentifier;
+            if (_this.isPressed(key)) {
+              return _this._pressedKeys.splice(_this._indexOf(key), 1);
+            }
+          };
+        })(this));
+      }
+
+      KeyTracker.prototype.isPressed = function(key) {
+        return this._indexOf(key) !== -1;
+      };
+
+      KeyTracker.prototype._indexOf = function(key) {
+        return this._pressedKeys.indexOf(key);
+      };
+
+      KeyTracker.prototype._listenTo = function(eventName, handler) {
+        return window.addEventListener(eventName, handler, false);
+      };
+
+      return KeyTracker;
+
+    })();
 
   </script>
 </dom-module>

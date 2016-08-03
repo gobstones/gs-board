@@ -27,13 +27,6 @@ Polymer
   columnIndexes: (board) ->
     [0 ... board?[0].length]
 
-  headerCssClassFor: (rowIndex, cellIndex) ->
-    rowNumber = @getRowNumber rowIndex
-
-    if rowNumber is @header.y and cellIndex is @header.x
-      "gh"
-    else ""
-
   _initializeBoard: ->
     @board ?=
       for i in [1 .. @size.y]

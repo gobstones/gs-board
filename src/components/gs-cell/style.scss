@@ -1,0 +1,26 @@
+@import '../../common/style';
+
+.gh { /* position of the header in the board */
+  background: #dd8;
+  outline: 3px solid #CC0000;
+}
+
+table.gc { /* cell table */
+  border-style: none;
+  border: solid black 0px;
+}
+.gc tr {
+  border-style: none;
+  border: 0px;
+}
+.gc td {
+  border-style: none;
+  border: solid black 0px;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  color: #F3F3E9;
+}
+.gc td div {
+  line-height: 2;
+}

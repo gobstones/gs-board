@@ -1,0 +1,197 @@
+<link rel="import" href="gs-stone.html">
+<dom-module id="gs-cell">
+  <template>
+    <style>
+      .pointer {
+        cursor: pointer;
+      }
+
+      .unselectable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .gh {
+        /* position of the header in the board */
+        background: #dd8;
+        outline: 3px solid #CC0000;
+      }
+
+      table.gc {
+        /* cell table */
+        border-style: none;
+        border: solid black 0px;
+      }
+
+      .gc tr {
+        border-style: none;
+        border: 0px;
+      }
+
+      .gc td {
+        border-style: none;
+        border: solid black 0px;
+        width: 15px;
+        height: 15px;
+        text-align: center;
+        color: #F3F3E9;
+      }
+
+      .gc td div {
+        line-height: 2;
+      }
+
+      /*# sourceMappingURL=style.css.map */
+
+    </style>
+
+    <template is="dom-if" if="true">
+      <!-- // TODO: Otherwise, the cssClass() does not refresh itself -->
+      <div class$="gc {{cssClass(header)}}">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <gs-stone color="blue" amount="{{cell.blue}}" options="{{options}}"></gs-stone>
+              </td>
+              <td>
+                <gs-stone color="black" amount="{{cell.black}}" options="{{options}}"></gs-stone>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <gs-stone color="red" amount="{{cell.red}}" options="{{options}}"></gs-stone>
+              </td>
+              <td>
+                <gs-stone color="green" amount="{{cell.green}}" options="{{options}}"></gs-stone>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </template>
+
+  </template>
+  <script>
+    var KeyTracker,
+      __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+    Polymer({
+      is: 'gs-cell',
+      properties: {
+        cellIndex: Number,
+        rowIndex: Number,
+        cell: Object,
+        board: Array,
+        header: {
+          type: Object,
+          notify: true
+        },
+        options: Object
+      },
+      listeners: {
+        click: '_leftClick'
+      },
+      ready: function() {
+        this._validateData();
+        return this._keyTracker = new KeyTracker();
+      },
+      cssClass: function(header) {
+        var theHeaderIsHere;
+        if (header == null) {
+          return "";
+        }
+        theHeaderIsHere = this.x() === header.x && this.y() === header.y;
+        if (theHeaderIsHere) {
+          return "gh";
+        } else {
+          return "";
+        }
+      },
+      x: function() {
+        return this.cellIndex;
+      },
+      y: function() {
+        return this.getRowNumber(this.rowIndex);
+      },
+      getRowNumber: function(rowIndex) {
+        return this.board.length - 1 - rowIndex;
+      },
+      _leftClick: function(event) {
+        if (!this.options.editable) {
+          return;
+        }
+        if (this._keyTracker.isPressed("Control")) {
+          return this.header = {
+            x: this.x(),
+            y: this.y()
+          };
+        }
+      },
+      _validateData: function() {
+        if (this.board == null) {
+          throw new Error("The board is required");
+        }
+        if (this.header == null) {
+          throw new Error("The header is required");
+        }
+        if (this.options == null) {
+          throw new Error("The options are required");
+        }
+        if (this.cell == null) {
+          throw new Error("The cell is required");
+        }
+        if ((this.cellIndex == null) || (this.rowIndex == null)) {
+          throw new Error("The coordinates are required");
+        }
+      }
+    });
+
+    KeyTracker = (function() {
+      function KeyTracker() {
+        this._listenTo = __bind(this._listenTo, this);
+        this._indexOf = __bind(this._indexOf, this);
+        this.isPressed = __bind(this.isPressed, this);
+        this._pressedKeys = [];
+        this._listenTo("keydown", (function(_this) {
+          return function(ev) {
+            var key;
+            key = ev.key || ev.keyIdentifier;
+            if (!_this.isPressed(key)) {
+              return _this._pressedKeys.push(key);
+            }
+          };
+        })(this));
+        this._listenTo("keyup", (function(_this) {
+          return function(ev) {
+            var key;
+            key = ev.key || ev.keyIdentifier;
+            if (_this.isPressed(key)) {
+              return _this._pressedKeys.splice(_this._indexOf(key), 1);
+            }
+          };
+        })(this));
+      }
+
+      KeyTracker.prototype.isPressed = function(key) {
+        return this._indexOf(key) !== -1;
+      };
+
+      KeyTracker.prototype._indexOf = function(key) {
+        return this._pressedKeys.indexOf(key);
+      };
+
+      KeyTracker.prototype._listenTo = function(eventName, handler) {
+        return window.addEventListener(eventName, handler, false);
+      };
+
+      return KeyTracker;
+
+    })();
+
+  </script>
+</dom-module>

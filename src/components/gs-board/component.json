@@ -1,5 +1,5 @@
 {
   "name": "gs-board",
-  "imports": ["gs-stone.html"],
+  "imports": ["gs-cell.html"],
   "require": []
 }
