@@ -5,7 +5,7 @@ Polymer
     cellIndex: Number
     rowIndex: Number
     cell: Object
-    board: Array
+    table: Array
     header:
       type: Object
       notify: true
@@ -31,7 +31,7 @@ Polymer
   x: -> @cellIndex
   y: -> @getRowNumber @rowIndex
   getRowNumber: (rowIndex) ->
-    @board.length - 1 - rowIndex
+    @table.length - 1 - rowIndex
 
   _leftClick: (event) ->
     return if not @options.editable
@@ -40,7 +40,7 @@ Polymer
       @header = { x: @x(), y: @y() }
 
   _validateData: ->
-    throw new Error("The board is required") if not @board?
+    throw new Error("The table is required") if not @table?
     throw new Error("The header is required") if not @header?
     throw new Error("The options are required") if not @options?
 

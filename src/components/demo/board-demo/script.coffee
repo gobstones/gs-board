@@ -1,12 +1,11 @@
-board_inicial = [
+initial_table = [
   [ {}, {}, {}, {} ]
   [ {}, {}, {}, {} ]
   [ {}, {}, { green: 2 }, {} ]
   [ { red: 3, black: 4 }, {}, {}, {} ]
 ]
 
-model = board: board_inicial
-empty = board: [[]]
+model = table: initial_table
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
@@ -28,7 +27,7 @@ Polymer
     @async @_forceRender, 0
 
   _forceRender: ->
-    @model = empty
+    @model = null
     @async @_setModel, 0
 
   _setModel: ->

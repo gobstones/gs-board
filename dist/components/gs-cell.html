@@ -86,7 +86,7 @@
         cellIndex: Number,
         rowIndex: Number,
         cell: Object,
-        board: Array,
+        table: Array,
         header: {
           type: Object,
           notify: true
@@ -119,7 +119,7 @@
         return this.getRowNumber(this.rowIndex);
       },
       getRowNumber: function(rowIndex) {
-        return this.board.length - 1 - rowIndex;
+        return this.table.length - 1 - rowIndex;
       },
       _leftClick: function(event) {
         if (!this.options.editable) {
@@ -133,8 +133,8 @@
         }
       },
       _validateData: function() {
-        if (this.board == null) {
-          throw new Error("The board is required");
+        if (this.table == null) {
+          throw new Error("The table is required");
         }
         if (this.header == null) {
           throw new Error("The header is required");
