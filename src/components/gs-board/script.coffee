@@ -2,13 +2,13 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
   properties:
-    board: Array
+    table: Array
     # ^ [[{ red: 2, blue: 1 }, { black: 3 }], [...]]
 
     size:
       type: Object
       value: { x: 2, y: 2 }
-    # ^ if `board` exists, this field is ignored
+    # ^ if `table` exists, this field is ignored
 
     header:
       type: Object
@@ -18,17 +18,17 @@ Polymer
     # ^ { editable: false }
 
   ready: ->
-    @_initializeBoard()
+    @_initializeTable()
     @_initializeOptions()
 
   getRowNumber: (rowIndex) ->
-    @board.length - 1 - rowIndex
+    @table.length - 1 - rowIndex
 
-  columnIndexes: (board) ->
-    [0 ... board?[0].length]
+  columnIndexes: (table) ->
+    [0 ... table?[0].length]
 
-  _initializeBoard: ->
-    @board ?=
+  _initializeTable: ->
+    @table ?=
       for i in [1 .. @size.y]
         for j in [1 .. @size.x]
           {}

@@ -2,17 +2,17 @@
   <tbody>
     <tr>
       <td class="lx top_left"></td>
-      <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+      <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
       <td class="lx top_right"></td>
     </tr>
-    <template is="dom-repeat" items="{{board}}" as="row" index-as="rowIndex">
+    <template is="dom-repeat" items="{{table}}" as="row" index-as="rowIndex">
       <tr>
         <td class="lv">{{getRowNumber(rowIndex)}}</td>
         <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
           <td>
-            <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" board="{{board}}" header="{{header}}" options="{{options}}"></gs-cell>
+            <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" table="{{table}}" header="{{header}}" options="{{options}}"></gs-cell>
           </td>
         </template>
         <td class="lv">{{getRowNumber(rowIndex)}}</td>
@@ -20,7 +20,7 @@
     </template>
     <tr>
       <td class="lx bottom_left"></td>
-      <template is="dom-repeat" items="{{columnIndexes(board)}}" as="columnIndex">
+      <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
       <td class="lx bottom_right"></td>
