@@ -16,7 +16,7 @@ Polymer
       value: { x: 0, y: 0 }
 
     options: Object
-    # ^ { editable: false }
+    # ^ { editable: false, boom: false }
 
     cellSize: type: Number, value: 50
     minWidth: type: Number, value: 127
@@ -37,6 +37,9 @@ Polymer
 
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
+
+  cssClass: (options) ->
+    if options.boom then "boom" else ""
 
   _onResize: ({ size, originalSize }) ->
     deltaX = (size.width - originalSize.width) / @cellSize
@@ -70,6 +73,7 @@ Polymer
   _initializeOptions: ->
     @options ?= {}
     @options.editable ?= false
+    @options.boom ?= false
 
   _setResizable: ->
     return if not @options.editable
