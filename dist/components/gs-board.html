@@ -106,7 +106,7 @@
     <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class$="gbs_board ui-widget-content {{cssClass(options)}}">
+    <table class$="gbs_board ui-widget-content {{cssClass(boom)}}">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
@@ -158,6 +158,10 @@
           }
         },
         options: Object,
+        boom: {
+          type: Boolean,
+          value: false
+        },
         cellSize: {
           type: Number,
           value: 50
@@ -193,8 +197,8 @@
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
-      cssClass: function(options) {
-        if (options.boom) {
+      cssClass: function(boom) {
+        if (boom) {
           return "boom";
         } else {
           return "";
@@ -245,14 +249,11 @@
         return this._forceHeaderSet();
       },
       _initializeOptions: function() {
-        var _base, _base1;
+        var _base;
         if (this.options == null) {
           this.options = {};
         }
-        if ((_base = this.options).editable == null) {
-          _base.editable = false;
-        }
-        return (_base1 = this.options).boom != null ? _base1.boom : _base1.boom = false;
+        return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
       },
       _setResizable: function() {
         if (!this.options.editable) {

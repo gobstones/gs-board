@@ -1,6 +1,6 @@
 {
   "name": "gs-board",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "^0.4.0",
