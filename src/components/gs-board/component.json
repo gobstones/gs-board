@@ -1,5 +1,8 @@
 {
   "name": "gs-board",
   "imports": ["gs-cell.html", "key-tracker.html"],
-  "require": []
+  "require": [
+    "../../../jquery/dist/jquery.min.js",
+    "../../../jquery-ui/jquery-ui.min.js"
+  ]
 }

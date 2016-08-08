@@ -40,7 +40,7 @@
         return this._pressedKeys.indexOf(key);
       },
       _listenTo: function(eventName, handler) {
-        return window.addEventListener(eventName, handler, false);
+        return window.addEventListener(eventName, handler);
       }
     });
 

@@ -1,5 +1,7 @@
 <link rel="import" href="gs-cell.html">
 <link rel="import" href="key-tracker.html">
+<script type="text/javascript" src="../../../jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../../../jquery-ui/jquery-ui.min.js"></script>
 <dom-module id="gs-board">
   <template>
     <style>
@@ -92,13 +94,14 @@
 
     </style>
 
+    <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class="gbs_board">
+    <table class="gbs_board ui-widget-content">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
-          <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+          <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
           <td class="lx top_right"></td>
@@ -116,7 +119,7 @@
         </template>
         <tr>
           <td class="lx bottom_left"></td>
-          <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+          <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
           <td class="lx bottom_right"></td>
@@ -135,7 +138,8 @@
           value: {
             x: 2,
             y: 2
-          }
+          },
+          observer: "_updateColumnIndexes"
         },
         header: {
           type: Object,
@@ -146,41 +150,69 @@
         },
         options: Object
       },
+      listeners: {
+        resize: "_onResize"
+      },
       ready: function() {
+        this.CELL_SIZE = 50;
+        this.MIN_WIDTH = 127;
+        this.MIN_HEIGHT = 136;
+        this.MAX_WIDTH = 677;
+        this.MAX_HEIGHT = 586;
         this._initializeTable();
-        return this._initializeOptions();
+        this._initializeOptions();
+        this._setResizable();
+        return this.resizeInitialState = null;
       },
       getRowNumber: function(rowIndex) {
         return this.table.length - 1 - rowIndex;
       },
-      columnIndexes: function(table) {
-        var _i, _ref, _results;
-        return (function() {
-          _results = [];
-          for (var _i = 0, _ref = table != null ? table[0].length : void 0; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
-          return _results;
-        }).apply(this);
-      },
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
+      _onResize: function(_arg) {
+        var deltaX, deltaY, originalSize, size;
+        size = _arg.size, originalSize = _arg.originalSize;
+        deltaX = (size.width - originalSize.width) / this.CELL_SIZE;
+        deltaY = (size.height - originalSize.height) / this.CELL_SIZE;
+        this.size = {
+          x: this.resizeInitialState.x + deltaX,
+          y: this.resizeInitialState.y + deltaY
+        };
+        return this._fillTable();
+      },
       _initializeTable: function() {
-        var i, j;
-        return this.table != null ? this.table : this.table = (function() {
-          var _i, _ref, _results;
-          _results = [];
-          for (i = _i = 1, _ref = this.size.y; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
-            _results.push((function() {
-              var _j, _ref1, _results1;
-              _results1 = [];
-              for (j = _j = 1, _ref1 = this.size.x; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; j = 1 <= _ref1 ? ++_j : --_j) {
-                _results1.push({});
-              }
-              return _results1;
-            }).call(this));
+        var _ref;
+        if (this.table != null) {
+          return this.size = {
+            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
+            y: this.table.length || 0
+          };
+        } else {
+          this.table = [];
+          return this._fillTable();
+        }
+      },
+      _fillTable: function() {
+        var i, j, limit, table, _base, _i, _j, _ref, _ref1;
+        limit = function(array, limit) {
+          return array.slice(0, limit);
+        };
+        table = this.table.slice().reverse();
+        for (i = _i = 0, _ref = this.size.y; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          for (j = _j = 0, _ref1 = this.size.x; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
+            if (table[i] == null) {
+              table[i] = [];
+            }
+            table[i] = limit(table[i], this.size.x);
+            if ((_base = table[i])[j] == null) {
+              _base[j] = {};
+            }
           }
-          return _results;
-        }).call(this);
+        }
+        table = limit(table, this.size.y);
+        this.table = table.reverse();
+        return this._forceHeaderSet();
       },
       _initializeOptions: function() {
         var _base;
@@ -188,6 +220,48 @@
           this.options = {};
         }
         return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
+      },
+      _setResizable: function() {
+        if (!this.options.editable) {
+          return;
+        }
+        return $(this.$$(".gbs_board")).resizable({
+          grid: this.CELL_SIZE,
+          minWidth: this.MIN_WIDTH,
+          minHeight: this.MIN_HEIGHT,
+          maxWidth: this.MAX_WIDTH,
+          maxHeight: this.MAX_HEIGHT
+        }).on("resizestart", (function(_this) {
+          return function(event, resize) {
+            return _this.resizeInitialState = _this.size;
+          };
+        })(this)).on("resize", (function(_this) {
+          return function(event, resize) {
+            return _this._onResize(resize);
+          };
+        })(this)).on("resizestop", (function(_this) {
+          return function(event, resize) {
+            return _this.resizeInitialState = null;
+          };
+        })(this));
+      },
+      _updateColumnIndexes: function() {
+        var _i, _ref, _results;
+        return this.columnIndexes = (function() {
+          _results = [];
+          for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
+      },
+      _forceHeaderSet: function() {
+        var x, y;
+        x = this.header.x;
+        y = this.header.y;
+        this.header = null;
+        return this.header = {
+          x: x,
+          y: y
+        };
       }
     });
 

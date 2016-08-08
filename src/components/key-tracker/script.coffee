@@ -19,4 +19,4 @@ Polymer
     @_pressedKeys.indexOf key
 
   _listenTo: (eventName, handler) ->
-    window.addEventListener eventName, handler, false
+    window.addEventListener eventName, handler

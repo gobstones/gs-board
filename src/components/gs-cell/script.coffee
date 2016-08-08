@@ -2,8 +2,8 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
   properties:
-    cellIndex: Number
-    rowIndex: Number
+    x: Number
+    y: Number
     cell: Object
     table: Array
     header:
@@ -12,7 +12,7 @@ Polymer
     options: Object
 
   listeners:
-    click: '_leftClick'
+    click: "_leftClick"
 
   ready: ->
     @_validateData()
