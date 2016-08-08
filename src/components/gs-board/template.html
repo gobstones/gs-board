@@ -25,7 +25,11 @@
       <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
-      <td class="lx bottom_right"><resize-box></resize-box></td>
+      <td class="lx bottom_right">
+        <template is="dom-if" if="{{isEditable}}">
+          <resize-box></resize-box>
+        </template>
+      </td>
     </tr>
   </tbody>
 </table>

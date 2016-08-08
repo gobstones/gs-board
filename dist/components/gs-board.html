@@ -120,7 +120,11 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class="lx bottom_right"><resize-box></resize-box></td>
+          <td class="lx bottom_right">
+            <template is="dom-if" if="{{isEditable}}">
+              <resize-box></resize-box>
+            </template>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -146,7 +150,10 @@
             y: 0
           }
         },
-        options: Object
+        options: {
+          type: Object,
+          observer: "_updateIsEditable"
+        }
       },
       listeners: {
         resize: "_onResize"
@@ -172,8 +179,8 @@
       _onResize: function(_arg) {
         var delta;
         delta = _arg.detail;
-        this.size.x = this.size.x + delta.x;
-        this.size.y = this.size.y + delta.y;
+        this.size.x = this.size.x + delta.deltaX;
+        this.size.y = this.size.y + delta.deltaY;
         return this._fillTable();
       },
       _initializeTable: function() {
@@ -220,6 +227,9 @@
           for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
+      },
+      _updateIsEditable: function() {
+        return this.isEditable = this.options.editable;
       }
     });
 

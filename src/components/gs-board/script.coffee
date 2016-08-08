@@ -15,7 +15,9 @@ Polymer
       type: Object
       value: { x: 0, y: 0 }
 
-    options: Object
+    options:
+      type: Object
+      observer: "_updateIsEditable"
     # ^ { editable: false }
 
   listeners:
@@ -35,8 +37,8 @@ Polymer
     @$.keyTracker.isPressed "Control"
 
   _onResize: ({ detail: delta }) ->
-    @size.x = @size.x + delta.x
-    @size.y = @size.y + delta.y
+    @size.x = @size.x + delta.deltaX
+    @size.y = @size.y + delta.deltaY
     @_fillTable()
 
   _initializeTable: ->
@@ -63,3 +65,6 @@ Polymer
 
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]
+
+  _updateIsEditable: ->
+    @isEditable = @options.editable
