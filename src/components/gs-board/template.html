@@ -12,13 +12,13 @@
     </tr>
     <template is="dom-repeat" items="{{table}}" as="row" index-as="rowIndex">
       <tr>
-        <td class="lv">{{getRowNumber(rowIndex)}}</td>
+        <td class="lv">{{getRowNumber(table, rowIndex)}}</td>
         <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
           <td>
             <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" table="{{table}}" header="{{header}}" options="{{options}}"></gs-cell>
           </td>
         </template>
-        <td class="lv">{{getRowNumber(rowIndex)}}</td>
+        <td class="lv">{{getRowNumber(table, rowIndex)}}</td>
       </tr>
     </template>
     <tr>

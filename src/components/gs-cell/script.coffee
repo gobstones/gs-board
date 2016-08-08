@@ -2,8 +2,8 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
   properties:
-    x: Number
-    y: Number
+    cellIndex: Number
+    rowIndex: Number
     cell: Object
     table: Array
     header:
@@ -24,7 +24,7 @@ Polymer
     if theHeaderIsHere then "gh" else ""
 
   x: -> @cellIndex
-  y: -> @domHost.getRowNumber @rowIndex
+  y: -> @domHost.getRowNumber @table, @rowIndex
 
   _leftClick: (event) ->
     return if not @options.editable

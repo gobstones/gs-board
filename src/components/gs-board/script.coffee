@@ -33,8 +33,8 @@ Polymer
     @_setResizable()
     @resizeInitialState = null
 
-  getRowNumber: (rowIndex) ->
-    @table.length - 1 - rowIndex
+  getRowNumber: (table, rowIndex) ->
+    table.length - 1 - rowIndex
 
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"

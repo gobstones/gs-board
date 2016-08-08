@@ -80,8 +80,8 @@
     Polymer({
       is: 'gs-cell',
       properties: {
-        x: Number,
-        y: Number,
+        cellIndex: Number,
+        rowIndex: Number,
         cell: Object,
         table: Array,
         header: {
@@ -112,7 +112,7 @@
         return this.cellIndex;
       },
       y: function() {
-        return this.domHost.getRowNumber(this.rowIndex);
+        return this.domHost.getRowNumber(this.table, this.rowIndex);
       },
       _leftClick: function(event) {
         if (!this.options.editable) {
