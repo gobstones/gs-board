@@ -122,7 +122,7 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class="lx bottom_right"></td>
+          <td class="lx bottom_right board_resize"></td>
         </tr>
       </tbody>
     </table>
@@ -225,7 +225,7 @@
         if (!this.options.editable) {
           return;
         }
-        return $(this.$$(".gbs_board")).resizable({
+        $(this.$$(".gbs_board")).resizable({
           grid: this.CELL_SIZE,
           minWidth: this.MIN_WIDTH,
           minHeight: this.MIN_HEIGHT,
@@ -244,6 +244,11 @@
             return _this.resizeInitialState = null;
           };
         })(this));
+        return setTimeout(function() {
+          $(".ui-resizable-s").hide();
+          $(".ui-resizable-e").hide();
+          return $(".ui-resizable-se").appendTo(".board_resize").css("position", "relative");
+        }, 0);
       },
       _updateColumnIndexes: function() {
         var _i, _ref, _results;
