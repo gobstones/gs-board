@@ -8,6 +8,7 @@ Polymer
     size:
       type: Object
       value: { x: 2, y: 2 }
+      observer: "_updateColumnIndexes"
     # ^ if `table` exists, this field is ignored
 
     header:
@@ -17,6 +18,9 @@ Polymer
     options: Object
     # ^ { editable: false }
 
+  listeners:
+    resize: "_onResize"
+
   ready: ->
     @_initializeTable()
     @_initializeOptions()
@@ -25,17 +29,37 @@ Polymer
     @table.length - 1 - rowIndex
 
   columnIndexes: (table) ->
-    [0 ... table?[0].length]
+    [0 ... @size.x]
 
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
 
+  _onResize: ({ detail: delta }) ->
+    @size.x = @size.x + delta.x
+    @size.y = @size.y + delta.y
+    @_fillTable()
+
   _initializeTable: ->
-    @table ?=
-      for i in [1 .. @size.y]
-        for j in [1 .. @size.x]
-          {}
+    if @table?
+      @size =
+        x: @table[0]?.length || 0
+        y: @table.length || 0
+    else
+      @table = []
+      @_fillTable()
+
+  _fillTable: ->
+    limit = (array, limit) -> array.slice 0, limit
+    for i in [0 ... @size.y]
+      for j in [0 ... @size.x]
+        @table[i] ?= []
+        @table[i] = limit @table[i], @size.x
+        @table[i][j] ?= {}
+    @table = limit @table, @size.y
 
   _initializeOptions: ->
     @options ?= {}
     @options.editable ?= false
+
+  _updateColumnIndexes: ->
+    @columnIndexes = [0 ... @size.x]

@@ -12,7 +12,7 @@ Polymer
     options: Object
 
   listeners:
-    click: '_leftClick'
+    click: "_leftClick"
 
   ready: ->
     @_validateData()

@@ -7,12 +7,12 @@ Polymer
       type: Number
       value: 0
       notify: true
-      observer: '_sanitizeAmount'
+      observer: "_sanitizeAmount"
     options: Object
 
   listeners:
-    click: '_leftClick'
-    contextmenu: '_rightClick'
+    click: "_leftClick"
+    contextmenu: "_rightClick"
 
   ready: ->
     @_sanitizeAmount()

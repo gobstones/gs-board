@@ -1,5 +1,6 @@
 <link rel="import" href="gs-cell.html">
 <link rel="import" href="key-tracker.html">
+<link rel="import" href="resize-box.html">
 <dom-module id="gs-board">
   <template>
     <style>
@@ -98,7 +99,7 @@
       <tbody>
         <tr>
           <td class="lx top_left"></td>
-          <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+          <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
           <td class="lx top_right"></td>
@@ -116,10 +117,10 @@
         </template>
         <tr>
           <td class="lx bottom_left"></td>
-          <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+          <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class="lx bottom_right"></td>
+          <td class="lx bottom_right"><resize-box></resize-box></td>
         </tr>
       </tbody>
     </table>
@@ -135,7 +136,8 @@
           value: {
             x: 2,
             y: 2
-          }
+          },
+          observer: "_updateColumnIndexes"
         },
         header: {
           type: Object,
@@ -145,6 +147,9 @@
           }
         },
         options: Object
+      },
+      listeners: {
+        resize: "_onResize"
       },
       ready: function() {
         this._initializeTable();
@@ -157,30 +162,49 @@
         var _i, _ref, _results;
         return (function() {
           _results = [];
-          for (var _i = 0, _ref = table != null ? table[0].length : void 0; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
       },
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
+      _onResize: function(_arg) {
+        var delta;
+        delta = _arg.detail;
+        this.size.x = this.size.x + delta.x;
+        this.size.y = this.size.y + delta.y;
+        return this._fillTable();
+      },
       _initializeTable: function() {
-        var i, j;
-        return this.table != null ? this.table : this.table = (function() {
-          var _i, _ref, _results;
-          _results = [];
-          for (i = _i = 1, _ref = this.size.y; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
-            _results.push((function() {
-              var _j, _ref1, _results1;
-              _results1 = [];
-              for (j = _j = 1, _ref1 = this.size.x; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; j = 1 <= _ref1 ? ++_j : --_j) {
-                _results1.push({});
-              }
-              return _results1;
-            }).call(this));
+        var _ref;
+        if (this.table != null) {
+          return this.size = {
+            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
+            y: this.table.length || 0
+          };
+        } else {
+          this.table = [];
+          return this._fillTable();
+        }
+      },
+      _fillTable: function() {
+        var i, j, limit, _base, _base1, _i, _j, _ref, _ref1;
+        limit = function(array, limit) {
+          return array.slice(0, limit);
+        };
+        for (i = _i = 0, _ref = this.size.y; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+          for (j = _j = 0, _ref1 = this.size.x; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
+            if ((_base = this.table)[i] == null) {
+              _base[i] = [];
+            }
+            this.table[i] = limit(this.table[i], this.size.x);
+            if ((_base1 = this.table[i])[j] == null) {
+              _base1[j] = {};
+            }
           }
-          return _results;
-        }).call(this);
+        }
+        return this.table = limit(this.table, this.size.y);
       },
       _initializeOptions: function() {
         var _base;
@@ -188,6 +212,14 @@
           this.options = {};
         }
         return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
+      },
+      _updateColumnIndexes: function() {
+        var _i, _ref, _results;
+        return this.columnIndexes = (function() {
+          _results = [];
+          for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+          return _results;
+        }).apply(this);
       }
     });
 

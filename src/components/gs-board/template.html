@@ -4,7 +4,7 @@
   <tbody>
     <tr>
       <td class="lx top_left"></td>
-      <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+      <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
       <td class="lx top_right"></td>
@@ -22,10 +22,10 @@
     </template>
     <tr>
       <td class="lx bottom_left"></td>
-      <template is="dom-repeat" items="{{columnIndexes(table)}}" as="columnIndex">
+      <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
-      <td class="lx bottom_right"></td>
+      <td class="lx bottom_right"><resize-box></resize-box></td>
     </tr>
   </tbody>
 </table>
