@@ -93,7 +93,7 @@
 
       table.boom {
         /* TODO: Mover a un no-CDN: ¡o sea acá! */
-        background-image: url("https://raw.githubusercontent.com/mumuki/mumuki-gobstones-server/master/lib/assets/boom.png");
+        background-image: url("boom.png");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -106,7 +106,7 @@
     <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class="gbs_board ui-widget-content">
+    <table class$="gbs_board ui-widget-content {{cssClass(options)}}">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
@@ -193,6 +193,13 @@
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
+      cssClass: function(options) {
+        if (options.boom) {
+          return "boom";
+        } else {
+          return "";
+        }
+      },
       _onResize: function(_arg) {
         var deltaX, deltaY, originalSize, size;
         size = _arg.size, originalSize = _arg.originalSize;
@@ -238,11 +245,14 @@
         return this._forceHeaderSet();
       },
       _initializeOptions: function() {
-        var _base;
+        var _base, _base1;
         if (this.options == null) {
           this.options = {};
         }
-        return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
+        if ((_base = this.options).editable == null) {
+          _base.editable = false;
+        }
+        return (_base1 = this.options).boom != null ? _base1.boom : _base1.boom = false;
       },
       _setResizable: function() {
         if (!this.options.editable) {
