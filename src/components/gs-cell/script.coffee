@@ -2,8 +2,8 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
   properties:
-    cellIndex: Number
-    rowIndex: Number
+    x: Number
+    y: Number
     cell: Object
     table: Array
     header:

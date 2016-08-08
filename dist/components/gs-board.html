@@ -155,6 +155,10 @@
       },
       ready: function() {
         this.CELL_SIZE = 50;
+        this.MIN_WIDTH = 127;
+        this.MIN_HEIGHT = 136;
+        this.MAX_WIDTH = 677;
+        this.MAX_HEIGHT = 586;
         this._initializeTable();
         this._initializeOptions();
         this._setResizable();
@@ -215,7 +219,8 @@
           }
         }
         table = limit(table, this.size.y);
-        return this.table = table.reverse();
+        this.table = table.reverse();
+        return this._forceHeaderSet();
       },
       _initializeOptions: function() {
         var _base;
@@ -229,7 +234,11 @@
           return;
         }
         return $(this.$$(".gbs_board")).resizable({
-          grid: this.CELL_SIZE
+          grid: this.CELL_SIZE,
+          minWidth: this.MIN_WIDTH,
+          minHeight: this.MIN_HEIGHT,
+          maxWidth: this.MAX_WIDTH,
+          maxHeight: this.MAX_HEIGHT
         }).on("resizestart", (function(_this) {
           return function(event, resize) {
             return _this.resizeInitialState = _this.size;
@@ -251,6 +260,16 @@
           for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
+      },
+      _forceHeaderSet: function() {
+        var x, y;
+        x = this.header.x;
+        y = this.header.y;
+        this.header = null;
+        return this.header = {
+          x: x,
+          y: y
+        };
       }
     });
 

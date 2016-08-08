@@ -23,6 +23,10 @@ Polymer
 
   ready: ->
     @CELL_SIZE = 50
+    @MIN_WIDTH = 127
+    @MIN_HEIGHT = 136
+    @MAX_WIDTH = 677
+    @MAX_HEIGHT = 586
 
     @_initializeTable()
     @_initializeOptions()
@@ -65,6 +69,7 @@ Polymer
         table[i][j] ?= {}
     table = limit table, @size.y
     @table = table.reverse()
+    @_forceHeaderSet()
 
   _initializeOptions: ->
     @options ?= {}
@@ -73,7 +78,12 @@ Polymer
   _setResizable: ->
     return if not @options.editable
     $(@$$(".gbs_board"))
-      .resizable grid: @CELL_SIZE
+      .resizable
+        grid: @CELL_SIZE
+        minWidth: @MIN_WIDTH
+        minHeight: @MIN_HEIGHT
+        maxWidth: @MAX_WIDTH
+        maxHeight: @MAX_HEIGHT
       .on "resizestart", (event, resize) =>
         @resizeInitialState = @size
       .on "resize", (event, resize) =>
@@ -83,3 +93,9 @@ Polymer
 
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]
+
+  _forceHeaderSet: ->
+    x = @header.x
+    y = @header.y
+    @header = null
+    @header = { x, y }
