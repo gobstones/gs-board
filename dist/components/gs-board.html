@@ -5,6 +5,7 @@
 <dom-module id="gs-board">
   <template>
     <style>
+      @charset "UTF-8";
       .pointer {
         cursor: pointer;
       }
@@ -88,6 +89,14 @@
         -webkit-border-bottom-right-radius: 10px;
         -moz-border-bottom-right-radius: 10px;
         border-bottom-right-radius: 10px;
+      }
+
+      table.boom {
+        /* TODO: Mover a un no-CDN: ¡o sea acá! */
+        background-image: url("https://raw.githubusercontent.com/mumuki/mumuki-gobstones-server/master/lib/assets/boom.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
       }
 
       /*# sourceMappingURL=style.css.map */
