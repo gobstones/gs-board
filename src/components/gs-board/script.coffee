@@ -36,9 +36,6 @@ Polymer
   getRowNumber: (rowIndex) ->
     @table.length - 1 - rowIndex
 
-  columnIndexes: (table) ->
-    [0 ... @size.x]
-
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
 

@@ -167,14 +167,6 @@
       getRowNumber: function(rowIndex) {
         return this.table.length - 1 - rowIndex;
       },
-      columnIndexes: function(table) {
-        var _i, _ref, _results;
-        return (function() {
-          _results = [];
-          for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
-          return _results;
-        }).apply(this);
-      },
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
