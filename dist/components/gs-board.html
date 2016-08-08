@@ -1,6 +1,7 @@
 <link rel="import" href="gs-cell.html">
 <link rel="import" href="key-tracker.html">
-<link rel="import" href="resize-box.html">
+<script type="text/javascript" src="../../../jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../../../jquery-ui/jquery-ui.min.js"></script>
 <dom-module id="gs-board">
   <template>
     <style>
@@ -93,9 +94,10 @@
 
     </style>
 
+    <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class="gbs_board">
+    <table class="gbs_board ui-widget-content">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
@@ -120,11 +122,7 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class="lx bottom_right">
-            <template is="dom-if" if="{{isEditable}}">
-              <resize-box></resize-box>
-            </template>
-          </td>
+          <td class="lx bottom_right"></td>
         </tr>
       </tbody>
     </table>
@@ -150,17 +148,16 @@
             y: 0
           }
         },
-        options: {
-          type: Object,
-          observer: "_updateIsEditable"
-        }
+        options: Object
       },
       listeners: {
         resize: "_onResize"
       },
       ready: function() {
+        this.CELL_SIZE = 50;
         this._initializeTable();
-        return this._initializeOptions();
+        this._initializeOptions();
+        return this._setResizable();
       },
       getRowNumber: function(rowIndex) {
         return this.table.length - 1 - rowIndex;
@@ -177,10 +174,12 @@
         return this.$.keyTracker.isPressed("Control");
       },
       _onResize: function(_arg) {
-        var delta;
-        delta = _arg.detail;
-        this.size.x = this.size.x + delta.deltaX;
-        this.size.y = this.size.y + delta.deltaY;
+        var deltaX, deltaY, originalSize, size;
+        size = _arg.size, originalSize = _arg.originalSize;
+        deltaX = (size.width - originalSize.width) / this.CELL_SIZE;
+        deltaY = (size.height - originalSize.height) / this.CELL_SIZE;
+        this.size.x = this.size.x + deltaX;
+        this.size.y = this.size.y + deltaY;
         return this._fillTable();
       },
       _initializeTable: function() {
@@ -220,6 +219,22 @@
         }
         return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
       },
+      _setResizable: function() {
+        if (!this.options.editable) {
+          return;
+        }
+        return $(this.$$(".gbs_board")).resizable({
+          grid: this.CELL_SIZE
+        }).on("start", (function(_this) {
+          return function(event, resize) {
+            return console.log("ARRANQUÉ");
+          };
+        })(this)).on("resize", (function(_this) {
+          return function(event, resize) {
+            return _this._onResize(resize);
+          };
+        })(this));
+      },
       _updateColumnIndexes: function() {
         var _i, _ref, _results;
         return this.columnIndexes = (function() {
@@ -227,9 +242,6 @@
           for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
-      },
-      _updateIsEditable: function() {
-        return this.isEditable = this.options.editable;
       }
     });
 

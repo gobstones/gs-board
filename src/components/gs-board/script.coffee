@@ -15,17 +15,18 @@ Polymer
       type: Object
       value: { x: 0, y: 0 }
 
-    options:
-      type: Object
-      observer: "_updateIsEditable"
+    options: Object
     # ^ { editable: false }
 
   listeners:
     resize: "_onResize"
 
   ready: ->
+    @CELL_SIZE = 50
+
     @_initializeTable()
     @_initializeOptions()
+    @_setResizable()
 
   getRowNumber: (rowIndex) ->
     @table.length - 1 - rowIndex
@@ -36,9 +37,11 @@ Polymer
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
 
-  _onResize: ({ detail: delta }) ->
-    @size.x = @size.x + delta.deltaX
-    @size.y = @size.y + delta.deltaY
+  _onResize: ({ size, originalSize }) ->
+    deltaX = (size.width - originalSize.width) / @CELL_SIZE
+    deltaY = (size.height - originalSize.height) / @CELL_SIZE
+    @size.x = @size.x + deltaX
+    @size.y = @size.y + deltaY
     @_fillTable()
 
   _initializeTable: ->
@@ -63,8 +66,14 @@ Polymer
     @options ?= {}
     @options.editable ?= false
 
+  _setResizable: ->
+    return if not @options.editable
+    $(@$$(".gbs_board"))
+      .resizable grid: @CELL_SIZE
+      .on "start", (event, resize) =>
+        console.log "ARRANQUÉ"
+      .on "resize", (event, resize) =>
+        @_onResize resize
+
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]
-
-  _updateIsEditable: ->
-    @isEditable = @options.editable
