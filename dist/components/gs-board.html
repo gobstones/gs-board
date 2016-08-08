@@ -225,7 +225,7 @@
         if (!this.options.editable) {
           return;
         }
-        return $(this.$$(".gbs_board")).resizable({
+        $(this.$$(".gbs_board")).resizable({
           grid: this.CELL_SIZE,
           minWidth: this.MIN_WIDTH,
           minHeight: this.MIN_HEIGHT,
@@ -244,6 +244,9 @@
             return _this.resizeInitialState = null;
           };
         })(this));
+        return setTimeout((function() {
+          return $(".ui-resizable-se").hide();
+        }), 0);
       },
       _updateColumnIndexes: function() {
         var _i, _ref, _results;

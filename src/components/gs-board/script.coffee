@@ -87,6 +87,7 @@ Polymer
         @_onResize resize
       .on "resizestop", (event, resize) =>
         @resizeInitialState = null
+    setTimeout((-> $(".ui-resizable-se").hide()), 0)
 
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]
