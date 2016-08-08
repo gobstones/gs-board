@@ -22,7 +22,7 @@ Polymer
     resize: "_onResize"
 
   ready: ->
-    @CELL_SIZE = 50
+    @CELL_SIZE = 49
     @MIN_WIDTH = 127
     @MIN_HEIGHT = 136
     @MAX_WIDTH = 677
