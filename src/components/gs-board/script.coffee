@@ -57,12 +57,14 @@ Polymer
 
   _fillTable: ->
     limit = (array, limit) -> array.slice 0, limit
+    table = @table.slice().reverse()
     for i in [0 ... @size.y]
       for j in [0 ... @size.x]
-        @table[i] ?= []
-        @table[i] = limit @table[i], @size.x
-        @table[i][j] ?= {}
-    @table = limit @table, @size.y
+        table[i] ?= []
+        table[i] = limit table[i], @size.x
+        table[i][j] ?= {}
+    table = limit table, @size.y
+    @table = table.reverse()
 
   _initializeOptions: ->
     @options ?= {}

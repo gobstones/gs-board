@@ -198,22 +198,24 @@
         }
       },
       _fillTable: function() {
-        var i, j, limit, _base, _base1, _i, _j, _ref, _ref1;
+        var i, j, limit, table, _base, _i, _j, _ref, _ref1;
         limit = function(array, limit) {
           return array.slice(0, limit);
         };
+        table = this.table.slice().reverse();
         for (i = _i = 0, _ref = this.size.y; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
           for (j = _j = 0, _ref1 = this.size.x; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
-            if ((_base = this.table)[i] == null) {
-              _base[i] = [];
+            if (table[i] == null) {
+              table[i] = [];
             }
-            this.table[i] = limit(this.table[i], this.size.x);
-            if ((_base1 = this.table[i])[j] == null) {
-              _base1[j] = {};
+            table[i] = limit(table[i], this.size.x);
+            if ((_base = table[i])[j] == null) {
+              _base[j] = {};
             }
           }
         }
-        return this.table = limit(this.table, this.size.y);
+        table = limit(table, this.size.y);
+        return this.table = table.reverse();
       },
       _initializeOptions: function() {
         var _base;
