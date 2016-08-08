@@ -27,6 +27,7 @@ Polymer
     @_initializeTable()
     @_initializeOptions()
     @_setResizable()
+    @resizeInitialState = null
 
   getRowNumber: (rowIndex) ->
     @table.length - 1 - rowIndex
@@ -40,8 +41,9 @@ Polymer
   _onResize: ({ size, originalSize }) ->
     deltaX = (size.width - originalSize.width) / @CELL_SIZE
     deltaY = (size.height - originalSize.height) / @CELL_SIZE
-    @size.x = @size.x + deltaX
-    @size.y = @size.y + deltaY
+    @size =
+      x: @resizeInitialState.x + deltaX
+      y: @resizeInitialState.y + deltaY
     @_fillTable()
 
   _initializeTable: ->
@@ -70,10 +72,12 @@ Polymer
     return if not @options.editable
     $(@$$(".gbs_board"))
       .resizable grid: @CELL_SIZE
-      .on "start", (event, resize) =>
-        console.log "ARRANQUÉ"
+      .on "resizestart", (event, resize) =>
+        @resizeInitialState = @size
       .on "resize", (event, resize) =>
         @_onResize resize
+      .on "resizestop", (event, resize) =>
+        @resizeInitialState = null
 
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]

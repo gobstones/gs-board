@@ -157,7 +157,8 @@
         this.CELL_SIZE = 50;
         this._initializeTable();
         this._initializeOptions();
-        return this._setResizable();
+        this._setResizable();
+        return this.resizeInitialState = null;
       },
       getRowNumber: function(rowIndex) {
         return this.table.length - 1 - rowIndex;
@@ -178,8 +179,10 @@
         size = _arg.size, originalSize = _arg.originalSize;
         deltaX = (size.width - originalSize.width) / this.CELL_SIZE;
         deltaY = (size.height - originalSize.height) / this.CELL_SIZE;
-        this.size.x = this.size.x + deltaX;
-        this.size.y = this.size.y + deltaY;
+        this.size = {
+          x: this.resizeInitialState.x + deltaX,
+          y: this.resizeInitialState.y + deltaY
+        };
         return this._fillTable();
       },
       _initializeTable: function() {
@@ -225,13 +228,17 @@
         }
         return $(this.$$(".gbs_board")).resizable({
           grid: this.CELL_SIZE
-        }).on("start", (function(_this) {
+        }).on("resizestart", (function(_this) {
           return function(event, resize) {
-            return console.log("ARRANQUÉ");
+            return _this.resizeInitialState = _this.size;
           };
         })(this)).on("resize", (function(_this) {
           return function(event, resize) {
             return _this._onResize(resize);
+          };
+        })(this)).on("resizestop", (function(_this) {
+          return function(event, resize) {
+            return _this.resizeInitialState = null;
           };
         })(this));
       },
