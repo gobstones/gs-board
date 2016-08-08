@@ -148,21 +148,35 @@
             y: 0
           }
         },
-        options: Object
+        options: Object,
+        cellSize: {
+          type: Number,
+          value: 50
+        },
+        minWidth: {
+          type: Number,
+          value: 127
+        },
+        minHeight: {
+          type: Number,
+          value: 136
+        },
+        maxWidth: {
+          type: Number,
+          value: 677
+        },
+        maxHeight: {
+          type: Number,
+          value: 586
+        }
       },
       listeners: {
         resize: "_onResize"
       },
       ready: function() {
-        this.CELL_SIZE = 49;
-        this.MIN_WIDTH = 127;
-        this.MIN_HEIGHT = 136;
-        this.MAX_WIDTH = 677;
-        this.MAX_HEIGHT = 586;
         this._initializeTable();
         this._initializeOptions();
-        this._setResizable();
-        return this.resizeInitialState = null;
+        return this._setResizable();
       },
       getRowNumber: function(table, rowIndex) {
         return table.length - 1 - rowIndex;
@@ -173,8 +187,8 @@
       _onResize: function(_arg) {
         var deltaX, deltaY, originalSize, size;
         size = _arg.size, originalSize = _arg.originalSize;
-        deltaX = (size.width - originalSize.width) / this.CELL_SIZE;
-        deltaY = (size.height - originalSize.height) / this.CELL_SIZE;
+        deltaX = (size.width - originalSize.width) / this.cellSize;
+        deltaY = (size.height - originalSize.height) / this.cellSize;
         this.size = {
           x: this.resizeInitialState.x + deltaX,
           y: this.resizeInitialState.y + deltaY
@@ -225,12 +239,13 @@
         if (!this.options.editable) {
           return;
         }
+        this.resizeInitialState = null;
         $(this.$$(".gbs_board")).resizable({
-          grid: this.CELL_SIZE,
-          minWidth: this.MIN_WIDTH,
-          minHeight: this.MIN_HEIGHT,
-          maxWidth: this.MAX_WIDTH,
-          maxHeight: this.MAX_HEIGHT
+          grid: this.cellSize,
+          minWidth: this.minWidth,
+          minHeight: this.minHeight,
+          maxWidth: this.maxWidth,
+          maxHeight: this.maxHeight
         }).on("resizestart", (function(_this) {
           return function(event, resize) {
             return _this.resizeInitialState = _this.size;

@@ -18,20 +18,19 @@ Polymer
     options: Object
     # ^ { editable: false }
 
+    cellSize: type: Number, value: 50
+    minWidth: type: Number, value: 127
+    minHeight: type: Number, value: 136
+    maxWidth: type: Number, value: 677
+    maxHeight: type: Number, value: 586
+
   listeners:
     resize: "_onResize"
 
   ready: ->
-    @CELL_SIZE = 49
-    @MIN_WIDTH = 127
-    @MIN_HEIGHT = 136
-    @MAX_WIDTH = 677
-    @MAX_HEIGHT = 586
-
     @_initializeTable()
     @_initializeOptions()
     @_setResizable()
-    @resizeInitialState = null
 
   getRowNumber: (table, rowIndex) ->
     table.length - 1 - rowIndex
@@ -40,8 +39,8 @@ Polymer
     @$.keyTracker.isPressed "Control"
 
   _onResize: ({ size, originalSize }) ->
-    deltaX = (size.width - originalSize.width) / @CELL_SIZE
-    deltaY = (size.height - originalSize.height) / @CELL_SIZE
+    deltaX = (size.width - originalSize.width) / @cellSize
+    deltaY = (size.height - originalSize.height) / @cellSize
     @size =
       x: @resizeInitialState.x + deltaX
       y: @resizeInitialState.y + deltaY
@@ -74,13 +73,15 @@ Polymer
 
   _setResizable: ->
     return if not @options.editable
+    @resizeInitialState = null
+
     $(@$$(".gbs_board"))
       .resizable
-        grid: @CELL_SIZE
-        minWidth: @MIN_WIDTH
-        minHeight: @MIN_HEIGHT
-        maxWidth: @MAX_WIDTH
-        maxHeight: @MAX_HEIGHT
+        grid: @cellSize
+        minWidth: @minWidth
+        minHeight: @minHeight
+        maxWidth: @maxWidth
+        maxHeight: @maxHeight
       .on "resizestart", (event, resize) =>
         @resizeInitialState = @size
       .on "resize", (event, resize) =>
@@ -93,7 +94,6 @@ Polymer
       $(".ui-resizable-se")
         .appendTo ".board_resize"
         .css "position", "relative"
-
     , 0)
 
   _updateColumnIndexes: ->
