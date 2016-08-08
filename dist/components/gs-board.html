@@ -1,4 +1,5 @@
 <link rel="import" href="gs-cell.html">
+<link rel="import" href="key-tracker.html">
 <dom-module id="gs-board">
   <template>
     <style>
@@ -91,6 +92,8 @@
 
     </style>
 
+    <key-tracker id="keyTracker"></key-tracker>
+
     <table class="gbs_board">
       <tbody>
         <tr>
@@ -157,6 +160,9 @@
           for (var _i = 0, _ref = table != null ? table[0].length : void 0; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
           return _results;
         }).apply(this);
+      },
+      isCtrlPressed: function() {
+        return this.$.keyTracker.isPressed("Control");
       },
       _initializeTable: function() {
         var i, j;

@@ -16,7 +16,6 @@ Polymer
 
   ready: ->
     @_validateData()
-    @_keyTracker = new KeyTracker()
 
   cssClass: (header) ->
     return "" if not header?
@@ -36,7 +35,7 @@ Polymer
   _leftClick: (event) ->
     return if not @options.editable
 
-    if @_keyTracker.isPressed "Control"
+    if @domHost.isCtrlPressed()
       @header = { x: @x(), y: @y() }
 
   _validateData: ->
@@ -46,27 +45,3 @@ Polymer
 
     throw new Error("The cell is required") if not @cell?
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
-
-# ------------------------------
-
-# // TODO: Duplicated. Move to another place.
-class KeyTracker
-  constructor: ->
-    @_pressedKeys = []
-
-    @_listenTo "keydown", (ev) =>
-      key = ev.key || ev.keyIdentifier
-      @_pressedKeys.push key if not @isPressed key
-
-    @_listenTo "keyup", (ev) =>
-      key = ev.key || ev.keyIdentifier
-      @_pressedKeys.splice @_indexOf(key), 1 if @isPressed key
-
-  isPressed: (key) =>
-    @_indexOf(key) isnt -1
-
-  _indexOf: (key) =>
-    @_pressedKeys.indexOf key
-
-  _listenTo: (eventName, handler) =>
-    window.addEventListener eventName, handler, false

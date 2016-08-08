@@ -27,6 +27,9 @@ Polymer
   columnIndexes: (table) ->
     [0 ... table?[0].length]
 
+  isCtrlPressed: ->
+    @$.keyTracker.isPressed "Control"
+
   _initializeTable: ->
     @table ?=
       for i in [1 .. @size.y]
