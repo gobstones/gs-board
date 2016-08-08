@@ -112,10 +112,7 @@
         return this.cellIndex;
       },
       y: function() {
-        return this.getRowNumber(this.rowIndex);
-      },
-      getRowNumber: function(rowIndex) {
-        return this.table.length - 1 - rowIndex;
+        return this.domHost.getRowNumber(this.rowIndex);
       },
       _leftClick: function(event) {
         if (!this.options.editable) {

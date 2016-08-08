@@ -23,14 +23,8 @@ Polymer
 
     if theHeaderIsHere then "gh" else ""
 
-  # ---
-  # // TODO: Duplicated code with #gs-board
-  # // I tried to send directly the { x, y } to this component
-  # // but Polymer doesn't support expressions in arguments yet.
   x: -> @cellIndex
-  y: -> @getRowNumber @rowIndex
-  getRowNumber: (rowIndex) ->
-    @table.length - 1 - rowIndex
+  y: -> @domHost.getRowNumber @rowIndex
 
   _leftClick: (event) ->
     return if not @options.editable
