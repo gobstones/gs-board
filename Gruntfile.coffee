@@ -219,6 +219,13 @@ module.exports = (grunt) ->
           src: '**/*.json'
           dest: '<%= yeoman.tmp %>'
         ]
+      images:
+        files: [
+          expand: true
+          cwd: '<%= yeoman.src %>'
+          src: '**/*.png'
+          dest: 'dist/components'
+        ]
 
     #################################################
     #                    scripts                    #
@@ -284,7 +291,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.tmp %>'
-          src: '**/component.json'
+          src: ['**/component.json']
           dest: '<%= yeoman.dist %>/'
         ]
 
@@ -428,6 +435,7 @@ module.exports = (grunt) ->
     grunt.task.run [
       'clean:dist'
       'clean:tmp'
+      'copy:images'
       'copy:json_src_tmp'
       'preprocess:src_tmp_html'
       'scripts:components'

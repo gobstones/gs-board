@@ -107,7 +107,8 @@ Polymer
     @columnIndexes = [0 ... @size.x]
 
   _forceHeaderSet: ->
-    x = @header.x
-    y = @header.y
+    x = Math.min @header.x, (@size.x - 1)
+    y = Math.min @header.y, (@size.y - 1)
+
     @header = null
     @header = { x, y }
