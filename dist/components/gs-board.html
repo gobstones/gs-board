@@ -295,8 +295,8 @@
       },
       _forceHeaderSet: function() {
         var x, y;
-        x = this.header.x;
-        y = this.header.y;
+        x = Math.min(this.header.x, this.size.x - 1);
+        y = Math.min(this.header.y, this.size.y - 1);
         this.header = null;
         return this.header = {
           x: x,
