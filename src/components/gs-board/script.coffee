@@ -3,6 +3,7 @@ Polymer
 
   properties:
     table: Array
+    observer: "_updateSize"
     # ^ [[{ red: 2, blue: 1 }, { black: 3 }], [...]]
 
     size:
@@ -55,9 +56,7 @@ Polymer
 
   _initializeTable: ->
     if @table?
-      @size =
-        x: @table[0]?.length || 0
-        y: @table.length || 0
+      @_updateSize()
     else
       @table = []
       @_fillTable()
@@ -103,11 +102,17 @@ Polymer
         .css "position", "relative"
     , 0)
 
+  _updateSize: ->
+    @size =
+      x: @table[0]?.length || 0
+      y: @table.length || 0
+
   _updateColumnIndexes: ->
     @columnIndexes = [0 ... @size.x]
 
   _forceHeaderSet: ->
-    x = @header.x
-    y = @header.y
+    x = Math.min @header.x, (@size.x - 1)
+    y = Math.min @header.y, (@size.y - 1)
+
     @header = null
     @header = { x, y }

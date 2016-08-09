@@ -142,6 +142,7 @@
       is: 'gs-board',
       properties: {
         table: Array,
+        observer: "_updateSize",
         size: {
           type: Object,
           value: {
@@ -216,12 +217,8 @@
         return this._fillTable();
       },
       _initializeTable: function() {
-        var _ref;
         if (this.table != null) {
-          return this.size = {
-            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
-            y: this.table.length || 0
-          };
+          return this._updateSize();
         } else {
           this.table = [];
           return this._fillTable();
@@ -285,6 +282,13 @@
           return $(".ui-resizable-se").appendTo(".board_resize").css("position", "relative");
         }, 0);
       },
+      _updateSize: function() {
+        var _ref;
+        return this.size = {
+          x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
+          y: this.table.length || 0
+        };
+      },
       _updateColumnIndexes: function() {
         var _i, _ref, _results;
         return this.columnIndexes = (function() {
@@ -295,8 +299,8 @@
       },
       _forceHeaderSet: function() {
         var x, y;
-        x = this.header.x;
-        y = this.header.y;
+        x = Math.min(this.header.x, this.size.x - 1);
+        y = Math.min(this.header.y, this.size.y - 1);
         this.header = null;
         return this.header = {
           x: x,
