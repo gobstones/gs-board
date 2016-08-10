@@ -42,8 +42,11 @@ Polymer
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
 
-  cssClass: (boom) ->
+  boomCssClass: (boom) ->
     if boom then "boom" else ""
+
+  resizeCssClass: (editable) ->
+    if editable then "board_resize" else ""
 
   _onResize: ({ size, originalSize }) ->
     deltaX = (size.width - originalSize.width) / @cellSize
@@ -95,7 +98,7 @@ Polymer
         @_onResize resize
       .on "resizestop", (event, resize) =>
         @resizeInitialState = null
-    setTimeout(->
+    setTimeout(=>
       $(".ui-resizable-s").hide()
       $(".ui-resizable-e").hide()
       $(".ui-resizable-se")

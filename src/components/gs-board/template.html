@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
 <key-tracker id="keyTracker"></key-tracker>
 
-<table class$="gbs_board ui-widget-content {{cssClass(boom)}}">
+<table class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
   <tbody>
     <tr>
       <td class="lx top_left"></td>
@@ -26,7 +26,7 @@
       <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
         <td class="lh">{{columnIndex}}</td>
       </template>
-      <td class="lx bottom_right board_resize"></td>
+      <td class$="lx bottom_right {{resizeCssClass(editable)}}"></td>
     </tr>
   </tbody>
 </table>

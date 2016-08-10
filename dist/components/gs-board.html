@@ -5,7 +5,6 @@
 <dom-module id="gs-board">
   <template>
     <style>
-      @charset "UTF-8";
       .pointer {
         cursor: pointer;
       }
@@ -92,7 +91,6 @@
       }
 
       table.boom {
-        /* TODO: Mover a un no-CDN: ¡o sea acá! */
         background-image: url("boom.png");
         background-size: contain;
         background-repeat: no-repeat;
@@ -106,7 +104,7 @@
     <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class$="gbs_board ui-widget-content {{cssClass(boom)}}">
+    <table class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
@@ -131,7 +129,7 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class="lx bottom_right board_resize"></td>
+          <td class$="lx bottom_right {{resizeCssClass(editable)}}"></td>
         </tr>
       </tbody>
     </table>
@@ -197,9 +195,16 @@
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
-      cssClass: function(boom) {
+      boomCssClass: function(boom) {
         if (boom) {
           return "boom";
+        } else {
+          return "";
+        }
+      },
+      resizeCssClass: function(editable) {
+        if (editable) {
+          return "board_resize";
         } else {
           return "";
         }
@@ -279,11 +284,13 @@
             return _this.resizeInitialState = null;
           };
         })(this));
-        return setTimeout(function() {
-          $(".ui-resizable-s").hide();
-          $(".ui-resizable-e").hide();
-          return $(".ui-resizable-se").appendTo(".board_resize").css("position", "relative");
-        }, 0);
+        return setTimeout((function(_this) {
+          return function() {
+            $(".ui-resizable-s").hide();
+            $(".ui-resizable-e").hide();
+            return $(".ui-resizable-se").appendTo(".board_resize").css("position", "relative");
+          };
+        })(this), 0);
       },
       _updateColumnIndexes: function() {
         var _i, _ref, _results;
