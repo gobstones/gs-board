@@ -62,8 +62,21 @@ table.gbs_board {
 }
 
 table.boom {
+  position: relative;
   background-image: url('boom.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+table.boom:after {
+  position: absolute;
+  pointer-events: none;
+  content: 'BOOM';
+  font-family: monospace;
+  font-size: 300%;
+  color: rgba(0, 0, 0, 0.7);
+  top: 18px;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
