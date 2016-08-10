@@ -45,8 +45,8 @@ Polymer
   boomCssClass: (boom) ->
     if boom then "boom" else ""
 
-  resizeCssClass: (editable) ->
-    if editable then "board_resize" else ""
+  resizeCssClass: (options) ->
+    if options.editable then "board_resize" else ""
 
   _onResize: ({ size, originalSize }) ->
     deltaX = (size.width - originalSize.width) / @cellSize
