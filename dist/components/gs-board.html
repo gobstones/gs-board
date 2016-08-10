@@ -105,9 +105,9 @@
         font-family: monospace;
         font-size: 300%;
         color: rgba(0, 0, 0, 0.7);
-        top: 18px;
+        top: 50%;
         left: 50%;
-        transform: translate(-50%, 0);
+        transform: translate(-50%, -50%);
       }
 
       /*# sourceMappingURL=style.css.map */
@@ -142,7 +142,7 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class$="lx bottom_right {{resizeCssClass(editable)}}"></td>
+          <td class$="lx bottom_right {{resizeCssClass(options)}}"></td>
         </tr>
       </tbody>
     </table>
@@ -215,8 +215,8 @@
           return "";
         }
       },
-      resizeCssClass: function(editable) {
-        if (editable) {
+      resizeCssClass: function(options) {
+        if (options.editable) {
           return "board_resize";
         } else {
           return "";

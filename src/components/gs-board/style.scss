@@ -76,7 +76,7 @@ table.boom:after {
   font-family: monospace;
   font-size: 300%;
   color: rgba(0, 0, 0, 0.7);
-  top: 18px;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, -50%);
 }
