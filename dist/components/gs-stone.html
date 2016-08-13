@@ -106,6 +106,7 @@
         if (!this.options.editable || board.isCtrlPressed()) {
           return;
         }
+        this.fire("board-changed");
         this.amount += 1;
         return event.stopPropagation();
       },
@@ -114,6 +115,7 @@
           return;
         }
         event.preventDefault();
+        this.fire("board-changed");
         return this.amount -= 1;
       }
     });

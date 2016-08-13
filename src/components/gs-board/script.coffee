@@ -49,6 +49,7 @@ Polymer
     if options.editable then "board_resize" else ""
 
   _onResize: ({ size, originalSize }) ->
+    @fire "board-changed"
     deltaX = (size.width - originalSize.width) / @cellSize
     deltaY = (size.height - originalSize.height) / @cellSize
     @size =
