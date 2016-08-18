@@ -291,7 +291,9 @@
           };
         })(this)).on("resize", (function(_this) {
           return function(event, resize) {
-            return _this._onResize(resize);
+            _this._onResize(resize);
+            _this.fire("board-resize");
+            return event.stopPropagation();
           };
         })(this)).on("resizestop", (function(_this) {
           return function(event, resize) {

@@ -97,6 +97,8 @@ Polymer
         @resizeInitialState = @size
       .on "resize", (event, resize) =>
         @_onResize resize
+        this.fire "board-resize"
+        event.stopPropagation()
       .on "resizestop", (event, resize) =>
         @resizeInitialState = null
     setTimeout(=>
