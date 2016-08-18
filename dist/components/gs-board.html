@@ -299,9 +299,9 @@
         })(this));
         return setTimeout((function(_this) {
           return function() {
-            $(".ui-resizable-s").hide();
-            $(".ui-resizable-e").hide();
-            return $(".ui-resizable-se").appendTo(".board_resize").css("position", "relative");
+            $(_this.$$(".ui-resizable-s")).hide();
+            $(_this.$$(".ui-resizable-e")).hide();
+            return $(_this.$$(".ui-resizable-se")).appendTo(_this.$$(".board_resize")).css("position", "relative");
           };
         })(this), 0);
       },
