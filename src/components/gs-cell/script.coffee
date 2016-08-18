@@ -30,6 +30,7 @@ Polymer
     return if not @options.editable
 
     if @domHost.isCtrlPressed()
+      @fire "board-changed"
       @header = { x: @x(), y: @y() }
 
   _validateData: ->

@@ -225,6 +225,7 @@
       _onResize: function(_arg) {
         var deltaX, deltaY, originalSize, size;
         size = _arg.size, originalSize = _arg.originalSize;
+        this.fire("board-changed");
         deltaX = (size.width - originalSize.width) / this.cellSize;
         deltaY = (size.height - originalSize.height) / this.cellSize;
         this.size = {

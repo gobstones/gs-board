@@ -119,6 +119,7 @@
           return;
         }
         if (this.domHost.isCtrlPressed()) {
+          this.fire("board-changed");
           return this.header = {
             x: this.x(),
             y: this.y()

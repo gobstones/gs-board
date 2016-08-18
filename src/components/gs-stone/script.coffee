@@ -29,10 +29,14 @@ Polymer
   _leftClick: (event) ->
     board = @domHost.domHost
     return if not @options.editable or board.isCtrlPressed()
+
+    @fire "board-changed"
     @amount += 1
     event.stopPropagation()
 
   _rightClick: (event) ->
     return if not @options.editable
     event.preventDefault()
+
+    @fire "board-changed"
     @amount -= 1
