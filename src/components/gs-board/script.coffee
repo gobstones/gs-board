@@ -86,6 +86,16 @@ Polymer
     return if not @options.editable
     @resizeInitialState = null
 
+    resizeFix = (event, ui) ->
+      changeWidth = ui.size.width - ui.originalSize.width
+      newWidth = ui.originalSize.width + changeWidth / zoomScale
+
+      changeHeight = ui.size.height - ui.originalSize.height
+      newHeight = ui.originalSize.height + changeHeight / zoomScale
+
+      ui.size.width = newWidth
+      ui.size.height = newHeight
+
     $(@$$(".gbs_board"))
       .resizable
         grid: @cellSize
@@ -93,6 +103,7 @@ Polymer
         minHeight: @minHeight
         maxWidth: @maxWidth
         maxHeight: @maxHeight
+        resize: resizeFix
       .on "resizestart", (event, resize) =>
         @resizeInitialState = @size
       .on "resize", (event, resize) =>

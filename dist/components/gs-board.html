@@ -117,7 +117,7 @@
     <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
-    <table class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
+    <table style="transform: scale(1.5)" class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
       <tbody>
         <tr>
           <td class="lx top_left"></td>
@@ -275,16 +275,27 @@
         return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
       },
       _setResizable: function() {
+        var resizeFix;
         if (!this.options.editable) {
           return;
         }
         this.resizeInitialState = null;
+        resizeFix = function(event, ui) {
+          var changeHeight, changeWidth, newHeight, newWidth;
+          changeWidth = ui.size.width - ui.originalSize.width;
+          newWidth = ui.originalSize.width + changeWidth / zoomScale;
+          changeHeight = ui.size.height - ui.originalSize.height;
+          newHeight = ui.originalSize.height + changeHeight / zoomScale;
+          ui.size.width = newWidth;
+          return ui.size.height = newHeight;
+        };
         $(this.$$(".gbs_board")).resizable({
           grid: this.cellSize,
           minWidth: this.minWidth,
           minHeight: this.minHeight,
           maxWidth: this.maxWidth,
-          maxHeight: this.maxHeight
+          maxHeight: this.maxHeight,
+          resize: resizeFix
         }).on("resizestart", (function(_this) {
           return function(event, resize) {
             return _this.resizeInitialState = _this.size;
