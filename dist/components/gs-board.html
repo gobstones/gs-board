@@ -1,7 +1,5 @@
 <link rel="import" href="gs-cell.html">
 <link rel="import" href="key-tracker.html">
-<script type="text/javascript" src="../../../jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="../../../jquery-ui/jquery-ui.min.js"></script>
 <dom-module id="gs-board">
   <template>
     <style>
@@ -114,7 +112,6 @@
 
     </style>
 
-    <link rel="stylesheet" href="../../../jquery-ui/themes/base/jquery-ui.min.css">
     <key-tracker id="keyTracker"></key-tracker>
 
     <table class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
@@ -142,7 +139,7 @@
           <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
             <td class="lh">{{columnIndex}}</td>
           </template>
-          <td class$="lx bottom_right {{resizeCssClass(options)}}"></td>
+          <td class="lx bottom_right"></td>
         </tr>
       </tbody>
     </table>
@@ -159,7 +156,7 @@
             x: 2,
             y: 2
           },
-          observer: "_updateColumnIndexes"
+          observer: "_updateSize"
         },
         header: {
           type: Object,
@@ -172,35 +169,11 @@
         boom: {
           type: Boolean,
           value: false
-        },
-        cellSize: {
-          type: Number,
-          value: 50
-        },
-        minWidth: {
-          type: Number,
-          value: 127
-        },
-        minHeight: {
-          type: Number,
-          value: 136
-        },
-        maxWidth: {
-          type: Number,
-          value: 677
-        },
-        maxHeight: {
-          type: Number,
-          value: 586
         }
-      },
-      listeners: {
-        resize: "_onResize"
       },
       ready: function() {
         this._initializeTable();
-        this._initializeOptions();
-        return this._setResizable();
+        return this._initializeOptions();
       },
       getRowNumber: function(table, rowIndex) {
         return table.length - 1 - rowIndex;
@@ -214,25 +187,6 @@
         } else {
           return "";
         }
-      },
-      resizeCssClass: function(options) {
-        if (options.editable) {
-          return "board_resize";
-        } else {
-          return "";
-        }
-      },
-      _onResize: function(_arg) {
-        var deltaX, deltaY, originalSize, size;
-        size = _arg.size, originalSize = _arg.originalSize;
-        this.fire("board-changed");
-        deltaX = (size.width - originalSize.width) / this.cellSize;
-        deltaY = (size.height - originalSize.height) / this.cellSize;
-        this.size = {
-          x: this.resizeInitialState.x + deltaX,
-          y: this.resizeInitialState.y + deltaY
-        };
-        return this._fillTable();
       },
       _initializeTable: function() {
         var _ref;
@@ -248,6 +202,9 @@
       },
       _fillTable: function() {
         var i, j, limit, table, _base, _i, _j, _ref, _ref1;
+        if (this.table == null) {
+          return;
+        }
         limit = function(array, limit) {
           return array.slice(0, limit);
         };
@@ -274,40 +231,9 @@
         }
         return (_base = this.options).editable != null ? _base.editable : _base.editable = false;
       },
-      _setResizable: function() {
-        if (!this.options.editable) {
-          return;
-        }
-        this.resizeInitialState = null;
-        $(this.$$(".gbs_board")).resizable({
-          grid: this.cellSize,
-          minWidth: this.minWidth,
-          minHeight: this.minHeight,
-          maxWidth: this.maxWidth,
-          maxHeight: this.maxHeight
-        }).on("resizestart", (function(_this) {
-          return function(event, resize) {
-            return _this.resizeInitialState = _this.size;
-          };
-        })(this)).on("resize", (function(_this) {
-          return function(event, resize) {
-            return _this._onResize(resize);
-          };
-        })(this)).on("resizestop", (function(_this) {
-          return function(event, resize) {
-            return _this.resizeInitialState = null;
-          };
-        })(this));
-        return setTimeout((function(_this) {
-          return function() {
-            $(_this.$$(".ui-resizable-s")).hide();
-            $(_this.$$(".ui-resizable-e")).hide();
-            return $(_this.$$(".ui-resizable-se")).appendTo(_this.$$(".board_resize")).css("position", "relative");
-          };
-        })(this), 0);
-      },
-      _updateColumnIndexes: function() {
+      _updateSize: function() {
         var _i, _ref, _results;
+        this._fillTable();
         return this.columnIndexes = (function() {
           _results = [];
           for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }

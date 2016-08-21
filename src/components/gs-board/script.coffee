@@ -8,7 +8,7 @@ Polymer
     size:
       type: Object
       value: { x: 2, y: 2 }
-      observer: "_updateColumnIndexes"
+      observer: "_updateSize"
     # ^ if `table` exists, this field is ignored
 
     header:
@@ -22,19 +22,9 @@ Polymer
       type: Boolean
       value: false
 
-    cellSize: type: Number, value: 50
-    minWidth: type: Number, value: 127
-    minHeight: type: Number, value: 136
-    maxWidth: type: Number, value: 677
-    maxHeight: type: Number, value: 586
-
-  listeners:
-    resize: "_onResize"
-
   ready: ->
     @_initializeTable()
     @_initializeOptions()
-    @_setResizable()
 
   getRowNumber: (table, rowIndex) ->
     table.length - 1 - rowIndex
@@ -44,18 +34,6 @@ Polymer
 
   boomCssClass: (boom) ->
     if boom then "boom" else ""
-
-  resizeCssClass: (options) ->
-    if options.editable then "board_resize" else ""
-
-  _onResize: ({ size, originalSize }) ->
-    @fire "board-changed"
-    deltaX = (size.width - originalSize.width) / @cellSize
-    deltaY = (size.height - originalSize.height) / @cellSize
-    @size =
-      x: @resizeInitialState.x + deltaX
-      y: @resizeInitialState.y + deltaY
-    @_fillTable()
 
   _initializeTable: ->
     if @table?
@@ -67,6 +45,8 @@ Polymer
       @_fillTable()
 
   _fillTable: ->
+    return if not @table?
+
     limit = (array, limit) -> array.slice 0, limit
     table = @table.slice().reverse()
     for i in [0 ... @size.y]
@@ -82,32 +62,8 @@ Polymer
     @options ?= {}
     @options.editable ?= false
 
-  _setResizable: ->
-    return if not @options.editable
-    @resizeInitialState = null
-
-    $(@$$(".gbs_board"))
-      .resizable
-        grid: @cellSize
-        minWidth: @minWidth
-        minHeight: @minHeight
-        maxWidth: @maxWidth
-        maxHeight: @maxHeight
-      .on "resizestart", (event, resize) =>
-        @resizeInitialState = @size
-      .on "resize", (event, resize) =>
-        @_onResize resize
-      .on "resizestop", (event, resize) =>
-        @resizeInitialState = null
-    setTimeout(=>
-      $(@$$(".ui-resizable-s")).hide()
-      $(@$$(".ui-resizable-e")).hide()
-      $(@$$(".ui-resizable-se"))
-        .appendTo @$$(".board_resize")
-        .css "position", "relative"
-    , 0)
-
-  _updateColumnIndexes: ->
+  _updateSize: ->
+    @_fillTable()
     @columnIndexes = [0 ... @size.x]
 
   _forceHeaderSet: ->
