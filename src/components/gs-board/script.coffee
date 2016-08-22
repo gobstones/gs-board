@@ -65,7 +65,7 @@ Polymer
   _updateSize: ->
     @_fillTable()
     @columnIndexes = [0 ... @size.x]
-    this.fire("board-changed");
+    @fire "board-changed"
 
   _forceHeaderSet: ->
     x = Math.min @header.x, (@size.x - 1)
