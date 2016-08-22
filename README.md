@@ -34,7 +34,12 @@ bower install --save gobstones/gs-board
 
 ### final board (fixed)
 ```html
-<gs-board table='[[{}, { "red": 3 }], [{ "black": 1 }, {}]]'></gs-board>
+<template is="dom-if" if="{{finalState}}" restamp="true">
+  <gs-board table='{{finalState.table}}' header="{{finalState.header}}"></gs-board>
+</template>
+```
+```
+finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 ```
 
 ### setting header position
