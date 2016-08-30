@@ -15,35 +15,42 @@
       }
 
       ::content div.blue {
-        background: #0A37D0;
-        border: solid 1px #008;
+        background: radial-gradient(circle at 20px 20px, #122286, #0a37d0);
       }
       ::content div.black {
-        background: #040928;
-        border: solid 1px #222;
+        background: radial-gradient(circle at 20px 20px, #4a4a4a, #000000);
       }
       ::content div.red {
-        background: #A60000;
-        border: solid 1px #800;
+        background: radial-gradient(circle at 20px 20px, #a91f1f, #a60000);
       }
       ::content div.green {
-        background: #0B6600;
-        border: solid 1px #080;
+        background: radial-gradient(circle at 20px 20px, #54984b, #0b6600);
       }
       ::content div.O {
         background: white;
         opacity: 0;
-        border: solid 1px #222;
       }
 
       .gbs_stone {
+        position: relative;
         font-weight: bold;
         font-size: 8pt;
         width: 20px;
         height: 20px;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
         border-radius: 50%;
+      }
+
+      .gbs_stone:before {
+        content: "";
+        position: absolute;
+        top: 1%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
+        filter: blur(5px);
+        z-index: 2;
       }
 
       .stone_amount {
