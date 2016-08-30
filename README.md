@@ -2,8 +2,6 @@
 
 gobstones grid Polymer component (aka: board)
 
-Version: 0.1.0
-
 ## install
 ```
 npm install
