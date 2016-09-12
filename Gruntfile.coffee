@@ -223,7 +223,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: '<%= yeoman.src %>'
-          src: '**/*.png'
+          src: ['**/*.png', '**/*.svg']
           dest: 'dist/components'
         ]
 

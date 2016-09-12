@@ -15,16 +15,20 @@
       }
 
       ::content div.blue {
-        background: radial-gradient(circle at 20px 20px, #122286, #0a37d0);
+        background: white;
+        background-image: url("op_bolita_azul.svg");
       }
       ::content div.black {
-        background: radial-gradient(circle at 20px 20px, #4a4a4a, #000000);
+        background: white;
+        background-image: url("op_bolita_negra.svg");
       }
       ::content div.red {
-        background: radial-gradient(circle at 20px 20px, #a91f1f, #a60000);
+        background: white;
+        background-image: url("op_bolita_roja.svg");
       }
       ::content div.green {
-        background: radial-gradient(circle at 20px 20px, #54984b, #0b6600);
+        background: white;
+        background-image: url("op_bolita_verde.svg");
       }
       ::content div.O {
         background: white;
@@ -32,25 +36,10 @@
       }
 
       .gbs_stone {
-        position: relative;
         font-weight: bold;
         font-size: 8pt;
         width: 20px;
         height: 20px;
-        border-radius: 50%;
-      }
-
-      .gbs_stone:before {
-        content: "";
-        position: absolute;
-        top: 1%;
-        left: 5%;
-        width: 90%;
-        height: 90%;
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
-        filter: blur(5px);
-        z-index: 2;
       }
 
       .stone_amount {
