@@ -19,6 +19,7 @@ table.gc { /* cell table */
   border: 0px;
 }
 .gc td {
+  visibility: var(--stones-visibility);
   border-style: none;
   border: solid black 0px;
   width: 15px;

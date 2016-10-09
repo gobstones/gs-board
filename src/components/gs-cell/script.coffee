@@ -48,6 +48,6 @@ Polymer
 
   _updateBackgroundUrl: ->
     url = @$.dresser.getImage @cell, @clothing
-    return if not url?
-    @customStyle["--background-url"] = "url(#{url})"
+    @customStyle["--stones-visibility"] = if url? then "hidden" else "visible"
+    if url? then @customStyle["--background-url"] = "url(#{url})"
     @updateStyles()

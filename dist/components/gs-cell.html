@@ -39,6 +39,7 @@
       }
 
       .gc td {
+        visibility: var(--stones-visibility);
         border-style: none;
         border: solid black 0px;
         width: 15px;
@@ -160,10 +161,10 @@
       _updateBackgroundUrl: function() {
         var url;
         url = this.$.dresser.getImage(this.cell, this.clothing);
-        if (url == null) {
-          return;
+        this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";
+        if (url != null) {
+          this.customStyle["--background-url"] = "url(" + url + ")";
         }
-        this.customStyle["--background-url"] = "url(" + url + ")";
         return this.updateStyles();
       }
     });
