@@ -6,6 +6,10 @@ Polymer
     rowIndex: Number
     cell: Object
     table: Array
+    clothing:
+      type: Object
+      notify: "_updateBackgroundUrl"
+    backgroundUrl: String
     header:
       type: Object
       notify: true
@@ -16,7 +20,7 @@ Polymer
 
   ready: ->
     @_validateData()
-    # console.log "// TODO", @$.dresser.getImage(@cell, @domHost.clothing)
+    @_updateBackgroundUrl()
 
   cssClass: (header) ->
     return "" if not header?
@@ -41,3 +45,9 @@ Polymer
 
     throw new Error("The cell is required") if not @cell?
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
+
+  _updateBackgroundUrl: ->
+    url = @$.dresser.getImage @cell, @clothing
+    return if not url?
+    @customStyle["--background-url"] = "url(#{url})"
+    @updateStyles()

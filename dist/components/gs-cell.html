@@ -34,7 +34,8 @@
       }
 
       .gc td {
-        background-size: 15px 15px;
+        background-image: var(--background-url);
+        background-size: 44px 44px;
         border-style: none;
         border: solid black 0px;
         width: 15px;
@@ -88,6 +89,11 @@
         rowIndex: Number,
         cell: Object,
         table: Array,
+        clothing: {
+          type: Object,
+          notify: "_updateBackgroundUrl"
+        },
+        backgroundUrl: String,
         header: {
           type: Object,
           notify: true
@@ -98,7 +104,8 @@
         click: "_leftClick"
       },
       ready: function() {
-        return this._validateData();
+        this._validateData();
+        return this._updateBackgroundUrl();
       },
       cssClass: function(header) {
         var theHeaderIsHere;
@@ -146,6 +153,15 @@
         if ((this.cellIndex == null) || (this.rowIndex == null)) {
           throw new Error("The coordinates are required");
         }
+      },
+      _updateBackgroundUrl: function() {
+        var url;
+        url = this.$.dresser.getImage(this.cell, this.clothing);
+        if (url == null) {
+          return;
+        }
+        this.customStyle["--background-url"] = "url(" + url + ")";
+        return this.updateStyles();
       }
     });
 

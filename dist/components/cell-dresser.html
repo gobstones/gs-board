@@ -20,11 +20,11 @@
           };
         })(this))[0]) != null ? _ref.image : void 0 : void 0;
       },
-      _doesSatisfyRule: function(rule, cell) {
+      _doesSatisfyRule: function(cell, rule) {
         var itSatisfies;
         itSatisfies = (function(_this) {
           return function(color) {
-            return _this._doesSatisfyQuantity(cell[color], rule[color]);
+            return _this._doesSatisfyQuantity(cell[color], rule.when[color]);
           };
         })(this);
         return ["red", "blue", "green", "black"].reduce((function(_this) {
@@ -34,6 +34,9 @@
         })(this), true);
       },
       _doesSatisfyQuantity: function(quantity, expectedQuantity) {
+        if (quantity == null) {
+          quantity = 0;
+        }
         switch (expectedQuantity) {
           case "*":
             return true;

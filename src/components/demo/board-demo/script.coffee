@@ -1,11 +1,16 @@
-initial_table = [
+model = table: [
   [ {}, {}, {}, {} ]
   [ {}, {}, {}, {} ]
   [ { black: 1 }, { blue: 8 }, { green: 2 }, {} ]
   [ { red: 3, black: 4 }, {}, {}, {} ]
 ]
 
-model = table: initial_table
+modelWithClothing = table: [
+  [ { green: 1 }, {}, {}, { blue: 1 } ]
+  [ {}, { red: 4, black: 1 }, { red: 4, black: 2 }, {} ]
+  [ {}, { red: 4 }, { red: 4, black: 3 }, {} ]
+  [ { red: 1 }, {}, {}, { black: 1 } ]
+]
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
@@ -15,6 +20,10 @@ Polymer
     model:
       type: Object
       value: model
+      notify: true
+    modelWithClothing:
+      type: Object
+      value: modelWithClothing
       notify: true
     jsonModel:
       type: Object

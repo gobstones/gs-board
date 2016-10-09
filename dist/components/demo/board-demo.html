@@ -17,7 +17,7 @@
       <gs-board size='{ "x": 2, "y": 2 }' options='{ "editable": true }'></gs-board>
     </div>
     <div>
-      <gs-board table="{{model.table}}" options='{ "editable": false }' clothing='{{clothing}}'></gs-board>
+      <gs-board table="{{modelWithClothing.table}}" options='{ "editable": false }' clothing='{{clothing}}'></gs-board>
     </div>
     <div class="board-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
@@ -25,27 +25,58 @@
 
   </template>
   <script>
-    var initial_table, model;
-
-    initial_table = [
-      [{}, {}, {}, {}], [{}, {}, {}, {}], [
-        {
-          black: 1
-        }, {
-          blue: 8
-        }, {
-          green: 2
-        }, {}
-      ], [
-        {
-          red: 3,
-          black: 4
-        }, {}, {}, {}
-      ]
-    ];
+    var model, modelWithClothing;
 
     model = {
-      table: initial_table
+      table: [
+        [{}, {}, {}, {}], [{}, {}, {}, {}], [
+          {
+            black: 1
+          }, {
+            blue: 8
+          }, {
+            green: 2
+          }, {}
+        ], [
+          {
+            red: 3,
+            black: 4
+          }, {}, {}, {}
+        ]
+      ]
+    };
+
+    modelWithClothing = {
+      table: [
+        [
+          {
+            green: 1
+          }, {}, {}, {
+            blue: 1
+          }
+        ], [
+          {}, {
+            red: 4,
+            black: 1
+          }, {
+            red: 4,
+            black: 2
+          }, {}
+        ], [
+          {}, {
+            red: 4
+          }, {
+            red: 4,
+            black: 3
+          }, {}
+        ], [
+          {
+            red: 1
+          }, {}, {}, {
+            black: 1
+          }
+        ]
+      ]
     };
 
     Polymer({
@@ -54,6 +85,11 @@
         model: {
           type: Object,
           value: model,
+          notify: true
+        },
+        modelWithClothing: {
+          type: Object,
+          value: modelWithClothing,
           notify: true
         },
         jsonModel: {

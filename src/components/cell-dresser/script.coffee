@@ -3,18 +3,20 @@ Polymer
 
   getImage: (cell, clothing)->
     clothing?.rules
-      .filter((rule) => @_doesSatisfyRule cell, rule)[0]?.image
+      .filter(
+        (rule) => @_doesSatisfyRule cell, rule
+      )[0]?.image
 
-  _doesSatisfyRule: (rule, cell) ->
+  _doesSatisfyRule: (cell, rule) ->
     itSatisfies = (color) =>
-      @_doesSatisfyQuantity cell[color], rule[color]
+      @_doesSatisfyQuantity cell[color], rule.when[color]
 
     ["red", "blue", "green", "black"]
     .reduce((previousCondition, color) =>
       previousCondition and itSatisfies color
     , true)
 
-  _doesSatisfyQuantity: (quantity, expectedQuantity) ->
+  _doesSatisfyQuantity: (quantity = 0, expectedQuantity) ->
     switch expectedQuantity
       when "*"
         true
