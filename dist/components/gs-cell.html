@@ -164,6 +164,8 @@
         this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";
+        } else {
+          delete this.customStyle["--background-url"];
         }
         return this.updateStyles();
       }
