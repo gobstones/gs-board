@@ -5,6 +5,11 @@
   outline: 3px solid #CC0000;
 }
 
+div.gc {
+  background-image: var(--background-url);
+  background-size: 44px 44px;
+}
+
 table.gc { /* cell table */
   border-style: none;
   border: solid black 0px;
@@ -14,8 +19,6 @@ table.gc { /* cell table */
   border: 0px;
 }
 .gc td {
-  background-image: var(--background-url);
-  background-size: 44px 44px;
   border-style: none;
   border: solid black 0px;
   width: 15px;
