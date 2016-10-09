@@ -22,6 +22,9 @@ Polymer
       type: Boolean
       value: false
 
+    clothing:
+      type: Object
+
   ready: ->
     @_initializeTable()
     @_initializeOptions()

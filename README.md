@@ -50,6 +50,48 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 <gs-board size='{ "x": 4, "y": 4 }' boom></gs-board>
 ```
 
+### with clothing
+```html
+<gs-board size='{ "x": 4, "y": 4 }' clothing="{{clothing}}"></gs-board>
+```
+
+#### Example of clothing definition:
+```json
+{
+  "rules": [
+    {
+      "when": { "blue": "*", "black": "+", "red": 4, "green": "*" },
+      "image": "tnt.png"
+    },
+
+    {
+      "when": { "blue": 0, "black": 0, "red": 0, "green": 0 },
+      "image": "back.png"
+    },
+
+    {
+      "when": { "blue": 0, "black": 0, "red": 0, "green": 1 },
+      "image": "green.png"
+    },
+
+    {
+      "when": { "blue": 1, "black": 0, "red": 0, "green": 0 },
+      "image": "blue.png"
+    },
+
+    {
+      "when": { "blue": 0, "black": 1, "red": 0, "green": 0 },
+      "image": "black.png"
+    },
+
+    {
+      "when": { "blue": 0, "black": 0, "red": 1, "green": 0 },
+      "image": "red.png"
+    }
+  ]
+}
+```
+
 ## deploy
 
 Create tags in `#master`.
