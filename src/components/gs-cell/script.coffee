@@ -16,6 +16,7 @@ Polymer
 
   ready: ->
     @_validateData()
+    # console.log "// TODO", @$.dresser.getImage(@cell, @domHost.clothing)
 
   cssClass: (header) ->
     return "" if not header?
