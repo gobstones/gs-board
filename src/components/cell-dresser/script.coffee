@@ -1,8 +1,8 @@
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
-  getImage: (cell, clothing)->
-    clothing?.rules
+  getImage: (cell, attire)->
+    attire?.rules
       .filter(
         (rule) => @_doesSatisfyRule cell, rule
       )[0]?.image

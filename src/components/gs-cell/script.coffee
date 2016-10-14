@@ -6,7 +6,7 @@ Polymer
     rowIndex: Number
     cell: Object
     table: Array
-    clothing:
+    attire:
       type: Object
       notify: "_updateBackgroundUrl"
     backgroundUrl: String
@@ -47,7 +47,7 @@ Polymer
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
 
   _updateBackgroundUrl: ->
-    url = @$.dresser.getImage @cell, @clothing
+    url = @$.dresser.getImage @cell, @attire
 
     @customStyle["--stones-visibility"] = if url? then "hidden" else "visible"
     if url? then @customStyle["--background-url"] = "url(#{url})"

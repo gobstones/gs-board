@@ -95,7 +95,7 @@
         rowIndex: Number,
         cell: Object,
         table: Array,
-        clothing: {
+        attire: {
           type: Object,
           notify: "_updateBackgroundUrl"
         },
@@ -162,7 +162,7 @@
       },
       _updateBackgroundUrl: function() {
         var url;
-        url = this.$.dresser.getImage(this.cell, this.clothing);
+        url = this.$.dresser.getImage(this.cell, this.attire);
         this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";

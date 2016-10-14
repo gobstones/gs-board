@@ -17,7 +17,7 @@
       <gs-board size='{ "x": 2, "y": 2 }' options='{ "editable": true }'></gs-board>
     </div>
     <div>
-      <gs-board table="{{modelWithClothing.table}}" options='{ "editable": false }' clothing='{{clothing}}'></gs-board>
+      <gs-board table="{{modelWithAttire.table}}" options='{ "editable": false }' attire='{{attire}}'></gs-board>
     </div>
     <div class="board-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
@@ -25,7 +25,7 @@
 
   </template>
   <script>
-    var model, modelWithClothing;
+    var model, modelWithAttire;
 
     model = {
       table: [
@@ -46,7 +46,7 @@
       ]
     };
 
-    modelWithClothing = {
+    modelWithAttire = {
       table: [
         [
           {
@@ -87,21 +87,21 @@
           value: model,
           notify: true
         },
-        modelWithClothing: {
+        modelWithAttire: {
           type: Object,
-          value: modelWithClothing,
+          value: modelWithAttire,
           notify: true
         },
         jsonModel: {
           type: Object,
           value: model
         },
-        clothing: {
+        attire: {
           type: Object
         }
       },
       ready: function() {
-        return this.clothing = {
+        return this.attire = {
           "rules": [
             {
               "when": {

@@ -22,7 +22,7 @@ Polymer
       type: Boolean
       value: false
 
-    clothing:
+    attire:
       type: Object
 
   ready: ->

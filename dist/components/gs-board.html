@@ -115,7 +115,7 @@
             <td class="lv">{{getRowNumber(table, rowIndex)}}</td>
             <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
               <td>
-                <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" table="{{table}}" header="{{header}}" options="{{options}}" clothing="{{clothing}}"></gs-cell>
+                <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" table="{{table}}" header="{{header}}" options="{{options}}" attire="{{attire}}"></gs-cell>
               </td>
             </template>
             <td class="lv">{{getRowNumber(table, rowIndex)}}</td>
@@ -157,7 +157,7 @@
           type: Boolean,
           value: false
         },
-        clothing: {
+        attire: {
           type: Object
         }
       },

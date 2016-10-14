@@ -5,7 +5,7 @@ model = table: [
   [ { red: 3, black: 4 }, {}, {}, {} ]
 ]
 
-modelWithClothing = table: [
+modelWithAttire = table: [
   [ { green: 1 }, {}, {}, { blue: 1 } ]
   [ {}, { red: 4, black: 1 }, { red: 4, black: 2 }, {} ]
   [ {}, { red: 4 }, { red: 4, black: 3 }, {} ]
@@ -21,18 +21,18 @@ Polymer
       type: Object
       value: model
       notify: true
-    modelWithClothing:
+    modelWithAttire:
       type: Object
-      value: modelWithClothing
+      value: modelWithAttire
       notify: true
     jsonModel:
       type: Object
       value: model
-    clothing:
+    attire:
       type: Object
 
   ready: ->
-    @clothing = {
+    @attire = {
       "rules": [
         {
           "when": { "blue": "*", "black": "+", "red": 4, "green": "*" },

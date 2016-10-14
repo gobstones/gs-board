@@ -12,9 +12,9 @@
   <script>
     Polymer({
       is: 'cell-dresser',
-      getImage: function(cell, clothing) {
+      getImage: function(cell, attire) {
         var _ref;
-        return clothing != null ? (_ref = clothing.rules.filter((function(_this) {
+        return attire != null ? (_ref = attire.rules.filter((function(_this) {
           return function(rule) {
             return _this._doesSatisfyRule(cell, rule);
           };
