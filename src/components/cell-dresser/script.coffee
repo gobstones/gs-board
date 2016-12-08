@@ -2,6 +2,8 @@ Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
   getImage: (cell, attire)->
+    if not attire? or not attire.enabled then return
+
     attire?.rules
       .filter(
         (rule) => @_doesSatisfyRule cell, rule

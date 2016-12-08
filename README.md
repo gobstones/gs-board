@@ -58,6 +58,7 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 #### Example of attire definition:
 ```json
 {
+  "enabled": true,
   "rules": [
     {
       "when": { "blue": "*", "black": "+", "red": 4, "green": "*" },

@@ -14,6 +14,9 @@
       is: 'cell-dresser',
       getImage: function(cell, attire) {
         var _ref;
+        if ((attire == null) || !attire.enabled) {
+          return;
+        }
         return attire != null ? (_ref = attire.rules.filter((function(_this) {
           return function(rule) {
             return _this._doesSatisfyRule(cell, rule);

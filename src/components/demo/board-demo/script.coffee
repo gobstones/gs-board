@@ -33,6 +33,7 @@ Polymer
 
   ready: ->
     @attire = {
+      "enabled": true,
       "rules": [
         {
           "when": { "blue": "*", "black": "+", "red": 4, "green": "*" },
