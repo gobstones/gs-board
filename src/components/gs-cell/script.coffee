@@ -18,6 +18,10 @@ Polymer
   listeners:
     click: "_leftClick"
 
+  observers: [
+    '_updateBackgroundUrl(attire.enabled)'
+  ]
+
   ready: ->
     @_validateData()
     @_updateBackgroundUrl()
