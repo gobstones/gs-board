@@ -20,10 +20,8 @@ grunt
 bower install --save gobstones/gs-board
 ```
 
-### bundle with  polymer
-```bash
-vulcanize compiled.html --inline-scripts --inline-css > dist/out.html
-```
+### with polymer embedded
+It is bundled every time `grunt` runs. See `test.html` for an example.
 
 ### import
 ```html

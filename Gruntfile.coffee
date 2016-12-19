@@ -55,6 +55,15 @@ module.exports = (grunt) ->
   grunt.initConfig
     yeoman: yeomanConfig
 
+    # VULCANIZE ALL WITH POLYMER
+    vulcanize:
+      default:
+        options:
+          inlineScripts: true
+          inlineCss: true
+        files:
+          "dist/out.html": "compiled.html"
+
     #################################################
     #                  livereload                   #
     #################################################
@@ -443,6 +452,7 @@ module.exports = (grunt) ->
       'components_build:tmp_dist'
       'demo'
       'symlinks'
+      'vulcanize'
 
       'connect:livereload'
       'open'

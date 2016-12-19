@@ -1,6 +1,6 @@
 {
   "name": "gs-board",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "^0.4.0",
@@ -28,6 +28,7 @@
     "grunt-string-replace": "^1.0.0",
     "grunt-svgmin": "^0.4.0",
     "grunt-usemin": "^2.1.1",
+    "grunt-vulcanize": "^1.0.0",
     "load-grunt-tasks": "^0.4.0",
     "requirejs": "^2.1.15",
     "time-grunt": "^0.3.1"
