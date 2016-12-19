@@ -20,6 +20,11 @@ grunt
 bower install --save gobstones/gs-board
 ```
 
+### bundle with  polymer
+```bash
+vulcanize compiled.html --inline-scripts --inline-css > dist/out.html
+```
+
 ### import
 ```html
 <link rel="import" href="{BOWER_COMPONENTS}/gs-board/dist/components/gs-board.html">
