@@ -1,6 +1,6 @@
 {
   "name": "gs-board",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "dependencies": {},
   "devDependencies": {
     "connect-livereload": "^0.4.0",
@@ -23,6 +23,7 @@
     "grunt-contrib-uglify": "^0.4.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-html-angular-validate": "^0.4.0",
+    "grunt-minify-polymer": "^2.1.1",
     "grunt-open": "^0.2.3",
     "grunt-preprocess": "^4.1.0",
     "grunt-string-replace": "^1.0.0",

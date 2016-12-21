@@ -20,7 +20,7 @@ grunt
 bower install --save gobstones/gs-board
 ```
 
-### with polymer embedded
+### one-file compiled version
 It is bundled every time `grunt` runs. See `test.html` for an example.
 
 ### import

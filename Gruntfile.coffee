@@ -49,6 +49,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-html-angular-validate'
   grunt.loadNpmTasks 'grunt-preprocess'
   grunt.loadNpmTasks 'grunt-string-replace'
+  grunt.loadNpmTasks 'grunt-minify-polymer'
 
   grunt.registerTask "default", "server"
 
@@ -62,7 +63,15 @@ module.exports = (grunt) ->
           inlineScripts: true
           inlineCss: true
         files:
-          "dist/out.html": "compiled.html"
+          "dist/polymer.html": "compiled-polymer.html"
+          "dist/gs-board.html": "compiled-component.html"
+
+    # MINIFY THE VULCANIZE OUTPUT
+    minifyPolymer:
+      default:
+        files:
+          "dist/polymer.html": "dist/polymer.html"
+          "dist/gs-board.html": "dist/gs-board.html"
 
     #################################################
     #                  livereload                   #
@@ -453,7 +462,7 @@ module.exports = (grunt) ->
       'demo'
       'symlinks'
       'vulcanize'
-
+      'minifyPolymer'
       'connect:livereload'
       'open'
       'watch'
