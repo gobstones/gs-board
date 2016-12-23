@@ -8,7 +8,8 @@ Polymer
     table: Array
     attire:
       type: Object
-      notify: "_updateBackgroundUrl"
+      notify: "_updateStyles"
+    boom: Boolean
     backgroundUrl: String
     header:
       type: Object
@@ -19,18 +20,18 @@ Polymer
     click: "_leftClick"
 
   observers: [
-    '_updateBackgroundUrl(attire.enabled)'
+    '_updateStyles(attire.enabled)'
   ]
 
   ready: ->
     @_validateData()
-    @_updateBackgroundUrl()
+    @_updateStyles()
 
   cssClass: (header) ->
     return "" if not header?
     theHeaderIsHere = @x() is header.x and @y() is header.y
 
-    if theHeaderIsHere then "gh" else ""
+    if theHeaderIsHere and not @boom then "gh" else ""
 
   x: -> @cellIndex
   y: -> @domHost.getRowNumber @table, @rowIndex
@@ -50,10 +51,10 @@ Polymer
     throw new Error("The cell is required") if not @cell?
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
 
-  _updateBackgroundUrl: ->
+  _updateStyles: ->
     url = @$.dresser.getImage @cell, @attire
 
-    @customStyle["--stones-visibility"] = if url? then "hidden" else "visible"
+    @customStyle["--stones-visibility"] = if url? or @boom then "hidden" else "visible"
     if url? then @customStyle["--background-url"] = "url(#{url})"
     else delete @customStyle["--background-url"]
 

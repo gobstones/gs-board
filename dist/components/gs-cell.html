@@ -97,8 +97,9 @@
         table: Array,
         attire: {
           type: Object,
-          notify: "_updateBackgroundUrl"
+          notify: "_updateStyles"
         },
+        boom: Boolean,
         backgroundUrl: String,
         header: {
           type: Object,
@@ -109,10 +110,10 @@
       listeners: {
         click: "_leftClick"
       },
-      observers: ['_updateBackgroundUrl(attire.enabled)'],
+      observers: ['_updateStyles(attire.enabled)'],
       ready: function() {
         this._validateData();
-        return this._updateBackgroundUrl();
+        return this._updateStyles();
       },
       cssClass: function(header) {
         var theHeaderIsHere;
@@ -120,7 +121,7 @@
           return "";
         }
         theHeaderIsHere = this.x() === header.x && this.y() === header.y;
-        if (theHeaderIsHere) {
+        if (theHeaderIsHere && !this.boom) {
           return "gh";
         } else {
           return "";
@@ -161,10 +162,10 @@
           throw new Error("The coordinates are required");
         }
       },
-      _updateBackgroundUrl: function() {
+      _updateStyles: function() {
         var url;
         url = this.$.dresser.getImage(this.cell, this.attire);
-        this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";
+        this.customStyle["--stones-visibility"] = (url != null) || this.boom ? "hidden" : "visible";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";
         } else {
