@@ -40,8 +40,8 @@ Polymer
     return if not @options.editable
 
     if @domHost.isCtrlPressed()
-      @fire "board-changed"
       @header = { x: @x(), y: @y() }
+      @fire "board-changed"
 
   _validateData: ->
     throw new Error("The table is required") if not @table?

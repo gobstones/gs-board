@@ -138,11 +138,11 @@
           return;
         }
         if (this.domHost.isCtrlPressed()) {
-          this.fire("board-changed");
-          return this.header = {
+          this.header = {
             x: this.x(),
             y: this.y()
           };
+          return this.fire("board-changed");
         }
       },
       _validateData: function() {
