@@ -38,16 +38,7 @@ Polymer
   boomCssClass: (boom) ->
     if boom then "boom" else ""
 
-  _initializeTable: ->
-    if @table?
-      @size =
-        x: @table[0]?.length || 0
-        y: @table.length || 0
-    else
-      @table = []
-      @_fillTable()
-
-  _fillTable: ->
+  fillTable: ->
     return if not @table?
 
     limit = (array, limit) -> array.slice 0, limit
@@ -61,12 +52,20 @@ Polymer
     @table = table.reverse()
     @_forceHeaderSet()
 
+  _initializeTable: ->
+    if @table?
+      @size =
+        x: @table[0]?.length || 0
+        y: @table.length || 0
+    else
+      @table = []
+      @fillTable()
+
   _initializeOptions: ->
     @options ?= {}
     @options.editable ?= false
 
   _updateSize: ->
-    @_fillTable()
     @columnIndexes = [0 ... @size.x]
     @fire "board-changed"
 

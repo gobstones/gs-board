@@ -178,19 +178,7 @@
           return "";
         }
       },
-      _initializeTable: function() {
-        var _ref;
-        if (this.table != null) {
-          return this.size = {
-            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
-            y: this.table.length || 0
-          };
-        } else {
-          this.table = [];
-          return this._fillTable();
-        }
-      },
-      _fillTable: function() {
+      fillTable: function() {
         var i, j, limit, table, _base, _i, _j, _ref, _ref1;
         if (this.table == null) {
           return;
@@ -214,6 +202,18 @@
         this.table = table.reverse();
         return this._forceHeaderSet();
       },
+      _initializeTable: function() {
+        var _ref;
+        if (this.table != null) {
+          return this.size = {
+            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
+            y: this.table.length || 0
+          };
+        } else {
+          this.table = [];
+          return this.fillTable();
+        }
+      },
       _initializeOptions: function() {
         var _base;
         if (this.options == null) {
@@ -223,7 +223,6 @@
       },
       _updateSize: function() {
         var _i, _ref, _results;
-        this._fillTable();
         this.columnIndexes = (function() {
           _results = [];
           for (var _i = 0, _ref = this.size.x; 0 <= _ref ? _i < _ref : _i > _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
