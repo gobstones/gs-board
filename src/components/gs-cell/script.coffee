@@ -6,9 +6,7 @@ Polymer
     rowIndex: Number
     cell: Object
     table: Array
-    attire:
-      type: Object
-      notify: "_updateStyles"
+    attire: Object
     boom: Boolean
     backgroundUrl: String
     header:
@@ -20,12 +18,11 @@ Polymer
     click: "_leftClick"
 
   observers: [
-    '_updateStyles(attire.enabled)'
+    '_updateStyles(table.*, attire.*, rowIndex, cellIndex, boom)'
   ]
 
   ready: ->
     @_validateData()
-    @_updateStyles()
 
   cssClass: (header) ->
     return "" if not header?
@@ -51,10 +48,11 @@ Polymer
     throw new Error("The cell is required") if not @cell?
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
 
-  _updateStyles: ->
-    url = @$.dresser.getImage @cell, @attire
+  _updateStyles: ({ base: table }, { base: attire }, rowIndex, cellIndex, boom) ->
+    cell = table[rowIndex][cellIndex]
+    url = @$.dresser.getImage cell, attire
 
-    @customStyle["--stones-visibility"] = if url? or @boom then "hidden" else "visible"
+    @customStyle["--stones-visibility"] = if url? or boom then "hidden" else "visible"
     if url? then @customStyle["--background-url"] = "url(#{url})"
     else delete @customStyle["--background-url"]
 

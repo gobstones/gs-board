@@ -95,10 +95,7 @@
         rowIndex: Number,
         cell: Object,
         table: Array,
-        attire: {
-          type: Object,
-          notify: "_updateStyles"
-        },
+        attire: Object,
         boom: Boolean,
         backgroundUrl: String,
         header: {
@@ -110,10 +107,9 @@
       listeners: {
         click: "_leftClick"
       },
-      observers: ['_updateStyles(attire.enabled)'],
+      observers: ['_updateStyles(table.*, attire.*, rowIndex, cellIndex, boom)'],
       ready: function() {
-        this._validateData();
-        return this._updateStyles();
+        return this._validateData();
       },
       cssClass: function(header) {
         var theHeaderIsHere;
@@ -162,10 +158,13 @@
           throw new Error("The coordinates are required");
         }
       },
-      _updateStyles: function() {
-        var url;
-        url = this.$.dresser.getImage(this.cell, this.attire);
-        this.customStyle["--stones-visibility"] = (url != null) || this.boom ? "hidden" : "visible";
+      _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, boom) {
+        var attire, cell, table, url;
+        table = _arg.base;
+        attire = _arg1.base;
+        cell = table[rowIndex][cellIndex];
+        url = this.$.dresser.getImage(cell, attire);
+        this.customStyle["--stones-visibility"] = (url != null) || boom ? "hidden" : "visible";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";
         } else {
