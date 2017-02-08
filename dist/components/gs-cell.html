@@ -159,10 +159,13 @@
         }
       },
       _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, boom) {
-        var attire, cell, table, url;
+        var attire, cell, table, url, _ref;
         table = _arg.base;
         attire = _arg1.base;
-        cell = table[rowIndex][cellIndex];
+        cell = (_ref = table[rowIndex]) != null ? _ref[cellIndex] : void 0;
+        if (cell == null) {
+          return;
+        }
         url = this.$.dresser.getImage(cell, attire);
         this.customStyle["--stones-visibility"] = (url != null) || boom ? "hidden" : "visible";
         if (url != null) {

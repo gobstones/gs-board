@@ -49,7 +49,8 @@ Polymer
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
 
   _updateStyles: ({ base: table }, { base: attire }, rowIndex, cellIndex, boom) ->
-    cell = table[rowIndex][cellIndex]
+    cell = table[rowIndex]?[cellIndex]
+    return if not cell?
     url = @$.dresser.getImage cell, attire
 
     @customStyle["--stones-visibility"] = if url? or boom then "hidden" else "visible"
