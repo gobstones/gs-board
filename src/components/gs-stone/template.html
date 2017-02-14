@@ -1,9 +1,9 @@
 <template is="dom-if" if="{{amount}}">
-  <div class$="gbs_stone {{color}} {{cssClass()}}">
+  <div class$="gbs_stone {{color}} {{cssClass(color, amount)}}">
     <span class="stone_amount">{{amount}}</span>
   </div>
 </template>
 
 <template is="dom-if" if="{{!amount}}">
-  <div class$="gbs_stone O {{cssClass()}}"></div>
+  <div class$="gbs_stone O {{cssClass(color, amount)}}"></div>
 </template>

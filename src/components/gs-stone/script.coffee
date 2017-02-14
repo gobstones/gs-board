@@ -18,8 +18,9 @@ Polymer
     @_sanitizeAmount()
     throw new Error("The options are required") if not @options?
 
-  cssClass: ->
-    if @options.editable then "pointer"
+  cssClass: (color, amount) ->
+    if @options.editable
+      if amount > 0 then "pointer" else "ghost-#{color}"
     else ""
 
   _sanitizeAmount: ->
