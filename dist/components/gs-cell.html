@@ -107,17 +107,17 @@
       listeners: {
         click: "_leftClick"
       },
-      observers: ['_updateStyles(table.*, attire.*, rowIndex, cellIndex, boom)'],
+      observers: ['_updateStyles(table.*, attire.*, rowIndex, cellIndex, header.*, boom)'],
       ready: function() {
         return this._validateData();
       },
       cssClass: function(header) {
-        var theHeaderIsHere;
+        var isHeader;
         if (header == null) {
           return "";
         }
-        theHeaderIsHere = this.x() === header.x && this.y() === header.y;
-        if (theHeaderIsHere && !this.boom) {
+        isHeader = this.x() === header.x && this.y() === header.y;
+        if (isHeader && !this.boom) {
           return "gh";
         } else {
           return "";
@@ -158,15 +158,19 @@
           throw new Error("The coordinates are required");
         }
       },
-      _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, boom) {
-        var attire, cell, table, url, _ref;
+      _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, _arg2, boom) {
+        var attire, cell, header, isHeader, table, url, x, y, _ref;
         table = _arg.base;
         attire = _arg1.base;
+        header = _arg2.base;
         cell = (_ref = table[rowIndex]) != null ? _ref[cellIndex] : void 0;
         if (cell == null) {
           return;
         }
-        url = this.$.dresser.getImage(cell, attire);
+        x = cellIndex;
+        y = table.length - 1 - rowIndex;
+        isHeader = x === header.x && y === header.y;
+        url = this.$.dresser.getImage(cell, isHeader, attire);
         this.customStyle["--stones-visibility"] = (url != null) || boom ? "hidden" : "visible";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";

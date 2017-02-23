@@ -18,7 +18,7 @@ Polymer
     click: "_leftClick"
 
   observers: [
-    '_updateStyles(table.*, attire.*, rowIndex, cellIndex, boom)'
+    '_updateStyles(table.*, attire.*, rowIndex, cellIndex, header.*, boom)'
   ]
 
   ready: ->
@@ -26,9 +26,9 @@ Polymer
 
   cssClass: (header) ->
     return "" if not header?
-    theHeaderIsHere = @x() is header.x and @y() is header.y
+    isHeader = @x() is header.x and @y() is header.y
 
-    if theHeaderIsHere and not @boom then "gh" else ""
+    if isHeader and not @boom then "gh" else ""
 
   x: -> @cellIndex
   y: -> @domHost.getRowNumber @table, @rowIndex
@@ -48,10 +48,17 @@ Polymer
     throw new Error("The cell is required") if not @cell?
     throw new Error("The coordinates are required") if not @cellIndex? or not @rowIndex?
 
-  _updateStyles: ({ base: table }, { base: attire }, rowIndex, cellIndex, boom) ->
+  _updateStyles: ({ base: table }, { base: attire }, rowIndex, cellIndex, { base: header }, boom) ->
     cell = table[rowIndex]?[cellIndex]
     return if not cell?
-    url = @$.dresser.getImage cell, attire
+
+    # \--- (._.) ---/ ~~ ~ ~ --> o
+    x = cellIndex                 #\
+    y = table.length - 1 - rowIndex #\
+    isHeader = x is header.x and y is header.y
+    # --- .|*|*|.--- <<<<<<<<<<<<<<   x
+
+    url = @$.dresser.getImage cell, isHeader, attire
 
     @customStyle["--stones-visibility"] = if url? or boom then "hidden" else "visible"
     if url? then @customStyle["--background-url"] = "url(#{url})"

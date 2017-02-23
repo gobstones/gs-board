@@ -1,17 +1,18 @@
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
-  getImage: (cell, attire)->
+  getImage: (cell, isHeader, attire)->
     if not attire? or not attire.enabled then return
 
     attire?.rules
       .filter(
-        (rule) => @_doesSatisfyRule cell, rule
+        (rule) => @_doesSatisfyRule cell, isHeader, rule
       )[0]?.image
 
-  _doesSatisfyRule: (cell, rule) ->
+  _doesSatisfyRule: (cell, isHeader, rule) ->
     itSatisfies = (color) =>
-      @_doesSatisfyQuantity cell[color], rule.when[color]
+      @_doesSatisfyQuantity(cell[color], rule.when[color]) and
+      @_doesSatisfyHeader(isHeader, rule.when.head)
 
     ["red", "blue", "green", "black"]
     .reduce((previousCondition, color) =>
@@ -26,3 +27,6 @@ Polymer
         quantity > 0
       else
         quantity is expectedQuantity
+
+  _doesSatisfyHeader: (isHeader, expectedHeader) ->
+    not expectedHeader? or expectedHeader is isHeader

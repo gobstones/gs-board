@@ -12,22 +12,22 @@
   <script>
     Polymer({
       is: 'cell-dresser',
-      getImage: function(cell, attire) {
+      getImage: function(cell, isHeader, attire) {
         var _ref;
         if ((attire == null) || !attire.enabled) {
           return;
         }
         return attire != null ? (_ref = attire.rules.filter((function(_this) {
           return function(rule) {
-            return _this._doesSatisfyRule(cell, rule);
+            return _this._doesSatisfyRule(cell, isHeader, rule);
           };
         })(this))[0]) != null ? _ref.image : void 0 : void 0;
       },
-      _doesSatisfyRule: function(cell, rule) {
+      _doesSatisfyRule: function(cell, isHeader, rule) {
         var itSatisfies;
         itSatisfies = (function(_this) {
           return function(color) {
-            return _this._doesSatisfyQuantity(cell[color], rule.when[color]);
+            return _this._doesSatisfyQuantity(cell[color], rule.when[color]) && _this._doesSatisfyHeader(isHeader, rule.when.head);
           };
         })(this);
         return ["red", "blue", "green", "black"].reduce((function(_this) {
@@ -48,6 +48,9 @@
           default:
             return quantity === expectedQuantity;
         }
+      },
+      _doesSatisfyHeader: function(isHeader, expectedHeader) {
+        return (expectedHeader == null) || expectedHeader === isHeader;
       }
     });
 
