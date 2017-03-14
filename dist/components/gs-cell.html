@@ -164,7 +164,7 @@
         attire = _arg1.base;
         header = _arg2.base;
         cell = (_ref = table[rowIndex]) != null ? _ref[cellIndex] : void 0;
-        if (cell == null) {
+        if ((cell == null) || (header == null)) {
           return;
         }
         x = cellIndex;

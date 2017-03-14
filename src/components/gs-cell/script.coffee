@@ -50,7 +50,7 @@ Polymer
 
   _updateStyles: ({ base: table }, { base: attire }, rowIndex, cellIndex, { base: header }, boom) ->
     cell = table[rowIndex]?[cellIndex]
-    return if not cell?
+    return if not cell? or not header?
 
     # \--- (._.) ---/ ~~ ~ ~ --> o
     x = cellIndex                 #\
