@@ -29,8 +29,8 @@
 
       .gbs_board td {
         margin: 0;
-        padding: 2px;
-        border: solid #888 1px;
+        padding: var(--cell-padding);
+        border: var(--cell-border);
         width: 30px;
         height: 30px;
       }
@@ -161,7 +161,9 @@
           type: Object
         }
       },
+      observers: ['_updateStyles(attire.*)'],
       ready: function() {
+        this._setBorderOn();
         this._initializeTable();
         return this._initializeOptions();
       },
@@ -239,6 +241,24 @@
           x: x,
           y: y
         };
+      },
+      _updateStyles: function(_arg) {
+        var attire;
+        attire = _arg.base;
+        if ((attire != null) && attire.enabled) {
+          this._setBorderOff();
+        } else {
+          this._setBorderOn();
+        }
+        return this.updateStyles();
+      },
+      _setBorderOn: function() {
+        this.customStyle["--cell-padding"] = "2px";
+        return this.customStyle["--cell-border"] = "solid #888 1px";
+      },
+      _setBorderOff: function() {
+        this.customStyle["--cell-padding"] = "0 0";
+        return this.customStyle["--cell-border"] = "none";
       }
     });
 

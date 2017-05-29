@@ -12,8 +12,8 @@ table.gbs_board {
 }
 .gbs_board td {
   margin: 0;
-  padding: 2px;
-  border: solid #888 1px;
+  padding: var(--cell-padding);
+  border: var(--cell-border);
   width: 30px;
   height: 30px;
 }

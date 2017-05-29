@@ -25,7 +25,12 @@ Polymer
     attire:
       type: Object
 
+  observers: [
+    '_updateStyles(attire.*)'
+  ]
+
   ready: ->
+    @_setBorderOn()
     @_initializeTable()
     @_initializeOptions()
 
@@ -75,3 +80,16 @@ Polymer
 
     @header = null
     @header = { x, y }
+
+  _updateStyles: ({ base: attire }) ->
+    if attire? and attire.enabled then @_setBorderOff()
+    else @_setBorderOn()
+    @updateStyles()
+
+  _setBorderOn: ->
+    @customStyle["--cell-padding"] = "2px"
+    @customStyle["--cell-border"] = "solid #888 1px"
+
+  _setBorderOff: ->
+    @customStyle["--cell-padding"] = "0 0"
+    @customStyle["--cell-border"] = "none"
