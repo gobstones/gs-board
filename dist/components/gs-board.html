@@ -161,7 +161,7 @@
           type: Object
         }
       },
-      observers: ['_updateStyles(attire.*)', '_onTableChange(table.*)'],
+      observers: ['_updateStyles(attire.*)'],
       ready: function() {
         this._setBorderOn();
         this._initializeTable();
@@ -245,13 +245,10 @@
           y: y
         };
       },
-      _onTableChange: function(_arg) {
-        var table;
-        table = _arg.base;
-        if (table == null) {
-          return;
-        }
-        return this._setSizeFromTable();
+      updateTable: function(table) {
+        this.set("table", table);
+        this._setSizeFromTable();
+        return this.fillTable();
       },
       _updateStyles: function(_arg) {
         var attire;

@@ -26,8 +26,7 @@ Polymer
       type: Object
 
   observers: [
-    '_updateStyles(attire.*)',
-    '_onTableChange(table.*)'
+    '_updateStyles(attire.*)'
   ]
 
   ready: ->
@@ -85,9 +84,10 @@ Polymer
     @header = null
     @header = { x, y }
 
-  _onTableChange: ({ base: table }) ->
-    return if not table?
+  updateTable: (table) ->
+    this.set "table", table
     @_setSizeFromTable()
+    @fillTable()
 
   _updateStyles: ({ base: attire }) ->
     if attire? and attire.enabled then @_setBorderOff()
