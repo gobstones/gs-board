@@ -245,8 +245,9 @@
           y: y
         };
       },
-      updateTable: function(table) {
+      update: function(table, header) {
         this.table = table;
+        this.header = header;
         this._setSizeFromTable();
         return this.fillTable();
       },
