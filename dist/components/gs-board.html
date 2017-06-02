@@ -161,7 +161,7 @@
           type: Object
         }
       },
-      observers: ['_updateStyles(attire.*)'],
+      observers: ['_updateStyles(attire.*)', '_onTableChange(table.*)'],
       ready: function() {
         this._setBorderOn();
         this._initializeTable();
@@ -205,16 +205,19 @@
         return this._forceHeaderSet();
       },
       _initializeTable: function() {
-        var _ref;
         if (this.table != null) {
-          return this.size = {
-            x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
-            y: this.table.length || 0
-          };
+          return this._setSizeFromTable();
         } else {
           this.table = [];
           return this.fillTable();
         }
+      },
+      _setSizeFromTable: function() {
+        var _ref;
+        return this.size = {
+          x: ((_ref = this.table[0]) != null ? _ref.length : void 0) || 0,
+          y: this.table.length || 0
+        };
       },
       _initializeOptions: function() {
         var _base;
@@ -241,6 +244,14 @@
           x: x,
           y: y
         };
+      },
+      _onTableChange: function(_arg) {
+        var table;
+        table = _arg.base;
+        if (table == null) {
+          return;
+        }
+        return this._setSizeFromTable();
       },
       _updateStyles: function(_arg) {
         var attire;
