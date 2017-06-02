@@ -85,7 +85,7 @@ Polymer
     @header = { x, y }
 
   updateTable: (table) ->
-    this.set "table", table
+    @table = table
     @_setSizeFromTable()
     @fillTable()
 
