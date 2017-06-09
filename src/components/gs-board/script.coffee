@@ -40,6 +40,9 @@ Polymer
   isCtrlPressed: ->
     @$.keyTracker.isPressed "Control"
 
+  isShiftPressed: ->
+    @$.keyTracker.isPressed "Shift"
+
   boomCssClass: (boom) ->
     if boom then "boom" else ""
 

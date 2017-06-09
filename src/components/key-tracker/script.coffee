@@ -12,6 +12,9 @@ Polymer
       key = ev.key || ev.keyIdentifier
       @_pressedKeys.splice @_indexOf(key), 1 if @isPressed key
 
+    window.addEventListener "blur", =>
+      @_pressedKeys = []
+
   isPressed: (key) ->
     @_indexOf(key) isnt -1
 

@@ -23,13 +23,18 @@
             }
           };
         })(this));
-        return this._listenTo("keyup", (function(_this) {
+        this._listenTo("keyup", (function(_this) {
           return function(ev) {
             var key;
             key = ev.key || ev.keyIdentifier;
             if (_this.isPressed(key)) {
               return _this._pressedKeys.splice(_this._indexOf(key), 1);
             }
+          };
+        })(this));
+        return window.addEventListener("blur", (function(_this) {
+          return function() {
+            return _this._pressedKeys = [];
           };
         })(this));
       },

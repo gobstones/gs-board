@@ -173,6 +173,9 @@
       isCtrlPressed: function() {
         return this.$.keyTracker.isPressed("Control");
       },
+      isShiftPressed: function() {
+        return this.$.keyTracker.isPressed("Shift");
+      },
       boomCssClass: function(boom) {
         if (boom) {
           return "boom";

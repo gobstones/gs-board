@@ -178,7 +178,7 @@
           return;
         }
         this.fire("board-changed");
-        this.amount += 1;
+        this.amount += this._clickAmount();
         return event.stopPropagation();
       },
       _rightClick: function(event) {
@@ -187,7 +187,14 @@
         }
         event.preventDefault();
         this.fire("board-changed");
-        return this.amount -= 1;
+        return this.amount -= this._clickAmount();
+      },
+      _clickAmount: function() {
+        if (this.domHost.domHost.isShiftPressed()) {
+          return 10;
+        } else {
+          return 1;
+        }
       }
     });
 

@@ -38,7 +38,7 @@ Polymer
     return if not @options.editable or board.isCtrlPressed()
 
     @fire "board-changed"
-    @amount += 1
+    @amount += @_clickAmount()
     event.stopPropagation()
 
   _rightClick: (event) ->
@@ -46,4 +46,7 @@ Polymer
     event.preventDefault()
 
     @fire "board-changed"
-    @amount -= 1
+    @amount -= @_clickAmount()
+
+  _clickAmount: ->
+    if @domHost.domHost.isShiftPressed() then 10 else 1
