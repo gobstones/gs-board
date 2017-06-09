@@ -18,10 +18,16 @@ Polymer
     @_sanitizeAmount()
     throw new Error("The options are required") if not @options?
 
+  amountText: (amount) ->
+    if @hasBigAmount amount then "*" else amount
+
   cssClass: (color, amount) ->
     if @options.editable
       if amount > 0 then "pointer" else "ghost-#{color}"
     else ""
+
+  hasBigAmount: (amount) =>
+    amount > 99
 
   _sanitizeAmount: ->
     unless typeof @amount is "number" and @amount >= 0
