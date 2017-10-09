@@ -25,12 +25,16 @@ Polymer
     attire:
       type: Object
 
+    attireSrc:
+      type: String
+
   observers: [
     '_updateStyles(attire.*)'
   ]
 
   ready: ->
     @_setBorderOn()
+    @_readGbb()
     @_initializeTable()
     @_initializeOptions()
 
@@ -60,6 +64,12 @@ Polymer
     @table = table.reverse()
     @_forceHeaderSet()
 
+  update: (table, header) ->
+    @table = table
+    @header = header
+    @_setSizeFromTable()
+    @fillTable()
+
   _initializeTable: ->
     if @table?
       @_setSizeFromTable()
@@ -87,11 +97,16 @@ Polymer
     @header = null
     @header = { x, y }
 
-  update: (table, header) ->
-    @table = table
-    @header = header
-    @_setSizeFromTable()
-    @fillTable()
+  _readGbb: ->
+    gbb = Polymer.dom(@).textContent
+    return if not gbb? or gbb.indexOf("GBB") < 0
+
+    { @table, head: @header, width, height } = gbbReader.fromString gbb
+    @size.x = width
+    @size.y = height
+
+    if @attireSrc
+      @attire = GobstonesBoard.getAttire @attireSrc
 
   _updateStyles: ({ base: attire }) ->
     if attire? and attire.enabled then @_setBorderOff()
@@ -105,3 +120,152 @@ Polymer
   _setBorderOff: ->
     @customStyle["--cell-padding"] = "0 0"
     @customStyle["--cell-border"] = "none"
+
+# ---
+
+window.GobstonesBoard =
+  attireProvider: null
+
+  getAttire: (name) ->
+    if not @attireProvider?
+      throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider")
+    @attireProvider.get name
+
+  setAttireProvider: (attireProvider) ->
+    if not attireProvider?.get
+      throw new Error("Attire providers must have a `get` method");
+    @attireProvider = attireProvider
+
+# ---
+
+# // TODO: Use gobstones-interpreter when its done
+`
+var stringUtils = {
+  splitByLines: function (string) {
+    return string.split(/\r\n|\r|\n/);
+  },
+
+  scan: function (string, regExp) {
+    if (!regExp.global) {
+      throw new Error('The regExp must be global (with "g" flag)');
+    }
+    var m = [];
+    var r = m;
+    m = regExp.exec(string);
+    while (m) {
+      m.shift();
+      r.push(m);
+      m = regExp.exec(string);
+    }
+    return r;
+  }
+};
+
+var gbbReader = {
+};
+
+gbbReader.fromString = function (gbbString) {
+  var gbbCode = this._try(gbbString);
+
+  var rawLines = stringUtils.splitByLines(gbbCode).map(function(line) {
+    return line.trim();
+  });
+
+  var lines = rawLines.filter(function (line) {
+    return !/GBB\/(\d\.)+\d$/.test(line) && line !== '';
+  });
+
+  return this._buildBoard(lines);
+};
+
+gbbReader._buildBoard = function (lines) {
+  var dimensions = this._getDimensions(lines);
+  var header = this._getHeader(lines);
+
+  try {
+    var board = {
+      width: dimensions[0],
+      height: dimensions[1],
+      head: { x: header[0], y: header[1] },
+      table: []
+    };
+    for (var i = board.height - 1; i >= 0; i--) {
+      board.table[i] = [];
+      for (var j = 0; j < board.width; j++) {
+        board.table[i][j] = {};
+      }
+    }
+    this._putCells(lines, board);
+
+    return board;
+  } catch (err) {
+    var error = new Error('Error building the board');
+    error.inner = err;
+    throw error;
+  }
+};
+
+gbbReader._getDimensions = function (lines) {
+  var dimensions = this._try(
+    lines[0].match(/^size (\d+) (\d+)$/)
+  , 'dimensions');
+  return this._getPositionOf(dimensions);
+};
+
+gbbReader._getHeader = function (lines) {
+  var header = this._try(
+    lines[lines.length - 1].match(/^head (\d+) (\d+)$/)
+  , 'header');
+  return this._getPositionOf(header);
+};
+
+gbbReader._putCells = function (lines, board) {
+  var CELL_REGEXP = /^cell (\d+) (\d+)/;
+
+  var cellLines = lines.filter(function (line) {
+    return CELL_REGEXP.test(line);
+  });
+
+  cellLines.forEach(function (line) {
+    var cell = line.match(CELL_REGEXP);
+    var position = this._getPositionOf(cell, line);
+
+    var x = position[0];
+    var y = position[1];
+    this._putBalls(x, y, line, board);
+  }.bind(this));
+};
+
+gbbReader._putBalls = function (x, y, line, board) {
+  var values = stringUtils.scan(line, /(Azul|Negro|Rojo|Verde) (\d+)/g);
+  var getAmount = function (color) {
+    var value = values.filter(function (it) {
+      return it[0] === color;
+    });
+    return parseInt((value[0] || {})[1] || 0, 0);
+  };
+
+  const cell = board.table[board.height - 1 - y][x];
+  cell.blue = getAmount('Azul');
+  cell.black = getAmount('Negro');
+  cell.red = getAmount('Rojo');
+  cell.green = getAmount('Verde');
+};
+
+gbbReader._getPositionOf = function (source, element) {
+  source = source || {};
+
+  return [
+    this._try(source[1], element), this._try(source[2], element)
+  ].map(function (it) {
+    return parseInt(it, 0);
+  });
+};
+
+gbbReader._try = function (value, thingToParse) {
+  if (!value) {
+    throw new Error('Error parsing ' + (thingToParse || 'GBB file'));
+  }
+  return value;
+};
+`

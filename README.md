@@ -1,6 +1,6 @@
 # gs-board
 
-gobstones grid Polymer component (aka: board)
+Gobstones Board: A Polymer component that renders a board.
 
 ## install
 ```
@@ -26,6 +26,18 @@ It is bundled every time `grunt` runs. See `test.html` for an example.
 ### import
 ```html
 <link rel="import" href="{BOWER_COMPONENTS}/gs-board/dist/components/gs-board.html">
+```
+
+### simple board (from GBB)
+```html
+<gs-board>
+  GBB/1.0
+  size 4 3
+  cell 1 2 Azul 0 Negro 0 Rojo 8 Verde 0
+  cell 3 2 Azul 2 Negro 0 Rojo 5 Verde 1
+  cell 2 1 Azul 0 Negro 6 Rojo 0 Verde 0
+  head 1 2
+</gs-board>
 ```
 
 ### initial board (editable)

@@ -69,9 +69,7 @@ Polymer
 
     setInterval(() =>
       @set "attire.enabled", not @attire.enabled
-      console.log "Toggling attire view"
     , 2000)
-
 
   listeners:
     'jsoneditor.change': '_jsonChange'
