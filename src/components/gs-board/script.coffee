@@ -25,6 +25,9 @@ Polymer
     attire:
       type: Object
 
+    attireSrc:
+      type: String
+
   observers: [
     '_updateStyles(attire.*)'
   ]
@@ -102,6 +105,9 @@ Polymer
     @size.x = width
     @size.y = height
 
+    if @attireSrc
+      @attire = GobstonesBoard.getAttire @attireSrc
+
   _updateStyles: ({ base: attire }) ->
     if attire? and attire.enabled then @_setBorderOff()
     else @_setBorderOn()
@@ -114,6 +120,23 @@ Polymer
   _setBorderOff: ->
     @customStyle["--cell-padding"] = "0 0"
     @customStyle["--cell-border"] = "none"
+
+# ---
+
+window.GobstonesBoard =
+  attireProvider: null
+
+  getAttire: (name) ->
+    if not @attireProvider?
+      throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider")
+    @attireProvider.get name
+
+  setAttireProvider: (attireProvider) ->
+    if not attireProvider?.get
+      throw new Error("Attire providers must have a `get` method");
+    @attireProvider = attireProvider
+
+# ---
 
 # // TODO: Use gobstones-interpreter when its done
 `

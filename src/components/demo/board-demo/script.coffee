@@ -71,7 +71,6 @@ Polymer
       @set "attire.enabled", not @attire.enabled
     , 2000)
 
-
   listeners:
     'jsoneditor.change': '_jsonChange'
 

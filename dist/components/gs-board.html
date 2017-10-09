@@ -159,6 +159,9 @@
         },
         attire: {
           type: Object
+        },
+        attireSrc: {
+          type: String
         }
       },
       observers: ['_updateStyles(attire.*)'],
@@ -263,7 +266,10 @@
         }
         _ref = gbbReader.fromString(gbb), this.table = _ref.table, this.header = _ref.head, width = _ref.width, height = _ref.height;
         this.size.x = width;
-        return this.size.y = height;
+        this.size.y = height;
+        if (this.attireSrc) {
+          return this.attire = GobstonesBoard.getAttire(this.attireSrc);
+        }
       },
       _updateStyles: function(_arg) {
         var attire;
@@ -284,6 +290,22 @@
         return this.customStyle["--cell-border"] = "none";
       }
     });
+
+    window.GobstonesBoard = {
+      attireProvider: null,
+      getAttire: function(name) {
+        if (this.attireProvider == null) {
+          throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider");
+        }
+        return this.attireProvider.get(name);
+      },
+      setAttireProvider: function(attireProvider) {
+        if (!(attireProvider != null ? attireProvider.get : void 0)) {
+          throw new Error("Attire providers must have a `get` method");
+        }
+        return this.attireProvider = attireProvider;
+      }
+    };
 
 
     var stringUtils = {
