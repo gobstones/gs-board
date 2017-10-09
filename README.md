@@ -1,6 +1,6 @@
 # gs-board
 
-gobstones grid Polymer component (aka: board)
+Gobstones Board: A Polymer component that renders a board.
 
 ## install
 ```
