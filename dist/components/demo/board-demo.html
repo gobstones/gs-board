@@ -18,6 +18,7 @@
       </gs-board>
     </div>
 
+    <!--
     <div>
       <gs-board attire-src="mines">
         GBB/1.0
@@ -28,6 +29,7 @@
         head 1 2
       </gs-board>
     </div>
+     -->
 
     <div>
       <gs-board table="{{model.table}}" options='{ "editable": false }'></gs-board>
@@ -89,7 +91,7 @@
           }, {}
         ], [
           {}, {
-            red: 4
+            red: 1
           }, {
             red: 4,
             black: 3
@@ -169,6 +171,15 @@
                 "green": 0
               },
               "image": "https://cloud.githubusercontent.com/assets/1631752/19217957/ef20120a-8dea-11e6-825c-23e7773269b0.png"
+            }, {
+              "when": {
+                "blue": 0,
+                "black": 0,
+                "red": 1,
+                "green": 0,
+                "head": true
+              },
+              "image": "https://user-images.githubusercontent.com/1631752/33194059-c9794fb0-d0d5-11e7-81dc-65a0f7472a94.png"
             }, {
               "when": {
                 "blue": 0,

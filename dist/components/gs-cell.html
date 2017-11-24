@@ -19,7 +19,8 @@
       .gh {
         /* position of the header in the board */
         background: rgba(221, 221, 136, 0.7);
-        outline: 3px solid #CC0000;
+        outline: 3px solid #cc0000;
+        outline-style: var(--outline-style);
       }
 
       div.gc {
@@ -159,7 +160,7 @@
         }
       },
       _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, _arg2, boom) {
-        var attire, cell, header, isHeader, table, url, x, y, _ref;
+        var attire, cell, header, isHeader, rule, table, url, x, y, _ref, _ref1;
         table = _arg.base;
         attire = _arg1.base;
         header = _arg2.base;
@@ -170,8 +171,10 @@
         x = cellIndex;
         y = table.length - 1 - rowIndex;
         isHeader = x === header.x && y === header.y;
-        url = this.$.dresser.getImage(cell, isHeader, attire);
+        rule = this.$.dresser.getRule(cell, isHeader, attire);
+        url = rule != null ? rule.image : void 0;
         this.customStyle["--stones-visibility"] = (url != null) || boom ? "hidden" : "visible";
+        this.customStyle["--outline-style"] = (url != null) && ((rule != null ? (_ref1 = rule.when) != null ? _ref1.head : void 0 : void 0) != null) ? "none" : "solid";
         if (url != null) {
           this.customStyle["--background-url"] = "url(" + url + ")";
         } else {

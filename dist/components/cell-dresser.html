@@ -12,16 +12,15 @@
   <script>
     Polymer({
       is: 'cell-dresser',
-      getImage: function(cell, isHeader, attire) {
-        var _ref;
+      getRule: function(cell, isHeader, attire) {
         if ((attire == null) || !attire.enabled) {
           return;
         }
-        return attire != null ? (_ref = attire.rules.filter((function(_this) {
+        return attire != null ? attire.rules.filter((function(_this) {
           return function(rule) {
             return _this._doesSatisfyRule(cell, isHeader, rule);
           };
-        })(this))[0]) != null ? _ref.image : void 0 : void 0;
+        })(this))[0] : void 0;
       },
       _doesSatisfyRule: function(cell, isHeader, rule) {
         var itSatisfies;

@@ -1,13 +1,13 @@
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
 
-  getImage: (cell, isHeader, attire)->
+  getRule: (cell, isHeader, attire)->
     if not attire? or not attire.enabled then return
 
     attire?.rules
       .filter(
         (rule) => @_doesSatisfyRule cell, isHeader, rule
-      )[0]?.image
+      )[0]
 
   _doesSatisfyRule: (cell, isHeader, rule) ->
     itSatisfies = (color) =>

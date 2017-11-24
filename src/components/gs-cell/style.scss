@@ -2,7 +2,8 @@
 
 .gh { /* position of the header in the board */
   background: rgba(221, 221, 136, 0.7);
-  outline: 3px solid #CC0000;
+  outline: 3px solid #cc0000;
+  outline-style: var(--outline-style);
 }
 
 div.gc {

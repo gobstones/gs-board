@@ -58,9 +58,11 @@ Polymer
     isHeader = x is header.x and y is header.y
     # --- .|*|*|.--- <<<<<<<<<<<<<<   x
 
-    url = @$.dresser.getImage cell, isHeader, attire
+    rule = @$.dresser.getRule cell, isHeader, attire
+    url = rule?.image
 
     @customStyle["--stones-visibility"] = if url? or boom then "hidden" else "visible"
+    @customStyle["--outline-style"] = if url? and rule?.when?.head? then "none" else "solid"
     if url? then @customStyle["--background-url"] = "url(#{url})"
     else delete @customStyle["--background-url"]
 

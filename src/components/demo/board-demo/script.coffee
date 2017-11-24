@@ -8,7 +8,7 @@ model = table: [
 modelWithAttire = table: [
   [ { green: 1 }, {}, {}, { blue: 1 } ]
   [ {}, { red: 4, black: 1 }, { red: 4, black: 2 }, {} ]
-  [ {}, { red: 4 }, { red: 4, black: 3 }, {} ]
+  [ {}, { red: 1 }, { red: 4, black: 3 }, {} ]
   [ { red: 1 }, {}, {}, { black: 1 } ]
 ]
 
@@ -58,6 +58,11 @@ Polymer
         {
           "when": { "blue": 0, "black": 1, "red": 0, "green": 0 },
           "image": "https://cloud.githubusercontent.com/assets/1631752/19217957/ef20120a-8dea-11e6-825c-23e7773269b0.png"
+        },
+
+        {
+          "when": { "blue": 0, "black": 0, "red": 1, "green": 0, "head": true },
+          "image": "https://user-images.githubusercontent.com/1631752/33194059-c9794fb0-d0d5-11e7-81dc-65a0f7472a94.png"
         },
 
         {
