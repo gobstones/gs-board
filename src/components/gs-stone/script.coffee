@@ -23,7 +23,7 @@ Polymer
 
   cssClass: (color, amount) ->
     if @options.editable
-      if amount > 0 then "pointer" else "ghost-#{color}"
+      if amount > 0 then "gbs_pointer" else "gbs_ghost-#{color}"
     else ""
 
   hasBigAmount: (amount) =>

@@ -1,27 +1,27 @@
 @import '../../common/style';
 
-.gh { /* position of the header in the board */
+.gbs_gh { /* position of the header in the board */
   background: rgba(221, 221, 136, 0.7);
   outline: 3px solid #cc0000;
   outline-style: var(--outline-style);
 }
 
-div.gc {
+div.gbs_gc {
   background-image: var(--background-url);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
 
-table.gc { /* cell table */
+table.gbs_gc { /* cell table */
   border-style: none;
   border: solid black 0px;
 }
-.gc tr {
+.gbs_gc tr {
   border-style: none;
   border: 0px;
 }
-.gc td {
+.gbs_gc td {
   visibility: var(--stones-visibility);
   border-style: none;
   border: solid black 0px;
@@ -30,6 +30,6 @@ table.gc { /* cell table */
   text-align: center;
   color: #F3F3E9;
 }
-.gc td div {
+.gbs_gc td div {
   line-height: 2;
 }

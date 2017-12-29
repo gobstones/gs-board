@@ -28,7 +28,7 @@ Polymer
     return "" if not header?
     isHeader = @x() is header.x and @y() is header.y
 
-    if isHeader and not @boom then "gh" else ""
+    if isHeader and not @boom then "gbs_gh" else ""
 
   x: -> @cellIndex
   y: -> @domHost.getRowNumber @table, @rowIndex

@@ -48,7 +48,7 @@ Polymer
     @$.keyTracker.isPressed "Shift"
 
   boomCssClass: (boom) ->
-    if boom then "boom" else ""
+    if boom then "gbs_boom" else ""
 
   fillTable: ->
     return if not @table?

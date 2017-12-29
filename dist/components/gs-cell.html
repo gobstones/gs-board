@@ -3,11 +3,11 @@
 <dom-module id="gs-cell">
   <template>
     <style>
-      .pointer {
+      .gbs_pointer {
         cursor: pointer;
       }
 
-      .unselectable {
+      .gbs_unselectable {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
@@ -16,32 +16,32 @@
         user-select: none;
       }
 
-      .gh {
+      .gbs_gh {
         /* position of the header in the board */
         background: rgba(221, 221, 136, 0.7);
         outline: 3px solid #cc0000;
         outline-style: var(--outline-style);
       }
 
-      div.gc {
+      div.gbs_gc {
         background-image: var(--background-url);
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
       }
 
-      table.gc {
+      table.gbs_gc {
         /* cell table */
         border-style: none;
         border: solid black 0px;
       }
 
-      .gc tr {
+      .gbs_gc tr {
         border-style: none;
         border: 0px;
       }
 
-      .gc td {
+      .gbs_gc td {
         visibility: var(--stones-visibility);
         border-style: none;
         border: solid black 0px;
@@ -51,7 +51,7 @@
         color: #F3F3E9;
       }
 
-      .gc td div {
+      .gbs_gc td div {
         line-height: 2;
       }
 
@@ -63,7 +63,7 @@
 
     <template is="dom-if" if="true">
       <!-- // ^ (otherwise, the cssClass() does not refresh itself) -->
-      <div class$="gc {{cssClass(header)}}">
+      <div class$="gbs_gc {{cssClass(header)}}">
         <table>
           <tbody>
             <tr>
@@ -119,7 +119,7 @@
         }
         isHeader = this.x() === header.x && this.y() === header.y;
         if (isHeader && !this.boom) {
-          return "gh";
+          return "gbs_gh";
         } else {
           return "";
         }
