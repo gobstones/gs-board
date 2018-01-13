@@ -111,6 +111,20 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 ## considerations
 - `size` will not change the size of the board automatically. You've to call to `fillTable()` manually. It's not pretty, but we have our reasons to do that.
 
-## deploy
 
-Create tags in `#master`.
+## Gem wrapper
+
+This module can also be deployed a ruby gem. `gobstones-board` works with Ruby 2.3.1
+
+```bash
+cd gem
+rake wrapper:wrap
+bundle install
+bundle exec rspec
+```
+
+## Tagging and releasing
+
+```bash
+./tag.sh
+```
