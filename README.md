@@ -5,12 +5,18 @@ Gobstones Board: A Polymer component that renders a board.
 ## install
 ```
 npm install
+npm install -g grunt-cli
 bower install
 ```
 
 ## run
+
 ```
+# build and start live demo
 grunt
+
+# just build
+grunt dist
 ```
 
 ## usage
