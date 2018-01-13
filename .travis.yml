@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+- 4.2.4
+script:
+- npm install && npm install -g grunt-cli && bower install && grunt dist
+- cd gem && ./bin/setup && bundle exec rake
+deploy:
+  provider: rubygems
+  skip_cleanup: true
+  api_key:
+    secure: TODO
+  gem: gobstones-board
+  on:
+    tags: true
+    repo: gobstones/gs-board
