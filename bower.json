@@ -1,6 +1,6 @@
 {
   "name": "gs-board",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "authors": [],
   "description": "Gobstones grid Polymer component (aka: board)",
   "main": "dist/components/gs-board.html",
