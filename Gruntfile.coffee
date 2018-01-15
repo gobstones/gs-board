@@ -449,7 +449,7 @@ module.exports = (grunt) ->
       'sass:demo'
     ]
 
-  grunt.registerTask 'server', (target) ->
+  grunt.registerTask 'dist', (target) ->
     grunt.task.run [
       'clean:dist'
       'clean:tmp'
@@ -459,6 +459,11 @@ module.exports = (grunt) ->
       'scripts:components'
       'sass:src_tmp'
       'components_build:tmp_dist'
+    ]
+
+  grunt.registerTask 'server', (target) ->
+    grunt.task.run [
+      'dist'
       'demo'
       'symlinks'
       'vulcanize'
