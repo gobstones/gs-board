@@ -8,6 +8,9 @@ task :default => :spec
 namespace :wrapper do
   desc 'Wrap styles assets into this gem'
   task wrap: :clean do
+    # readme
+    cp_r '../README.md', 'README.md'
+
     #  gs-board
     cp_r '../dist/gs-board.html', 'app/assets/htmls'
 
