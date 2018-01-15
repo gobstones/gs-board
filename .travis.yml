@@ -9,7 +9,7 @@ deploy:
   provider: rubygems
   skip_cleanup: true
   api_key:
-    secure: TODO
+    secure: nfz7VHL4BiuYyfy8k98+JTfKpMfXBvGgJBuBSOhx3svTlA8BvPO/PMMEExv74tmj0Xj65yMCUJnB2OYA7ZVgE2qoL4HW6QRyKDTQTuIG/aeHzNl5NtluhQNvz9opKWmTkvhEwrCI1gpqHv5KCwjKe8zcT3Y3h8DOsukAhkXVaTYcQhfUvn30tzSQ2kKwASvvQd42DmgghWLLzXfNbfh7ApivdP4JNbt4I1l5Ae42mM4xn+FblFjZCsQYvOC51qTfuY6+OipnbxNjedS9S9bI8z4GXkOE3fZ5fVOiPh2KoInm/Yq8cjtvakLmqmpvc9/9YWtR6OrGMJEie6O+F/THOcWnJ0k75jQD9ztW+kJCgGcAki928X0Q3/UmNP7QdyLr3AzH41a58TuRSpBu4EBJ5JFP9WnBv1BmtOH9RyXToSKhcwZF4Q4qTz0mBcBofA5UNzPRMxRytckouuUK+8SpVY83Jaj8tNBQDY3fUVt5dQtsPRGYS7WlK9b+9gGCwL/bf6cnjfxvcKzVvesDs8v/UazWak6EmkzzwI5bABcIJr2wzWel7bRxBi4H9ESVBq/spGXS9on6iMbjGTa3/DjRCS5+JfuOdV68QhvvESzHrbLPFu+rOyjBUz0LTzamNH3DSKXN6EgTuJ3bf3i7ViZpiqedunlvax7DDTfoKSCcThA=
   gem: gobstones-board
   on:
     tags: true
