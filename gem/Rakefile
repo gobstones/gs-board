@@ -13,6 +13,7 @@ namespace :wrapper do
 
     #  gs-board
     cp_r '../dist/gs-board.html', 'app/assets/htmls'
+    cp_r '../dist/components', 'app/assets/htmls'
 
     # polymer
     cp_r '../bower_components/polymer/polymer.html', 'app/assets/htmls/vendor'
