@@ -458,7 +458,9 @@ module.exports = (grunt) ->
       'preprocess:src_tmp_html'
       'scripts:components'
       'sass:src_tmp'
-      'components_build:tmp_dist'
+      'components_build:tmp_dist',
+      'vulcanize'
+      'minifyPolymer'
     ]
 
   grunt.registerTask 'server', (target) ->
@@ -466,8 +468,6 @@ module.exports = (grunt) ->
       'dist'
       'demo'
       'symlinks'
-      'vulcanize'
-      'minifyPolymer'
       'connect:livereload'
       'open'
       'watch'
