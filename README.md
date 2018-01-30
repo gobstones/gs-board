@@ -115,8 +115,7 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 ```
 
 ## considerations
-- `size` will not change the size of the board automatically. You've to call to `fillTable()` manually. It's not pretty, but we have our reasons to do that.
-
+- to update the board, don't mutate the properties directly, **you must use the `update(table, header)` method**.
 
 ## Gem wrapper
 
