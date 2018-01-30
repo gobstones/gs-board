@@ -115,7 +115,7 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 ```
 
 ## considerations
-- to update the board, don't mutate the properties directly, **you must use the `update(table, header)` method**.
+- To update the board, don't mutate the properties directly. **You must use the `update(table, header)` method**.
 
 ## Gem wrapper
 
