@@ -68,18 +68,18 @@
           <tbody>
             <tr>
               <td>
-                <gs-stone color="blue" amount="{{cell.blue}}" options="{{options}}"></gs-stone>
+                <gs-stone color="blue" amount="{{blue}}" options="{{options}}"></gs-stone>
               </td>
               <td>
-                <gs-stone color="black" amount="{{cell.black}}" options="{{options}}"></gs-stone>
+                <gs-stone color="black" amount="{black}}" options="{{options}}"></gs-stone>
               </td>
             </tr>
             <tr>
               <td>
-                <gs-stone color="red" amount="{{cell.red}}" options="{{options}}"></gs-stone>
+                <gs-stone color="red" amount="{{red}}" options="{{options}}"></gs-stone>
               </td>
               <td>
-                <gs-stone color="green" amount="{{cell.green}}" options="{{options}}"></gs-stone>
+                <gs-stone color="green" amount="{{green}}" options="{{options}}"></gs-stone>
               </td>
             </tr>
           </tbody>
@@ -92,23 +92,34 @@
     Polymer({
       is: 'gs-cell',
       properties: {
+        black: {
+          type: Number,
+          value: 0
+        },
+        blue: {
+          type: Number,
+          value: 0
+        },
+        green: {
+          type: Number,
+          value: 0
+        },
+        red: {
+          type: Number,
+          value: 0
+        },
         cellIndex: Number,
         rowIndex: Number,
-        cell: Object,
-        table: Array,
         attire: Object,
-        boom: Boolean,
-        backgroundUrl: String,
+        options: Object,
         header: {
           type: Object,
           notify: true
-        },
-        options: Object
+        }
       },
       listeners: {
         click: "_leftClick"
       },
-      observers: ['_updateStyles(table.*, attire.*, rowIndex, cellIndex, header.*, boom)'],
       ready: function() {
         return this._validateData();
       },
@@ -118,7 +129,7 @@
           return "";
         }
         isHeader = this.x() === header.x && this.y() === header.y;
-        if (isHeader && !this.boom) {
+        if (isHeader) {
           return "gbs_gh";
         } else {
           return "";
@@ -128,7 +139,25 @@
         return this.cellIndex;
       },
       y: function() {
-        return this.domHost.getRowNumber(this.table, this.rowIndex);
+        return this.domHost.getRowNumber(this.domHost.table, this.rowIndex);
+      },
+      updateCellStyles: function(table, header, attire) {
+        var cell, isHeader, rule, url, _ref, _ref1;
+        cell = (_ref = table[this.rowIndex]) != null ? _ref[this.cellIndex] : void 0;
+        if ((cell == null) || (header == null)) {
+          return;
+        }
+        isHeader = this.x() === header.x && this.y() === header.y;
+        rule = this.$.dresser.getRule(cell, isHeader, attire);
+        url = rule != null ? rule.image : void 0;
+        this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";
+        this.customStyle["--outline-style"] = (url != null) && ((rule != null ? (_ref1 = rule.when) != null ? _ref1.head : void 0 : void 0) != null) ? "none" : "solid";
+        if (url != null) {
+          this.customStyle["--background-url"] = "url(" + url + ")";
+        } else {
+          delete this.customStyle["--background-url"];
+        }
+        return this.updateStyles();
       },
       _leftClick: function(event) {
         if (!this.options.editable) {
@@ -143,8 +172,8 @@
         }
       },
       _validateData: function() {
-        if (this.table == null) {
-          throw new Error("The table is required");
+        if ((this.cellIndex == null) || (this.rowIndex == null)) {
+          throw new Error("The coordinates are required");
         }
         if (this.header == null) {
           throw new Error("The header is required");
@@ -152,35 +181,6 @@
         if (this.options == null) {
           throw new Error("The options are required");
         }
-        if (this.cell == null) {
-          throw new Error("The cell is required");
-        }
-        if ((this.cellIndex == null) || (this.rowIndex == null)) {
-          throw new Error("The coordinates are required");
-        }
-      },
-      _updateStyles: function(_arg, _arg1, rowIndex, cellIndex, _arg2, boom) {
-        var attire, cell, header, isHeader, rule, table, url, x, y, _ref, _ref1;
-        table = _arg.base;
-        attire = _arg1.base;
-        header = _arg2.base;
-        cell = (_ref = table[rowIndex]) != null ? _ref[cellIndex] : void 0;
-        if ((cell == null) || (header == null)) {
-          return;
-        }
-        x = cellIndex;
-        y = table.length - 1 - rowIndex;
-        isHeader = x === header.x && y === header.y;
-        rule = this.$.dresser.getRule(cell, isHeader, attire);
-        url = rule != null ? rule.image : void 0;
-        this.customStyle["--stones-visibility"] = (url != null) || boom ? "hidden" : "visible";
-        this.customStyle["--outline-style"] = (url != null) && ((rule != null ? (_ref1 = rule.when) != null ? _ref1.head : void 0 : void 0) != null) ? "none" : "solid";
-        if (url != null) {
-          this.customStyle["--background-url"] = "url(" + url + ")";
-        } else {
-          delete this.customStyle["--background-url"];
-        }
-        return this.updateStyles();
       }
     });
 

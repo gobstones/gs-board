@@ -66,11 +66,6 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 <gs-board size='{ "x": 4, "y": 4 }' header='{ "x": 1, "y": 3 }'></gs-board>
 ```
 
-### with boom
-```html
-<gs-board size='{ "x": 4, "y": 4 }' boom></gs-board>
-```
-
 ### with attire
 ```html
 <gs-board size='{ "x": 4, "y": 4 }' attire="{{attire}}"></gs-board>

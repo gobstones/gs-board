@@ -323,7 +323,6 @@ module.exports = (grunt) ->
       component = grunt.file.readJSON file.src[0]
       script_path = "#{json_src.dir}/#{script_name}"
       script_content = grunt.file.read script_path
-      #TODO control name hyphen and report
       fixed_content = script_content.replace GRUNT_COMPONENT_NAME, component.name
       script_path_dest = "#{json_dst.dir}/#{script_name}"
       grunt.file.write script_path_dest, fixed_content

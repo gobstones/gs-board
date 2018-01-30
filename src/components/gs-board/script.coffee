@@ -163,7 +163,7 @@ Polymer
       type: String
 
   observers: [
-    '_updateStyles(attire.*)'
+    '_updateStyles(table.*, header.*, attire.*)'
   ]
 
   ready: ->
@@ -242,10 +242,20 @@ Polymer
     if @attireSrc
       @attire = GobstonesBoard.getAttire @attireSrc
 
-  _updateStyles: ({ base: attire }) ->
+  _updateStyles: (uTable, uHeader, uAttire) ->
+    table = uTable?.base
+    header = uHeader?.base
+    attire = uAttire?.base
+    return unless table? and header?
+
     if attire? and attire.enabled then @_setBorderOff()
     else @_setBorderOn()
     @updateStyles()
+
+    setTimeout(() =>
+      this.querySelectorAll("gs-cell").forEach (cell) ->
+        cell.updateCellStyles table, header, attire
+    , 1)
 
   _setBorderOn: ->
     @customStyle["--cell-padding"] = "2px"

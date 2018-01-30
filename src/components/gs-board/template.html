@@ -1,6 +1,6 @@
 <key-tracker id="keyTracker"></key-tracker>
 
-<table class$="gbs_board ui-widget-content {{boomCssClass(boom)}}">
+<table class="gbs_board ui-widget-content">
   <tbody>
     <tr>
       <td class="gbs_lx gbs_top_left"></td>
@@ -14,7 +14,7 @@
         <td class="gbs_lv">{{getRowNumber(table, rowIndex)}}</td>
         <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
           <td>
-            <gs-cell cell-index="{{cellIndex}}" row-index="{{rowIndex}}" cell="{{cell}}" table="{{table}}" header="{{header}}" options="{{options}}" attire="{{attire}}" boom="{{boom}}"></gs-cell>
+            <gs-cell black={{cell.black}} blue={{cell.blue}} green={{cell.green}} red={{cell.red}} cell-index="{{cellIndex}}" row-index="{{rowIndex}}" header="{{header}}" options="{{options}}" attire="{{attire}}"></gs-cell>
           </td>
         </template>
         <td class="gbs_lv">{{getRowNumber(table, rowIndex)}}</td>
