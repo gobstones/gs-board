@@ -172,13 +172,14 @@
         }
       },
       _leftClick: function(event) {
-        var board;
-        board = this.domHost.domHost;
+        var board, cell;
+        cell = this.domHost;
+        board = cell.domHost;
         if (!this.options.editable || board.isCtrlPressed()) {
           return;
         }
-        this.fire("board-changed");
         this.amount += this._clickAmount();
+        board.setStonesNumber(cell.x(), cell.y(), this.color, this.amount);
         return event.stopPropagation();
       },
       _rightClick: function(event) {

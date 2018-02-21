@@ -34,11 +34,12 @@ Polymer
       @amount = 0
 
   _leftClick: (event) ->
-    board = @domHost.domHost
+    cell = @domHost
+    board = cell.domHost
     return if not @options.editable or board.isCtrlPressed()
 
-    @fire "board-changed"
     @amount += @_clickAmount()
+    board.setStonesNumber cell, @color, @amount
     event.stopPropagation()
 
   _rightClick: (event) ->

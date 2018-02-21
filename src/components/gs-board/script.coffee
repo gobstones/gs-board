@@ -181,6 +181,10 @@ Polymer
   isShiftPressed: ->
     @$.keyTracker.isPressed "Shift"
 
+  setStonesNumber: (cell, color, amount) ->
+    @table[cell.rowIndex][cell.cellIndex][color] = amount
+    @fire "board-changed"
+
   boomCssClass: (boom) ->
     if boom then "gbs_boom" else ""
 
