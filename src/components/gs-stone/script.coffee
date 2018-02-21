@@ -43,11 +43,13 @@ Polymer
     event.stopPropagation()
 
   _rightClick: (event) ->
+    cell = @domHost
+    board = cell.domHost
     return if not @options.editable
-    event.preventDefault()
 
-    @fire "board-changed"
     @amount -= @_clickAmount()
+    board.setStonesNumber cell, @color, @amount
+    event.preventDefault()
 
   _clickAmount: ->
     if @domHost.domHost.isShiftPressed() then 10 else 1
