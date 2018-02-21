@@ -183,12 +183,15 @@
         return event.stopPropagation();
       },
       _rightClick: function(event) {
+        var board, cell;
+        cell = this.domHost;
+        board = cell.domHost;
         if (!this.options.editable) {
           return;
         }
-        event.preventDefault();
-        this.fire("board-changed");
-        return this.amount -= this._clickAmount();
+        this.amount -= this._clickAmount();
+        board.setStonesNumber(cell, this.color, this.amount);
+        return event.preventDefault();
       },
       _clickAmount: function() {
         if (this.domHost.domHost.isShiftPressed()) {
