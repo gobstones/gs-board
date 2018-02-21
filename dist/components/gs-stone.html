@@ -179,7 +179,7 @@
           return;
         }
         this.amount += this._clickAmount();
-        board.setStonesNumber(cell.x(), cell.y(), this.color, this.amount);
+        board.setStonesNumber(cell, this.color, this.amount);
         return event.stopPropagation();
       },
       _rightClick: function(event) {
