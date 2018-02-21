@@ -303,6 +303,10 @@
       isShiftPressed: function() {
         return this.$.keyTracker.isPressed("Shift");
       },
+      setStonesNumber: function(x, y, color, amount) {
+        this.table[y][x][color] = amount;
+        return this.fire("board-changed");
+      },
       boomCssClass: function(boom) {
         if (boom) {
           return "gbs_boom";
