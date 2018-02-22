@@ -92,9 +92,9 @@
 
     </style>
 
-    <key-tracker id="keyTracker"></key-tracker>
+    <key-tracker id="keyTracker" aria-hidden="true"></key-tracker>
 
-    <table class="gbs_board ui-widget-content">
+    <table class="gbs_board" aria-label$="{{gbb}}" aria-hidden="true">
       <tbody>
         <tr>
           <td class="gbs_lx gbs_top_left"></td>
@@ -280,6 +280,9 @@
           type: Boolean,
           value: false
         },
+        gbb: {
+          type: String
+        },
         attire: {
           type: Object
         },
@@ -391,7 +394,8 @@
         if ((gbb == null) || gbb.indexOf("GBB") < 0) {
           return;
         }
-        _ref = gbbReader.fromString(gbb), this.table = _ref.table, this.header = _ref.head, width = _ref.width, height = _ref.height;
+        this.gbb = gbb;
+        _ref = gbbReader.fromString(this.gbb), this.table = _ref.table, this.header = _ref.head, width = _ref.width, height = _ref.height;
         this.size.x = width;
         this.size.y = height;
         if (this.attireSrc) {

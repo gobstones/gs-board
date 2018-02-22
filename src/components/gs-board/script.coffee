@@ -156,6 +156,9 @@ Polymer
       type: Boolean
       value: false
 
+    gbb:
+      type: String
+
     attire:
       type: Object
 
@@ -238,8 +241,9 @@ Polymer
   _readGbb: ->
     gbb = Polymer.dom(@).textContent
     return if not gbb? or gbb.indexOf("GBB") < 0
+    @gbb = gbb
 
-    { @table, head: @header, width, height } = gbbReader.fromString gbb
+    { @table, head: @header, width, height } = gbbReader.fromString @gbb
     @size.x = width
     @size.y = height
 
