@@ -1,5 +1,5 @@
 module Gobstones
   module Board
-    VERSION = "1.8.14"
+    VERSION = "1.9.0"
   end
 end
