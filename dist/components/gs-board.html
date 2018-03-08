@@ -16,6 +16,12 @@
         user-select: none;
       }
 
+      .background, .gbs_board td.gbs_lht, .gbs_board td.gbs_lhb, .gbs_board td.gbs_lvl, .gbs_board td.gbs_lvr, .gbs_board td.gbs_top_left, .gbs_board td.gbs_top_right, .gbs_board td.gbs_bottom_left, .gbs_board td.gbs_bottom_right {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+
       table.gbs_board {
         border-style: none;
         border: solid black 0px;
@@ -64,28 +70,48 @@
         height: 15px;
       }
 
+      .gbs_board td.gbs_lht {
+        background-image: var(--top-background-url);
+      }
+
+      .gbs_board td.gbs_lhb {
+        background-image: var(--bottom-background-url);
+      }
+
+      .gbs_board td.gbs_lvl {
+        background-image: var(--left-background-url);
+      }
+
+      .gbs_board td.gbs_lvr {
+        background-image: var(--right-background-url);
+      }
+
       .gbs_board td.gbs_top_left {
         -webkit-border-top-left-radius: 10px;
         -moz-border-top-left-radius: 10px;
         border-top-left-radius: 10px;
+        background-image: var(--top-left-background-url);
       }
 
       .gbs_board td.gbs_top_right {
         -webkit-border-top-right-radius: 10px;
         -moz-border-top-right-radius: 10px;
         border-top-right-radius: 10px;
+        background-image: var(--top-right-background-url);
       }
 
       .gbs_board td.gbs_bottom_left {
         -webkit-border-bottom-left-radius: 10px;
         -moz-border-bottom-left-radius: 10px;
         border-bottom-left-radius: 10px;
+        background-image: var(--bottom-left-background-url);
       }
 
       .gbs_board td.gbs_bottom_right {
         -webkit-border-bottom-right-radius: 10px;
         -moz-border-bottom-right-radius: 10px;
         border-bottom-right-radius: 10px;
+        background-image: var(--bottom-right-background-url);
       }
 
       .gbs_boom {
@@ -104,25 +130,25 @@
           <tr>
             <td class="gbs_lx gbs_top_left"></td>
             <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
-              <td class="gbs_lh">{{columnIndex}}</td>
+              <td class="gbs_lh gbs_lht">{{columnIndex}}</td>
             </template>
             <td class="gbs_lx gbs_top_right"></td>
           </tr>
           <template is="dom-repeat" items="{{table}}" as="row" index-as="rowIndex">
             <tr>
-              <td class="gbs_lv">{{getRowNumber(table, rowIndex)}}</td>
+              <td class="gbs_lv gbs_lvl">{{getRowNumber(table, rowIndex)}}</td>
               <template is="dom-repeat" items="{{row}}" as="cell" index-as="cellIndex">
                 <td>
                   <gs-cell black={{cell.black}} blue={{cell.blue}} green={{cell.green}} red={{cell.red}} cell-index="{{cellIndex}}" row-index="{{rowIndex}}" header="{{header}}" options="{{options}}" attire="{{attire}}"></gs-cell>
                 </td>
               </template>
-              <td class="gbs_lv">{{getRowNumber(table, rowIndex)}}</td>
+              <td class="gbs_lv gbs_lvr">{{getRowNumber(table, rowIndex)}}</td>
             </tr>
           </template>
           <tr>
             <td class="gbs_lx gbs_bottom_left"></td>
             <template is="dom-repeat" items="{{columnIndexes}}" as="columnIndex">
-              <td class="gbs_lh">{{columnIndex}}</td>
+              <td class="gbs_lh gbs_lhb">{{columnIndex}}</td>
             </template>
             <td class="gbs_lx gbs_bottom_right"></td>
           </tr>
@@ -418,6 +444,7 @@
         } else {
           this._setBorderOn();
         }
+        this._updateBorderImages(attire);
         this.updateStyles();
         return setTimeout((function(_this) {
           return function() {
@@ -434,6 +461,26 @@
       _setBorderOff: function() {
         this.customStyle["--cell-padding"] = "0 0";
         return this.customStyle["--cell-border"] = "none";
+      },
+      _updateBorderImages: function(attire) {
+        var url;
+        url = (function(_this) {
+          return function(border) {
+            var link, _ref;
+            link = attire != null ? (_ref = attire.borders) != null ? _ref[border] : void 0 : void 0;
+            if ((attire != null ? attire.enabled : void 0) && (link != null)) {
+              return "url(" + link + ")";
+            }
+          };
+        })(this);
+        this.customStyle["--top-left-background-url"] = url("topLeft");
+        this.customStyle["--top-right-background-url"] = url("topRight");
+        this.customStyle["--bottom-left-background-url"] = url("bottomLeft");
+        this.customStyle["--bottom-right-background-url"] = url("bottomRight");
+        this.customStyle["--left-background-url"] = url("left");
+        this.customStyle["--top-background-url"] = url("top");
+        this.customStyle["--right-background-url"] = url("right");
+        return this.customStyle["--bottom-background-url"] = url("bottom");
       }
     });
 

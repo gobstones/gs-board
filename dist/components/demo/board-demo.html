@@ -60,10 +60,9 @@
       <gs-board id="thing" size='{ "x": 2, "y": 2 }' options='{ "editable": true }'></gs-board>
     </div>
     <div>
-      <div>
-        with attire:
-      </div>:
+      <hr>
       <gs-board table="{{modelWithAttire.table}}" options='{ "editable": false }' attire='{{attire}}'></gs-board>
+      <hr>
     </div>
     <div class="board-wrap-json">
       <juicy-jsoneditor id="jsoneditor" style="height: 300px;" json="{{jsonModel}}"></juicy-jsoneditor>
@@ -208,7 +207,17 @@
               },
               "image": "https://cloud.githubusercontent.com/assets/1631752/19217960/ef2ad3c0-8dea-11e6-8434-ff9152b76f3b.png"
             }
-          ]
+          ],
+          "borders": {
+            "bottom": "https://user-images.githubusercontent.com/1631752/37176618-94629ef6-2325-11e8-9e11-6cf6846bbbc3.png",
+            "bottomLeft": "https://user-images.githubusercontent.com/1631752/37176647-9cb96b98-2325-11e8-9244-17e65f8236bc.png",
+            "bottomRight": "https://user-images.githubusercontent.com/1631752/37176659-a85c71b6-2325-11e8-8698-952cfbdf73f5.png",
+            "left": "https://user-images.githubusercontent.com/1631752/37176682-c09ae398-2325-11e8-90d6-d1793b8c20fd.png",
+            "right": "https://user-images.githubusercontent.com/1631752/37176696-c8628ea0-2325-11e8-9fb0-39805f2b810d.png",
+            "top": "https://user-images.githubusercontent.com/1631752/37176705-d5459ee6-2325-11e8-8100-23a4b89a064c.png",
+            "topLeft": "https://user-images.githubusercontent.com/1631752/37176714-dec70f54-2325-11e8-9589-4b3feaa21a2f.png",
+            "topRight": "https://user-images.githubusercontent.com/1631752/37176725-e747cbe6-2325-11e8-8c3b-873501ce0a18.png"
+          }
         };
         return setInterval((function(_this) {
           return function() {

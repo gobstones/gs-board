@@ -255,6 +255,7 @@ Polymer
 
     if attire? and attire.enabled then @_setBorderOff()
     else @_setBorderOn()
+    @_updateBorderImages attire
     @updateStyles()
 
     setTimeout(() =>
@@ -269,6 +270,20 @@ Polymer
   _setBorderOff: ->
     @customStyle["--cell-padding"] = "0 0"
     @customStyle["--cell-border"] = "none"
+
+  _updateBorderImages: (attire) ->
+    url = (border) =>
+      link = attire?.borders?[border]
+      if attire?.enabled and link? then "url(#{link})"
+
+    @customStyle["--top-left-background-url"] = url "topLeft"
+    @customStyle["--top-right-background-url"] = url "topRight"
+    @customStyle["--bottom-left-background-url"] = url "bottomLeft"
+    @customStyle["--bottom-right-background-url"] = url "bottomRight"
+    @customStyle["--left-background-url"] = url "left"
+    @customStyle["--top-background-url"] = url "top"
+    @customStyle["--right-background-url"] = url "right"
+    @customStyle["--bottom-background-url"] = url "bottom"
 
 # ---
 
