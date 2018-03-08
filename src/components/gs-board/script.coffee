@@ -188,9 +188,6 @@ Polymer
     @table[cell.rowIndex][cell.cellIndex][color] = amount
     @fire "board-changed"
 
-  boomCssClass: (boom) ->
-    if boom then "gbs_boom" else ""
-
   fillTable: ->
     return if not @table?
 

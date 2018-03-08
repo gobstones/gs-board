@@ -71,6 +71,11 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
 <gs-board size='{ "x": 4, "y": 4 }' attire="{{attire}}"></gs-board>
 ```
 
+### boom
+```html
+<gs-board boom></gs-board>
+```
+
 #### Example of attire definition:
 ```json
 {
