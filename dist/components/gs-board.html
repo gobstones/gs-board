@@ -324,6 +324,10 @@
         },
         attireSrc: {
           type: String
+        },
+        noAttire: {
+          type: Boolean,
+          value: false
         }
       },
       observers: ['_updateStyles(table.*, header.*, attire.*)'],
@@ -428,7 +432,10 @@
         this.size.x = width;
         this.size.y = height;
         if (this.attireSrc) {
-          return this.attire = GobstonesBoard.getAttire(this.attireSrc);
+          this.attire = GobstonesBoard.getAttire(this.attireSrc);
+        }
+        if (GobstonesBoard.defaultAttire && !this.noAttire) {
+          return this.attire = GobstonesBoard.defaultAttire;
         }
       },
       _updateStyles: function(uTable, uHeader, uAttire) {
@@ -486,6 +493,7 @@
 
     window.GobstonesBoard = {
       attireProvider: null,
+      defaultAttire: null,
       getAttire: function(name) {
         if (this.attireProvider == null) {
           throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider");
@@ -497,6 +505,9 @@
           throw new Error("Attire providers must have a `get` method");
         }
         return this.attireProvider = attireProvider;
+      },
+      setDefaultAttire: function(defaultAttire) {
+        this.defaultAttire = defaultAttire;
       }
     };
 

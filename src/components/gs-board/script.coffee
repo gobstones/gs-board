@@ -165,6 +165,10 @@ Polymer
     attireSrc:
       type: String
 
+    noAttire:
+      type: Boolean
+      value: false
+
   observers: [
     '_updateStyles(table.*, header.*, attire.*)'
   ]
@@ -247,6 +251,9 @@ Polymer
     if @attireSrc
       @attire = GobstonesBoard.getAttire @attireSrc
 
+    if GobstonesBoard.defaultAttire and not @noAttire
+      @attire = GobstonesBoard.defaultAttire
+
   _updateStyles: (uTable, uHeader, uAttire) ->
     table = uTable?.base
     header = uHeader?.base
@@ -289,6 +296,7 @@ Polymer
 
 window.GobstonesBoard =
   attireProvider: null
+  defaultAttire: null
 
   getAttire: (name) ->
     if not @attireProvider?
@@ -299,3 +307,5 @@ window.GobstonesBoard =
     if not attireProvider?.get
       throw new Error("Attire providers must have a `get` method");
     @attireProvider = attireProvider
+
+  setDefaultAttire: (@defaultAttire) ->
