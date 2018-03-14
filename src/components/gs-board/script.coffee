@@ -250,8 +250,7 @@ Polymer
 
     if @attireSrc
       @attire = GobstonesBoard.getAttire @attireSrc
-
-    if GobstonesBoard.defaultAttire and not @noAttire
+    else if GobstonesBoard.defaultAttire and not @noAttire
       @attire = GobstonesBoard.defaultAttire
 
   _updateStyles: (uTable, uHeader, uAttire) ->

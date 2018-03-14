@@ -432,9 +432,8 @@
         this.size.x = width;
         this.size.y = height;
         if (this.attireSrc) {
-          this.attire = GobstonesBoard.getAttire(this.attireSrc);
-        }
-        if (GobstonesBoard.defaultAttire && !this.noAttire) {
+          return this.attire = GobstonesBoard.getAttire(this.attireSrc);
+        } else if (GobstonesBoard.defaultAttire && !this.noAttire) {
           return this.attire = GobstonesBoard.defaultAttire;
         }
       },
