@@ -254,6 +254,8 @@ Polymer
     @size.x = width
     @size.y = height
 
+    @detectAttire()
+
   _updateStyles: (uTable, uHeader, uAttire) ->
     table = uTable?.base
     header = uHeader?.base

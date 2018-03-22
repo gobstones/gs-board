@@ -437,7 +437,8 @@
         this.gbb = gbb;
         _ref = gbbReader.fromString(this.gbb), this.table = _ref.table, this.header = _ref.head, width = _ref.width, height = _ref.height;
         this.size.x = width;
-        return this.size.y = height;
+        this.size.y = height;
+        return this.detectAttire();
       },
       _updateStyles: function(uTable, uHeader, uAttire) {
         var attire, header, table;
