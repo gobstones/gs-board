@@ -212,6 +212,12 @@ Polymer
     @_setSizeFromTable()
     @fillTable()
 
+  detectAttire: ->
+    if @attireSrc
+      @attire = GobstonesBoard.getAttire @attireSrc
+    else if GobstonesBoard.defaultAttire and not @noAttire
+      @attire = GobstonesBoard.defaultAttire
+
   _initializeTable: ->
     if @table?
       @_setSizeFromTable()
@@ -247,11 +253,6 @@ Polymer
     { @table, head: @header, width, height } = gbbReader.fromString @gbb
     @size.x = width
     @size.y = height
-
-    if @attireSrc
-      @attire = GobstonesBoard.getAttire @attireSrc
-    else if GobstonesBoard.defaultAttire and not @noAttire
-      @attire = GobstonesBoard.defaultAttire
 
   _updateStyles: (uTable, uHeader, uAttire) ->
     table = uTable?.base
@@ -306,5 +307,11 @@ window.GobstonesBoard =
     if not attireProvider?.get
       throw new Error("Attire providers must have a `get` method");
     @attireProvider = attireProvider
+    @updateAllBoards()
 
   setDefaultAttire: (@defaultAttire) ->
+    @updateAllBoards()
+
+  updateAllBoards: ->
+    document.querySelectorAll("gs-board").forEach (board) =>
+      board.detectAttire()

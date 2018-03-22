@@ -380,6 +380,13 @@
         this._setSizeFromTable();
         return this.fillTable();
       },
+      detectAttire: function() {
+        if (this.attireSrc) {
+          return this.attire = GobstonesBoard.getAttire(this.attireSrc);
+        } else if (GobstonesBoard.defaultAttire && !this.noAttire) {
+          return this.attire = GobstonesBoard.defaultAttire;
+        }
+      },
       _initializeTable: function() {
         if (this.table != null) {
           return this._setSizeFromTable();
@@ -430,12 +437,7 @@
         this.gbb = gbb;
         _ref = gbbReader.fromString(this.gbb), this.table = _ref.table, this.header = _ref.head, width = _ref.width, height = _ref.height;
         this.size.x = width;
-        this.size.y = height;
-        if (this.attireSrc) {
-          return this.attire = GobstonesBoard.getAttire(this.attireSrc);
-        } else if (GobstonesBoard.defaultAttire && !this.noAttire) {
-          return this.attire = GobstonesBoard.defaultAttire;
-        }
+        return this.size.y = height;
       },
       _updateStyles: function(uTable, uHeader, uAttire) {
         var attire, header, table;
@@ -503,10 +505,19 @@
         if (!(attireProvider != null ? attireProvider.get : void 0)) {
           throw new Error("Attire providers must have a `get` method");
         }
-        return this.attireProvider = attireProvider;
+        this.attireProvider = attireProvider;
+        return this.updateAllBoards();
       },
       setDefaultAttire: function(defaultAttire) {
         this.defaultAttire = defaultAttire;
+        return this.updateAllBoards();
+      },
+      updateAllBoards: function() {
+        return document.querySelectorAll("gs-board").forEach((function(_this) {
+          return function(board) {
+            return board.detectAttire();
+          };
+        })(this));
       }
     };
 
