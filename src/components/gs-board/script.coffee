@@ -131,6 +131,29 @@ gbbReader._try = function (value, thingToParse) {
 `
 
 # ---
+window.GobstonesBoard =
+  attireProvider: null
+  defaultAttire: null
+
+  getAttire: (name) ->
+    if not @attireProvider?
+      throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider")
+    @attireProvider.get name
+
+  setAttireProvider: (attireProvider) ->
+    if not attireProvider?.get
+      throw new Error("Attire providers must have a `get` method");
+    @attireProvider = attireProvider
+    @updateAllBoards()
+
+  setDefaultAttire: (@defaultAttire) ->
+    @updateAllBoards()
+
+  updateAllBoards: ->
+    document.querySelectorAll("gs-board").forEach (board) =>
+      board.detectAttire()
+
+# ---
 
 Polymer
   is: '#GRUNT_COMPONENT_NAME'
@@ -294,26 +317,4 @@ Polymer
     @customStyle["--right-background-url"] = url "right"
     @customStyle["--bottom-background-url"] = url "bottom"
 
-# ---
 
-window.GobstonesBoard =
-  attireProvider: null
-  defaultAttire: null
-
-  getAttire: (name) ->
-    if not @attireProvider?
-      throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider")
-    @attireProvider.get name
-
-  setAttireProvider: (attireProvider) ->
-    if not attireProvider?.get
-      throw new Error("Attire providers must have a `get` method");
-    @attireProvider = attireProvider
-    @updateAllBoards()
-
-  setDefaultAttire: (@defaultAttire) ->
-    @updateAllBoards()
-
-  updateAllBoards: ->
-    document.querySelectorAll("gs-board").forEach (board) =>
-      board.detectAttire()
