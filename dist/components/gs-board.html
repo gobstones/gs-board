@@ -293,6 +293,35 @@
       return value;
     };
     ;
+    window.GobstonesBoard = {
+      attireProvider: null,
+      defaultAttire: null,
+      getAttire: function(name) {
+        if (this.attireProvider == null) {
+          throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider");
+        }
+        return this.attireProvider.get(name);
+      },
+      setAttireProvider: function(attireProvider) {
+        if (!(attireProvider != null ? attireProvider.get : void 0)) {
+          throw new Error("Attire providers must have a `get` method");
+        }
+        this.attireProvider = attireProvider;
+        return this.updateAllBoards();
+      },
+      setDefaultAttire: function(defaultAttire) {
+        this.defaultAttire = defaultAttire;
+        return this.updateAllBoards();
+      },
+      updateAllBoards: function() {
+        return document.querySelectorAll("gs-board").forEach((function(_this) {
+          return function(board) {
+            return board.detectAttire();
+          };
+        })(this));
+      }
+    };
+
     Polymer({
       is: 'gs-board',
       properties: {
@@ -493,35 +522,6 @@
         return this.customStyle["--bottom-background-url"] = url("bottom");
       }
     });
-
-    window.GobstonesBoard = {
-      attireProvider: null,
-      defaultAttire: null,
-      getAttire: function(name) {
-        if (this.attireProvider == null) {
-          throw new Error("You need to provide an attire provider with GobstonesBoard.setAttireProvider");
-        }
-        return this.attireProvider.get(name);
-      },
-      setAttireProvider: function(attireProvider) {
-        if (!(attireProvider != null ? attireProvider.get : void 0)) {
-          throw new Error("Attire providers must have a `get` method");
-        }
-        this.attireProvider = attireProvider;
-        return this.updateAllBoards();
-      },
-      setDefaultAttire: function(defaultAttire) {
-        this.defaultAttire = defaultAttire;
-        return this.updateAllBoards();
-      },
-      updateAllBoards: function() {
-        return document.querySelectorAll("gs-board").forEach((function(_this) {
-          return function(board) {
-            return board.detectAttire();
-          };
-        })(this));
-      }
-    };
 
   </script>
 </dom-module>
