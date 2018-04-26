@@ -30,6 +30,8 @@ Polymer
       value: model
     attire:
       type: Object
+    attire2:
+      type: Object
 
   ready: ->
     @attire = {
@@ -81,6 +83,12 @@ Polymer
         "topRight": "https://user-images.githubusercontent.com/1631752/37176725-e747cbe6-2325-11e8-8c3b-873501ce0a18.png"
       }
     }
+
+    @attire2 = { "enabled": false, "rules": [ { "when": { blue: "*", "black": "*", "red": "*", "green": "*" }, "image": "https://user-images.githubusercontent.com/677436/39197564-2d4b04e6-47bb-11e8-82f2-814a62dafdf6.png" } ] }
+
+    setTimeout(() =>
+      @set "attire2.enabled", true
+    , 500)
 
     setInterval(() =>
       @set "attire.enabled", not @attire.enabled

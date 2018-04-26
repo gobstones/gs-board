@@ -487,13 +487,9 @@
         }
         this._updateBorderImages(attire);
         this.updateStyles();
-        return setTimeout((function(_this) {
-          return function() {
-            return _this.querySelectorAll("gs-cell").forEach(function(cell) {
-              return cell.updateCellStyles(table, header, attire);
-            });
-          };
-        })(this), 1);
+        return this.querySelectorAll("gs-cell").forEach(function(cell) {
+          return cell.updateCellStyles(table, header, attire);
+        });
       },
       _setBorderOn: function() {
         this.customStyle["--cell-padding"] = "2px";

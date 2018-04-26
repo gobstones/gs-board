@@ -290,10 +290,8 @@ Polymer
     @_updateBorderImages attire
     @updateStyles()
 
-    setTimeout(() =>
-      this.querySelectorAll("gs-cell").forEach (cell) ->
-        cell.updateCellStyles table, header, attire
-    , 1)
+    this.querySelectorAll("gs-cell").forEach (cell) ->
+      cell.updateCellStyles table, header, attire
 
   _setBorderOn: ->
     @customStyle["--cell-padding"] = "2px"
