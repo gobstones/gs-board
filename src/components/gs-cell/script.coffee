@@ -29,7 +29,7 @@ Polymer
     @_validateData()
 
   cssClass: (header) ->
-    return "" if not header?
+    return "" if not header? or @domHost.withoutHeader
     isHeader = @x() is header.x and @y() is header.y
 
     if isHeader then "gbs_gh" else ""

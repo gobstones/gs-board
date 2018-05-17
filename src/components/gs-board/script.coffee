@@ -192,6 +192,10 @@ Polymer
       type: Boolean
       value: false
 
+    withoutHeader:
+      type: Boolean
+      value: false
+
   observers: [
     '_updateStyles(table.*, header.*, attire.*)'
   ]

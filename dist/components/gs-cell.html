@@ -125,7 +125,7 @@
       },
       cssClass: function(header) {
         var isHeader;
-        if (header == null) {
+        if ((header == null) || this.domHost.withoutHeader) {
           return "";
         }
         isHeader = this.x() === header.x && this.y() === header.y;

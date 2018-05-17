@@ -8,9 +8,9 @@
     </style>
 
     <div>
-      <div>
+      <h3>
         with gbb:
-      </div>
+      </h3>
       <gs-board>
         GBB/1.0
         size 4 3
@@ -22,10 +22,24 @@
     </div>
 
     <div>
-      <div>
+      <h3>
         with boom:
-      </div>
+      </h3>
       <gs-board boom></gs-board>
+    </div>
+
+    <div>
+      <h3>
+        without header:
+      </h3>
+      <gs-board without-header>
+        GBB/1.0
+        size 4 3
+        cell 1 2 Azul 0 Negro 0 Rojo 8 Verde 0
+        cell 3 2 Azul 2 Negro 0 Rojo 5 Verde 1
+        cell 2 1 Azul 0 Negro 6 Rojo 0 Verde 0
+        head 1 2
+      </gs-board>
     </div>
 
     <!--
@@ -42,27 +56,27 @@
      -->
 
     <div>
-      <div>
+      <h3>
         with table:
-      </div>
+      </h3>
       <gs-board table="{{model.table}}" options='{ "editable": false }'></gs-board>
     </div>
     <div>
-      <div>
+      <h3>
         with attire:
-      </div>
+      </h3>
       <gs-board size='{ "x": 4, "y": 4 }' options='{ "editable": false }' attire="{{attire2}}"></gs-board>
     </div>
     <div>
-      <div>
+      <h3>
         with 3x5 size:
-      </div>
+      </h3>
       <gs-board size='{ "x": 3, "y": 5 }' options='{ "editable": true }'></gs-board>
     </div>
     <div>
-      <div>
+      <h3>
         with id and 2x2 size:
-      </div>
+      </h3>
       <gs-board id="thing" size='{ "x": 2, "y": 2 }' options='{ "editable": true }'></gs-board>
     </div>
     <div>
