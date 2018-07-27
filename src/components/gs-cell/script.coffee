@@ -44,6 +44,14 @@ Polymer
     isHeader = @x() is header.x and @y() is header.y
     rule = @$.dresser.getRule cell, isHeader, attire
     url = rule?.image
+    text = rule?.text
+
+    if not url? and text?
+      url = (
+        "\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='50px'><text x='25' y='25' font-size='25' fill='black' text-anchor='middle' alignment-baseline='central'>" +
+        text +
+        "</text></svg>\""
+      )
 
     @customStyle["--stones-visibility"] = if url? then "hidden" else "visible"
     @customStyle["--outline-style"] = if url? and rule?.when?.head? then "none" else "solid"

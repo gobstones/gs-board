@@ -42,6 +42,20 @@
       </gs-board>
     </div>
 
+    <div>
+      <h3>
+        with gbb and text inside the attire:
+      </h3>
+      <gs-board attire='{{attire2}}'>
+        GBB/1.0
+        size 4 3
+        cell 1 2 Azul 0 Negro 0 Rojo 8 Verde 0
+        cell 3 2 Azul 3 Negro 0 Rojo 1 Verde 0
+        cell 2 1 Azul 0 Negro 6 Rojo 0 Verde 0
+        head 1 2
+      </gs-board>
+    </div>
+
     <!--
     <div>
       <gs-board attire-src="mines">
@@ -247,7 +261,15 @@
           "rules": [
             {
               "when": {
-                blue: "*",
+                "blue": 3,
+                "black": 0,
+                "red": 1,
+                "green": 0
+              },
+              "text": "hey"
+            }, {
+              "when": {
+                "blue": "*",
                 "black": "*",
                 "red": "*",
                 "green": "*"

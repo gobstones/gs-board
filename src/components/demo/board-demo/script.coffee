@@ -46,7 +46,6 @@ Polymer
           "when": { "blue": 0, "black": 0, "red": 0, "green": 0 },
           "image": "https://cloud.githubusercontent.com/assets/1631752/19217956/ef1d928c-8dea-11e6-8b53-8d2495cdd3e9.png"
         },
-
         {
           "when": { "blue": 0, "black": 0, "red": 0, "green": 1 },
           "image": "https://cloud.githubusercontent.com/assets/1631752/19217959/ef27e822-8dea-11e6-9bb0-57892593c9d8.png"
@@ -84,7 +83,29 @@ Polymer
       }
     }
 
-    @attire2 = { "enabled": false, "rules": [ { "when": { blue: "*", "black": "*", "red": "*", "green": "*" }, "image": "https://user-images.githubusercontent.com/677436/39197564-2d4b04e6-47bb-11e8-82f2-814a62dafdf6.png" } ] }
+    @attire2 = {
+      "enabled":false,
+      "rules":[
+        {
+          "when":{
+            "blue": 3,
+            "black": 0,
+            "red": 1,
+            "green": 0
+          },
+          "text": "hey"
+        },
+        {
+          "when":{
+            "blue":"*",
+            "black":"*",
+            "red":"*",
+            "green":"*"
+          },
+          "image":"https://user-images.githubusercontent.com/677436/39197564-2d4b04e6-47bb-11e8-82f2-814a62dafdf6.png"
+        }
+      ]
+    };
 
     setTimeout(() =>
       @set "attire2.enabled", true
