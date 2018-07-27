@@ -86,6 +86,10 @@ finalState.table = [[{}, { "red": 3 }], [{ "black": 1 }, {}]]
       "image": "https://cloud.githubusercontent.com/assets/1631752/19217961/ef2e0d4c-8dea-11e6-960d-69585778f89d.png"
     },
     {
+      "when": { "blue": 3, "black": 0, "red": 1, "green": 0 },
+      "text": "hi!"
+    },
+    {
       "when": { "blue": 0, "black": 0, "red": 0, "green": 0 },
       "image": "https://cloud.githubusercontent.com/assets/1631752/19217956/ef1d928c-8dea-11e6-8b53-8d2495cdd3e9.png"
     },
