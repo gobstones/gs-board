@@ -298,7 +298,7 @@ Polymer
       cell.updateCellStyles table, header, attire
 
   _setBorderOn: ->
-    @customStyle["--cell-padding"] = "2px"
+    @customStyle["--cell-padding"] = "0 0"
     @customStyle["--cell-border"] = "solid #888 1px"
 
   _setBorderOff: ->
