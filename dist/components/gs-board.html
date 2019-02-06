@@ -352,7 +352,8 @@
           type: String
         },
         attire: {
-          type: Object
+          type: Object,
+          observer: '_notifyAttireChanged'
         },
         attireSrc: {
           type: String
@@ -372,6 +373,9 @@
         this._readGbb();
         this._initializeTable();
         return this._initializeOptions();
+      },
+      _notifyAttireChanged: function() {
+        return this.fire('board-attire-changed');
       },
       getRowNumber: function(table, rowIndex) {
         return table.length - 1 - rowIndex;

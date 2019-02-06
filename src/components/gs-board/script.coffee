@@ -184,6 +184,7 @@ Polymer
 
     attire:
       type: Object
+      observer: '_notifyAttireChanged'
 
     attireSrc:
       type: String
@@ -205,6 +206,9 @@ Polymer
     @_readGbb()
     @_initializeTable()
     @_initializeOptions()
+
+  _notifyAttireChanged: ->
+    @fire 'board-attire-changed'
 
   getRowNumber: (table, rowIndex) ->
     table.length - 1 - rowIndex
