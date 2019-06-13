@@ -151,7 +151,7 @@
         rule = this.$.dresser.getRule(cell, isHeader, attire);
         url = rule != null ? rule.image : void 0;
         text = rule != null ? rule.text : void 0;
-        if ((url == null) && (text != null)) {
+        if ((text != null) && text !== "") {
           url = "\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='50px'><text x='25' y='25' font-size='25' fill='black' text-anchor='middle' alignment-baseline='central'>" + text + "</text></svg>\"";
         }
         this.customStyle["--stones-visibility"] = url != null ? "hidden" : "visible";

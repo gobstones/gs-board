@@ -46,7 +46,7 @@ Polymer
     url = rule?.image
     text = rule?.text
 
-    if not url? and text?
+    if text? and text isnt ""
       url = (
         "\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='50px'><text x='25' y='25' font-size='25' fill='black' text-anchor='middle' alignment-baseline='central'>" +
         text +
