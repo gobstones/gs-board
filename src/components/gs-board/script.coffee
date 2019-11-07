@@ -207,6 +207,9 @@ Polymer
     @_initializeTable()
     @_initializeOptions()
 
+  attached: ->
+    setTimeout(@detectAttire.bind(this))
+
   _notifyAttireChanged: ->
     @fire 'board-attire-changed'
 
@@ -284,8 +287,6 @@ Polymer
     { @table, head: @header, width, height } = gbbReader.fromString @gbb
     @size.x = width
     @size.y = height
-
-    @detectAttire()
 
   _updateStyles: (uTable, uHeader, uAttire) ->
     table = uTable?.base
