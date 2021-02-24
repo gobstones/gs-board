@@ -217,7 +217,7 @@ Polymer
     table.length - 1 - rowIndex
 
   isCtrlPressed: ->
-    @$.keyTracker.isPressed "Control"
+    (@$.keyTracker.isPressed "Control") or ((@$.keyTracker.isPressed "Meta") and (/Mac/.test navigator.platform))
 
   isShiftPressed: ->
     @$.keyTracker.isPressed "Shift"
